@@ -71,17 +71,14 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [FirstName]
             [Display(Name = "First Name")]
             public string firstName { get; set; }
 
             [Required]
-            [LastName]
             [Display(Name = "Last Name")]
             public string lastName { get; set; }
 
             [Required]
-            [PhoneNumber]
             [Display(Name = "Phone Number")]
             public int phoneNumber { get; set; }
 
