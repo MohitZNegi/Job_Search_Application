@@ -10,15 +10,13 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Job_Search_Application.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Job_Search_Application.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -26,21 +24,19 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly SignInManager<ApplicationUsers> _signInManager;
+        private readonly UserManager<ApplicationUsers> _userManager;
+        private readonly IUserStore<ApplicationUsers> _userStore;
+        private readonly IUserEmailStore<ApplicationUsers> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUsers> userManager,
+            IUserStore<ApplicationUsers> userStore,
+            SignInManager<ApplicationUsers> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -48,7 +44,6 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -76,21 +71,6 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
-
-            [Display(Name = "First Name")]
-            public string First_Name { get; set; }
-
-            [Required]
-            [Display(Name = "Last Name")]
-            public string Last_Name { get; set; }
-
-
-
-            [Required]
-            [Display(Name = "Phone Number")]
-            public int phoneNumber { get; set; }
-
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -100,7 +80,6 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-   
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -119,13 +98,6 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-
-            [Required]
-            public string? Role { get; set; }
-
-            [ValidateNever]
-
-            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 
@@ -133,15 +105,6 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            Input = new InputModel()
-            {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-                {
-                   Text = i,
-                   Value = i
-                })
-            };
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -152,20 +115,13 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-               
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-				user.First_Name = Input.First_Name;
-				user.Last_Name = Input.Last_Name;
-
-				var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
-                    await _userManager.AddToRoleAsync(user, Input.Role);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -199,27 +155,27 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private AppUsers CreateUser()
+        private ApplicationUsers CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<AppUsers>();
+                return Activator.CreateInstance<ApplicationUsers>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUsers)}'. " +
+                    $"Ensure that '{nameof(ApplicationUsers)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<ApplicationUsers> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<ApplicationUsers>)_userStore;
         }
     }
 }

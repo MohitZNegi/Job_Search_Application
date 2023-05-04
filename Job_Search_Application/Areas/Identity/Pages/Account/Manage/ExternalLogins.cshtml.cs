@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Job_Search_Application.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,14 +17,14 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly UserManager<ApplicationUsers> _userManager;
+        private readonly SignInManager<ApplicationUsers> _signInManager;
+        private readonly IUserStore<ApplicationUsers> _userStore;
 
         public ExternalLoginsModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore)
+            UserManager<ApplicationUsers> userManager,
+            SignInManager<ApplicationUsers> signInManager,
+            IUserStore<ApplicationUsers> userStore)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -69,7 +70,7 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account.Manage
                 .ToList();
 
             string passwordHash = null;
-            if (_userStore is IUserPasswordStore<IdentityUser> userPasswordStore)
+            if (_userStore is IUserPasswordStore<ApplicationUsers> userPasswordStore)
             {
                 passwordHash = await userPasswordStore.GetPasswordHashAsync(user, HttpContext.RequestAborted);
             }

@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Job_Search_Application.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUsers>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
-         public DbSet<AppUsers> AppUsers { get; set; }
-      
+       
+      public DbSet<Employee> Employees { get; set; }
     }
 }
