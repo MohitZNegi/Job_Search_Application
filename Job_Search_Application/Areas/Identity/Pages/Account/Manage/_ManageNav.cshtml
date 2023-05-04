@@ -1,4 +1,5 @@
-﻿@inject SignInManager<ApplicationUsers> SignInManager
+﻿@using Job_Search_Application.Data;
+@inject SignInManager<ApplicationUsers> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
