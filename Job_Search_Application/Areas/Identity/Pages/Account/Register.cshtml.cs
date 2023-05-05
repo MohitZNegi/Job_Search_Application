@@ -20,6 +20,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Job_Search_Application.Constants;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Job_Search_Application.Areas.Identity.Pages.Account
 {
@@ -31,13 +34,15 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUsers> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUsers> userManager,
             IUserStore<ApplicationUsers> userStore,
             SignInManager<ApplicationUsers> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -45,6 +50,7 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -72,6 +78,15 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [Required]
+          
+            [Display(Name = "First Name")]
+            public string First_Name { get; set; }
+
+            [Required]
+
+            [Display(Name = "Last Name")]
+            public string Last_Name { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -99,6 +114,11 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            public string? Role { get; set; }
+
+          
         }
 
 
@@ -106,6 +126,8 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
+            
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -118,13 +140,28 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.First_Name = Input.First_Name;
+                user.Last_Name = Input.Last_Name;
+
+                  
+               
+               
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
-                
-                _logger.LogInformation("User created a new account with password.");
+                    if (Input.Role == "Employee")
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Employee.ToString());
+                    }
+                    else if (Input.Role == "Employer")
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Employer.ToString());
+                    }
+                   
+                    // await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+
+                    _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
