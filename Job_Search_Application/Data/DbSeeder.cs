@@ -21,8 +21,8 @@ namespace Job_Search_Application.Data
             {
                 UserName = "admin-capstone@gmail.com",
                 Email = "admin-capstone@gmail.com",
-                First_Name = "Admin",
-                Last_Name = "Capstone",
+                First_name = "Admin",
+                Last_name = "Capstone",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
             };

@@ -81,12 +81,12 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             [Required]
           
             [Display(Name = "First Name")]
-            public string First_Name { get; set; }
+            public string First_name { get; set; }
 
             [Required]
 
             [Display(Name = "Last Name")]
-            public string Last_Name { get; set; }
+            public string Last_name { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -140,8 +140,8 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                user.First_Name = Input.First_Name;
-                user.Last_Name = Input.Last_Name;
+                user.First_name = Input.First_name;
+                user.Last_name = Input.Last_name;
 
                   
                
@@ -159,7 +159,7 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, Roles.Employer.ToString());
                     }
                    
-                    // await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+                   //  await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
 
                     _logger.LogInformation("User created a new account with password.");
 

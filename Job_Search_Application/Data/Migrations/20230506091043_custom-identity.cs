@@ -9,6 +9,27 @@ namespace Job_Search_Application.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+            migrationBuilder.DropColumn(
+                name: "First_Name",
+                table: "AspNetUsers");
+
+
+            migrationBuilder.DropColumn(
+                name: "Last_Name",
+                table: "AspNetUsers");
+
+
+            migrationBuilder.DropColumn(
+                name: "F_Name",
+                table: "AspNetUsers");
+
+
+            migrationBuilder.DropColumn(
+                name: "L_Name",
+                table: "AspNetUsers");
+
+
             migrationBuilder.AlterColumn<string>(
                 name: "Name",
                 table: "AspNetUserTokens",
@@ -28,14 +49,14 @@ namespace Job_Search_Application.Data.Migrations
                 oldMaxLength: 128);
 
             migrationBuilder.AddColumn<string>(
-                name: "First_Name",
+                name: "First_name",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "Last_Name",
+                name: "Last_name",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
                 nullable: false,
@@ -63,7 +84,8 @@ namespace Job_Search_Application.Data.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Employee_Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -72,7 +94,7 @@ namespace Job_Search_Application.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.PrimaryKey("PK_Employees", x => x.Employee_Id);
                     table.ForeignKey(
                         name: "FK_Employees_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -93,11 +115,11 @@ namespace Job_Search_Application.Data.Migrations
                 name: "Employees");
 
             migrationBuilder.DropColumn(
-                name: "First_Name",
+                name: "First_name",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
-                name: "Last_Name",
+                name: "Last_name",
                 table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<string>(

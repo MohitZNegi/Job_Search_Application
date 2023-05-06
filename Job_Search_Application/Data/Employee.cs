@@ -8,7 +8,9 @@ namespace Job_Search_Application.Data
 {
     public class Employee
     {
-        public string Id { get; set; }
+        [Key]
+        [Required]
+        public int Employee_Id { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }

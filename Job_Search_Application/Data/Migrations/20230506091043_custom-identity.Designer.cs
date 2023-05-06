@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Search_Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230504094627_custom-identity")]
+    [Migration("20230506091043_custom-identity")]
     partial class customidentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,11 +43,11 @@ namespace Job_Search_Application.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("First_Name")
+                    b.Property<string>("First_name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Last_Name")
+                    b.Property<string>("Last_name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -99,8 +99,11 @@ namespace Job_Search_Application.Data.Migrations
 
             modelBuilder.Entity("Job_Search_Application.Data.Employee", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Employee_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Employee_Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -122,7 +125,7 @@ namespace Job_Search_Application.Data.Migrations
                     b.Property<DateTime>("birthDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.HasKey("Employee_Id");
 
                     b.HasIndex("UserId");
 
