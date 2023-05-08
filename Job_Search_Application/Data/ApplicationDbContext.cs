@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Job_Search_Application.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Job_Search_Application.Data
@@ -9,5 +10,7 @@ namespace Job_Search_Application.Data
             : base(options)
         {
         }
+         public DbSet<AppUsers> AppUsers { get; set; }
+      
     }
 }
