@@ -77,7 +77,10 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
             [Display(Name = "First Name")]
             public string First_Name { get; set; }
 
@@ -90,6 +93,10 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Phone Number")]
             public int phoneNumber { get; set; }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
