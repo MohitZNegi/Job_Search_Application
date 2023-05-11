@@ -61,13 +61,15 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
 
+
         }
 
         private async Task LoadAsync(ApplicationUsers user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-           
+            
+
             Username = userName;
 
             Input = new InputModel
@@ -77,7 +79,9 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account.Manage
             };
         }
 
-   
+      
+
+
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);

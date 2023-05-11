@@ -3,6 +3,7 @@
 #nullable disable
 
 using System;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace  Job_Search_Application.Areas.Identity.Pages.Account.Manage
@@ -66,6 +67,7 @@ namespace  Job_Search_Application.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

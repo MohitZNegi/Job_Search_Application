@@ -7,10 +7,6 @@ namespace Job_Search_Application.Data
     {
 
 
-        [Required]
-        public string First_name { get; set; }
-        [Required]
-        public string Last_name { get; set;}
 
     }
 }
