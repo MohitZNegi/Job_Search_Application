@@ -48,23 +48,25 @@
             </div>
             </div>
             </div>
-                <div class="form-group row d-flex justify-content-center">
-                <label asp-for="Gender" class="control-label"></label>
-                <div class="form-check col">
-                        <input class="form-check-input" asp-for="Gender" type="radio" name="optionsRadios" id="optionsRadios1" value="Male" >
-                    <label class="form-check-label" for="optionsRadios1">
+                <fieldset class="form-group">
+                <label class="control-label"> Gender</label>
+                <div class="form-check">
+                        <input class="form-check-input" asp-for="Gender" type="radio" name="Gender" id="GenderMale" value="Male" checked="checked">
+                        <label class="form-check-label" asp-for="Gender" for="GenderMale">
                         Male
                     </label>
+                   
                 </div>
-                <div class="form-check col">
-                        <input class="form-check-input" asp-for="Gender" type="radio" name="optionsRadios" id="optionsRadios2" value="Female" >
-                    <label class="form-check-label" for="optionsRadios2">
+                <div class="form-check">
+                        <input class="form-check-input" asp-for="Gender" type="radio" name="Gender" id="GenderFemale" value="Female" checked="checked">
+                        <label class="form-check-label" asp-for="Gender" for="GenderFemale">
                         Female
                     </label>
+                     
                 </div>
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+            </fieldset>
+        
             <div class="form-group">
                     <label for="formFile" asp-for="ProfileImage" class="control-label"></label>
                     <input type="file" id="formFile" asp-for="ProfileImage" class="form-control" />
