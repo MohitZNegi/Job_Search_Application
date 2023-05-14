@@ -3,63 +3,96 @@
     ViewData["Title"] = "Profile";
 }
 
-<h1>Your Profile</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+<br />
+<br />
+<div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+    <div class="row d-flex justify-content-center">
+        <h1 style="text-align: center; color:aliceblue;">Your Profile</h1>
+
 
         <div class="col-md-4">
-            <ul class="list-group">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+            <hr />
+            <div class="col " style="border-radius:30px;">
+                <br />
+                <img src="/resources/websitefiles/profile_default.png" />
+                <br />
+            </div>
+            <div class="col " style="border-radius:30px;">
+                <br />
+                <h5>  @Html.DisplayNameFor(model => model.Company_Logo): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.Company_Logo) </p>
+                <br />
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <hr />
+            <div class="row d-flex justify-content-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
                     <h5>  @Html.DisplayNameFor(model => model.Company_Name): </h5>
                     <p> @Html.DisplayFor(modelItem => modelItem.Company_Name) </p>
+                    <br />
+                </div>
 
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
                     <h5>  @Html.DisplayNameFor(model => model.Company_CEO): </h5>
                     <p> @Html.DisplayFor(modelItem => modelItem.Company_CEO) </p>
+                    <br />
+                </div>
+            </div>
 
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <h5>  @Html.DisplayNameFor(model => model.Company_Description): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Description) </p>
-
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="row d-flex justify-content-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
                     <h5>  @Html.DisplayNameFor(model => model.Company_Industry): </h5>
                     <p> @Html.DisplayFor(modelItem => modelItem.Company_Industry) </p>
+                    <br />
+                </div>
 
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <h5>  @Html.DisplayNameFor(model => model.Company_URL): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Company_URL) </p>
-
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
                     <h5>  @Html.DisplayNameFor(model => model.Location): </h5>
                     <p> @Html.DisplayFor(modelItem => modelItem.Location) </p>
+                    <br />
+                </div>
+            </div>
 
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <h5>  @Html.DisplayNameFor(model => model.Company_Logo): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Logo) </p>
+            <div class="col " style="border-radius:30px;">
+                <br />
+                <h5>  @Html.DisplayNameFor(model => model.Company_Description): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.Company_Description) </p>
+                <br />
+            </div>
 
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="row d-flex justify-content-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.Company_URL): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_URL) </p>
+                    <br />
+                </div>
+
+                <div class="col " style="border-radius:30px;">
+                    <br />
                     <h5>  @Html.DisplayNameFor(model => model.Company_Banner): </h5>
                     <p> @Html.DisplayFor(modelItem => modelItem.Company_Banner) </p>
-
-                </li>
-            </ul>
-
+                    <br />
+                </div>
+            </div>
             <fieldset>
-                <a asp-controller="Employer" asp-action="Update" class="btn btn-primary">Edit Profile</a>
+                <a asp-controller="Employee" asp-action="Update" class="btn btn-primary">Edit Profile</a>
             </fieldset>
+            <br />
+        </div>
 
 
     </div>
 </div>
+
 
 @section Scripts {
     @{
