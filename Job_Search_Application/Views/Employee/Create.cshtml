@@ -3,56 +3,93 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create Profile</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
+
+
+<br />
+<br />
+<div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+<div class="row d-flex justify-content-center">
+    <div class="col-md-10">
+        <h1 style="text-align:center;">Complete your profile</h1>
+        <h5 style="text-align:center;">Your journey starts here!</h5>
+        <hr />
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+                <div class="row">
+                <div class="col">
             <div class="form-group">
-                <label asp-for="First_name" class="control-label"></label>
+                <label asp-for="First_name" class="control-label">First Name:</label>
                 <input asp-for="First_name" class="form-control" />
                 <span asp-validation-for="First_name" class="text-danger"></span>
             </div>
+                </div>
+                    <div class="col">
             <div class="form-group">
                 <label asp-for="Last_name" class="control-label"></label>
                 <input asp-for="Last_name" class="form-control" />
                 <span asp-validation-for="Last_name" class="text-danger"></span>
             </div>
+            </div>
+            </div>
+                <div class="row">
+                    <div class="col">
+                <div class="form-group">
+                    <label asp-for="birthDate" class="control-label"></label>
+                    <input type="date" asp-for="birthDate" class="form-control" />
+                    <span asp-validation-for="birthDate" class="text-danger"></span>
+                </div>
+                </div>
+                        <div class="col">
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="birthDate" class="control-label"></label>
-                <input type="date" asp-for="birthDate" class="form-control" />
-                <span asp-validation-for="birthDate" class="text-danger"></span>
             </div>
+                <fieldset class="form-group">
+                <label class="control-label"> Gender</label>
+                <div class="form-check">
+                        <input class="form-check-input" asp-for="Gender" type="radio" name="Gender" id="GenderMale" value="Male" checked="checked">
+                        <label class="form-check-label" asp-for="Gender" for="GenderMale">
+                        Male
+                    </label>
+                   
+                </div>
+                <div class="form-check">
+                        <input class="form-check-input" asp-for="Gender" type="radio" name="Gender" id="GenderFemale" value="Female" checked="checked">
+                        <label class="form-check-label" asp-for="Gender" for="GenderFemale">
+                        Female
+                    </label>
+                     
+                </div>
+                    <span asp-validation-for="Gender" class="text-danger"></span>
+            </fieldset>
+        
             <div class="form-group">
-                <label asp-for="ProfileImage" class="control-label"></label>
-                <input asp-for="ProfileImage" class="form-control" />
+                    <label for="formFile" asp-for="ProfileImage" class="control-label"></label>
+                    <input type="file" id="formFile" asp-for="ProfileImage" class="form-control" />
                 <span asp-validation-for="ProfileImage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Resume" class="control-label"></label>
-                <input asp-for="Resume" class="form-control" />
+                    <label for="formFile" asp-for="Resume" class="control-label"></label>
+                    <input type="file" id="formFile" asp-for="Resume" class="form-control" />
                 <span asp-validation-for="Resume" class="text-danger"></span>
             </div>
+                <br />
+                <div class="d-flex justify-content-center">
+                    <div class="col-md-8">
             <fieldset>
-                <button type="submit" value="Create" class="btn btn-primary" id="save">Submit</button>
+                    <button type="submit" value="Create" class="w-100 btn btn-lg btn-success shadow  " style="background-color:powderblue; color:black" id="save">Submit</button>
             </fieldset>
-
+            </div>
+            </div>
+                <br />
         </form>
-
+            <br />
     </div>
+</div>
 </div>
 
 @section Scripts {
