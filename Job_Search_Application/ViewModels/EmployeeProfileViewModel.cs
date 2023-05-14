@@ -13,7 +13,7 @@ namespace Job_Search_Application.ViewModels
 {
     public class EmployeeProfileViewModel
     {
-      //  public string EmployeeId { get; set; }
+      //public string Employee_Id { get; set; }
 
         //    public Roles Role { get; set; }
         [Required]

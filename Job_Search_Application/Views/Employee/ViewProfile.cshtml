@@ -1,0 +1,63 @@
+﻿@model Job_Search_Application.ViewModels.EmployeeProfileViewModel;
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>Your Profile</h1>
+
+<hr />
+<div class="row">
+
+    
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>  @Html.DisplayNameFor(model => model.First_name): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.First_name) </p>
+
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>  @Html.DisplayNameFor(model => model.Last_name): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.Last_name) </p>
+
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>  @Html.DisplayNameFor(model => model.birthDate): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.birthDate) </p>
+
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>  @Html.DisplayNameFor(model => model.Gender): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.Gender) </p>
+
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>  @Html.DisplayNameFor(model => model.Address): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.Address) </p>
+
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>  @Html.DisplayNameFor(model => model.ProfileImage): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.ProfileImage) </p>
+
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>  @Html.DisplayNameFor(model => model.Resume): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.Resume) </p>
+
+            </li>
+        </ul>
+      
+            <fieldset>
+                <a  asp-controller="Employee" asp-action="Update" class="btn btn-primary" >Edit Profile</a>
+            </fieldset>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

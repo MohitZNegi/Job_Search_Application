@@ -21,6 +21,7 @@ using NuGet.Protocol.Plugins;
 using MessagePack.Internal;
 using Job_Search_Application.Data.Migrations;
 using NuGet.DependencyResolver;
+using Microsoft.AspNetCore.Hosting.Server;
 
 namespace Job_Search_Application.Controllers
 {
@@ -45,11 +46,35 @@ namespace Job_Search_Application.Controllers
         }
 
         [Authorize(Roles = "Employee")]
-        public IActionResult Index()
+        public IActionResult ViewProfile()
         {
-            
-       
-            return View();
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+
+            var viewModel = new EmployeeProfileViewModel
+            {
+
+                First_name = profile.First_name,
+                Last_name = profile.Last_name,
+                Address = profile.Address,
+                birthDate = profile.birthDate,
+                Gender = profile.Gender,
+                ProfileImage = profile.ProfileImage,
+                Resume = profile.Resume
+
+            };
+
+            return View(viewModel);
+
+
+
            
         }
 
@@ -120,6 +145,58 @@ namespace Job_Search_Application.Controllers
             }
 
             return View(user);
+        }
+
+      
+        public ActionResult Update(string id)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+
+            var viewModel = new EmployeeProfileViewModel
+            {
+               
+                First_name = profile.First_name,
+                Last_name = profile.Last_name,
+                Address = profile.Address,
+                birthDate = profile.birthDate,
+                Gender = profile.Gender,
+                ProfileImage = profile.ProfileImage,
+                Resume = profile.Resume
+               
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(EmployeeProfileViewModel viewModel)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+
+
+            profile.First_name = viewModel.First_name;
+            profile.Last_name = viewModel.Last_name;
+            profile.birthDate = viewModel.birthDate;
+            profile.Gender = viewModel.Gender;
+            profile.ProfileImage = viewModel.ProfileImage;
+            profile.Resume = viewModel.Resume;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+
+
         }
 
 

@@ -1,0 +1,68 @@
+﻿@model Job_Search_Application.ViewModels.EmployerProfileViewModel;
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>Your Profile</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <div class="col-md-4">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Company_Name): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Name) </p>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Company_CEO): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_CEO) </p>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Company_Description): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Description) </p>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Company_Industry): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Industry) </p>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Company_URL): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_URL) </p>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Location): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Location) </p>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Company_Logo): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Logo) </p>
+
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <h5>  @Html.DisplayNameFor(model => model.Company_Banner): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Banner) </p>
+
+                </li>
+            </ul>
+
+            <fieldset>
+                <a asp-controller="Employer" asp-action="Update" class="btn btn-primary">Edit Profile</a>
+            </fieldset>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
