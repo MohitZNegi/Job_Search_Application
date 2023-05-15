@@ -22,8 +22,4 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\Resources\WebsiteFiles\" />
-  </ItemGroup>
-
 </Project>

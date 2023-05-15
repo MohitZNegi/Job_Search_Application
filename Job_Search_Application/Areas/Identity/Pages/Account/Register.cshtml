@@ -4,36 +4,29 @@
     ViewData["Title"] = "Register";
 }
 
-<br />
-<br />
-<div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px; max-width:700px;">
-<div class="row  d-flex justify-content-center">
+<h1>@ViewData["Title"]</h1>
 
-    <div class="col-md-8 ">
-        <form class="form-group " id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <h1 style="text-align:center; color:aliceblue">Sign Up</h1>
-                <h5 style="text-align:center; color:aliceblue">Sign Up and start your journey!</h5>
+<div class="row">
+    <div class="col-md-4">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h2>Create a new account.</h2>
             <hr />
-            <fieldset>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
-                    <input id="floatingInput" placeholder="enter email" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <label for="floatingInput" asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-                <br />
             <div class="form-floating">
-                    <input id="floatingPassword" placeholder="enter password"  asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-                    <label for="floatingPassword" asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-                <br />
             <div class="form-floating">
-                    <input id="floatingPassword" placeholder="confirm password" asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                    <label for="floatingPassword"  asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-                <br />
             <div class="form-floating">
                 <select asp-for="Input.Role" class="form-control" aria-required="true">
                     <option disabled selected> Select Role</option>
@@ -43,19 +36,11 @@
                 </select>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
-                </fieldset>
             <br />
-                <div class="d-flex justify-content-center">
-            <div class="col-md-8">
-                    <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-success shadow  " style="background-color:powderblue; color:black">Sign Up</button>
-            </div>
-                </div>
-                <br />
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
-            <br />
     </div>
    
-</div>
 </div>
 
 @section Scripts {
