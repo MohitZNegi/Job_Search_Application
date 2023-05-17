@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Job_Search_Application.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Job_Search_Application.Areas.Identity.Pages.Account
 {
@@ -19,9 +21,13 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUsers> _userManager;
 
+       
+
         public ConfirmEmailModel(UserManager<ApplicationUsers> userManager)
         {
             _userManager = userManager;
+   
+
         }
 
         /// <summary>
