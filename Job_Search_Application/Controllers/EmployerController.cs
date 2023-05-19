@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MessagePack.Internal;
+using X.PagedList.Mvc;
+using X.PagedList;
 
 namespace Job_Search_Application.Controllers
 {
@@ -189,6 +192,93 @@ namespace Job_Search_Application.Controllers
 
             return RedirectToAction("Index", "Home");
 
+
+        }
+
+        public ActionResult Publish_Job()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employer");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Publish_Job(JobViewModel viewModel)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var IsProfileCreated = _context.Employer.Any(e => e.Employer_Id == userId);
+
+            if (!IsProfileCreated)
+            {
+                return RedirectToAction("Create", "Employer");
+            }
+
+            var IfUserIsEmployer = _context.UserRoles.Where(u => u.UserId == userId && u.RoleId == "f1b1a323-474a-4b5a-844b-b2831d9fe48c").FirstOrDefault();
+            if (!ModelState.IsValid || IfUserIsEmployer == null)
+            {
+                return View(viewModel);
+            }
+
+
+
+            var job = new Jobs_Model
+            {
+                
+                Title = viewModel.Title,
+                Job_Details = viewModel.Job_Details,
+                Job_Location = viewModel.Job_Location,
+                Salary = viewModel.Salary,
+                Job_Type = viewModel.Job_Type,
+                Job_Schedule = viewModel.Job_Schedule,
+                Classification = viewModel.Classification,  
+                PublisherId = userId
+            };
+
+            _context.Jobs.Add(job);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult GetPublishedJobs(string searchTerm, int? page)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.CurrentUser = userId;
+            var jobs = _context.Jobs.Include(j => j.Employer).Where(j => j.PublisherId == userId).ToList();
+
+
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employer");
+            }
+
+            var publishedjobs = _context.Jobs.Where(e => e.PublisherId == userId).FirstOrDefault();
+
+            if (publishedjobs == null)
+            {
+                return RedirectToAction("Publish_Job", "Employer");
+            }
+            if (!String.IsNullOrWhiteSpace(searchTerm))
+            {
+                jobs = _context.Jobs.Where(j => j.PublisherId == userId)
+                                    .Where(j => j.Title.Contains(searchTerm) || j.Job_Location.Contains(searchTerm)
+                                            || j.Employer.Company_Name.Contains(searchTerm))
+                                    .Include(j => j.Employer)
+                                    .ToList();
+
+            }
+
+            return View(jobs.ToPagedList(page ?? 1, 3));
 
         }
 

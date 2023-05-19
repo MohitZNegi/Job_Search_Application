@@ -12,7 +12,8 @@ namespace Job_Search_Application.Models
 
         [Key]
         [Required]
-        public string Jobs_Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Jobs_Id  { get; set; }
 
         [ForeignKey("Employer")]
         public string PublisherId { get; set; }
@@ -22,7 +23,7 @@ namespace Job_Search_Application.Models
         [Display(Name = "Job Title")]
         public string Title { get; set; }
 
-        [StringLength(500)]
+        [StringLength(1500)]
         [Display(Name = "Job Details")]
         public string Job_Details { get; set; }
 

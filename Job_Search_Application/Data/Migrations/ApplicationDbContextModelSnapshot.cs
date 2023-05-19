@@ -191,6 +191,7 @@ namespace Job_Search_Application.Data.Migrations
             modelBuilder.Entity("Job_Search_Application.Models.Jobs_Model", b =>
                 {
                     b.Property<string>("Jobs_Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Classification")
@@ -198,8 +199,8 @@ namespace Job_Search_Application.Data.Migrations
 
                     b.Property<string>("Job_Details")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(1500)
+                        .HasColumnType("nvarchar(1500)");
 
                     b.Property<string>("Job_Location")
                         .IsRequired()

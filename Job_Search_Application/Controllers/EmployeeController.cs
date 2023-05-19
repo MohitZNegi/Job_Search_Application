@@ -133,12 +133,12 @@ namespace Job_Search_Application.Controllers
                     UserId = userId
                 };
 
-                _context.Employee.AddAsync(employee);
-                _context.SaveChangesAsync();
+                _context.Employee.Add(employee);
+                _context.SaveChanges();
 
                 ViewBag.UserProfile = null;
                 ViewBag.comProfile = null;
-                ViewBag.empProfile = employeeProfile;
+                ViewBag.employeeProfile = employeeProfile;
 
                 return RedirectToAction("Index", "Home");
 
