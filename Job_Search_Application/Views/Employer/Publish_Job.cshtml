@@ -1,0 +1,101 @@
+﻿@model Job_Search_Application.ViewModels.JobViewModel;
+@{
+    ViewData["Title"] = "Publish Job";
+}
+
+<br />
+<br />
+<div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <h1 style="text-align:center; color:aliceblue">Create a Job Listing</h1>
+            <hr />
+            <form asp-action="Publish_Job" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Job_Location" class="control-label"></label>
+                            <input asp-for="Job_Location" class="form-control" />
+                            <span asp-validation-for="Job_Location" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Job_Schedule" class="control-label"></label>
+                            <input asp-for="Job_Schedule" class="form-control" />
+                            <span asp-validation-for="Job_Schedule" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Job_Type" class="control-label"></label>
+                            <input asp-for="Job_Type" class="form-control" />
+                            <span asp-validation-for="Job_Type" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Salary" class="control-label"></label>
+                            <input asp-for="Salary" class="form-control" />
+                            <span asp-validation-for="Salary" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Classification" class="control-label"></label>
+                            <input type="text" asp-for="Classification" class="form-control" />
+                            <span asp-validation-for="Classification" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col" >
+                        <div class="form-group" >
+                            <label  asp-for="Job_Details" class="control-label" ></label>
+                        <textarea  class="form-control" id="editor" rows="8" asp-for="Job_Details"></textarea>
+                        <span asp-validation-for="Job_Details" class="text-danger"></span>
+                        </div>
+
+                    </div>
+             
+                <br />
+                <div class="d-flex justify-content-center">
+                    <div class="col-md-8">
+                        <fieldset>
+                            <button type="submit" value="Create" class="w-100 btn btn-lg btn-success shadow  " style="background-color:powderblue; color:black" id="save">Publish Job</button>
+                        </fieldset>
+                    </div>
+                </div>
+                <br />
+
+
+            </form>
+            <br />
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

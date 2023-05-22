@@ -1,0 +1,87 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc;
+@using X.PagedList.Mvc.Core;
+@using System.Linq;
+@using System.Web;
+
+
+@model IPagedList<Job_Search_Application.Models.Jobs_Model>;
+@{
+    ViewData["Title"] = "Published Job";
+}
+
+<br />
+<br />
+<span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
+<div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+    <br />
+    <div class="col-md-9 ">
+        <form class="d-flex">
+            <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+
+    </div>
+    <br />
+
+    <h3>Your listings</h3>
+    <br />
+
+    <br />
+
+
+
+    @foreach (var item in Model)
+    {
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+                <br />
+                <div class="card-header">
+                    <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
+                    <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                </div>
+                <div class="card-body">
+                    <p class="text-capitalize">@item.Job_Location</p>
+                    <p class="text-capitalize d-inline">@item.Job_Schedule</p>
+                    <p class="text-capitalize">@item.Job_Type</p>
+                    <p class="text-capitalize"> @item.Classification</p>
+                    <p class="text-capitalize">@item.Salary</p>
+                </div>
+
+                <div class="card-footer">
+
+                    <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job_Details</p>
+
+                </div>
+                <br />
+            </div>
+
+        </div>
+        <br />
+
+
+
+
+    }
+
+    <br />
+    <br />
+</div>
+
+
+
+<div class="pagination">
+
+    @Html.PagedListPager(Model,page => Url.Action("JobsFeed",new { page}))
+
+
+</div>
+
+
+
+
+
+
+
