@@ -3,100 +3,60 @@
     ViewData["Title"] = "Update";
 }
 
-<br />
-<br />
-<div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-10">
-            <h1 style="text-align:center;color:aliceblue">Edit profile</h1>
-            <hr />
-            <form asp-action="Update" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="Company_Name" class="control-label"></label>
-                            <input asp-for="Company_Name" class="form-control" />
-                            <span asp-validation-for="Company_Name" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="Company_CEO" class="control-label"></label>
-                            <input asp-for="Company_CEO" class="form-control" />
-                            <span asp-validation-for="Company_CEO" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="Company_Industry" class="control-label"></label>
-                            <input asp-for="Company_Industry" class="form-control" />
-                            <span asp-validation-for="Company_Industry" class="text-danger"></span>
-                        </div>
-                    </div>
+<h1>Edit Profile</h1>
 
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="Company_Description" class="control-label"></label>
-                            <input asp-for="Company_Description" class="form-control" />
-                            <span asp-validation-for="Company_Description" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="Location" class="control-label"></label>
-                            <input  asp-for="Location" class="form-control" />
-                            <span asp-validation-for="Location" class="text-danger"></span>
-                        </div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Update" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    </div>
+            <div class="form-group">
+                <label asp-for="Company_Name" class="control-label"></label>
+                <input asp-for="Company_Name" class="form-control" />
+                <span asp-validation-for="Company_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company_CEO" class="control-label"></label>
+                <input asp-for="Company_CEO" class="form-control" />
+                <span asp-validation-for="Company_CEO" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company_Description" class="control-label"></label>
+                <input asp-for="Company_Description" class="form-control" />
+                <span asp-validation-for="Company_Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company_Industry" class="control-label"></label>
+                <input asp-for="Company_Industry" class="form-control" />
+                <span asp-validation-for="Company_Industry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company_Logo" class="control-label"></label>
+                <input asp-for="Company_Logo" class="form-control" />
+                <span asp-validation-for="Company_Logo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company_URL" class="control-label"></label>
+                <input asp-for="Company_URL" class="form-control" />
+                <span asp-validation-for="Company_URL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Company_Banner" class="control-label"></label>
+                <input asp-for="Company_Banner" class="form-control" />
+                <span asp-validation-for="Company_Banner" class="text-danger"></span>
+            </div>
+            <fieldset>
+                <button type="submit" value="Update" class="btn btn-primary" id="save">Submit</button>
+            </fieldset>
 
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="Company_URL" class="control-label"></label>
-                            <input type="url" asp-for="Company_URL" class="form-control" />
-                            <span asp-validation-for="Company_URL" class="text-danger"></span>
-                        </div>
+        </form>
 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="formFile" asp-for="Company_Logo" class="control-label"></label>
-                            <input type="file" id="formFile" asp-for="Company_Logo" class="form-control" />
-                            <span asp-validation-for="Company_Logo" class="text-danger"></span>
-                        </div>
-
-                    </div>
-
-                    <div class="col">
-                        <div class="form-group">
-                            <label for="formFile" asp-for="Company_Banner" class="control-label"></label>
-                            <input type="file" id="formFile" asp-for="Company_Banner" class="form-control" />
-                            <span asp-validation-for="Company_Banner" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="d-flex justify-content-center">
-                    <div class="col-md-8">
-                        <fieldset>
-                            <button type="submit" value="Update" class="w-100 btn btn-lg btn-success shadow  " style="background-color:powderblue; color:black" id="save">Submit</button>
-                        </fieldset>
-                    </div>
-                </div>
-                <br />
-
-
-            </form>
-            <br />
-
-        </div>
     </div>
 </div>
 

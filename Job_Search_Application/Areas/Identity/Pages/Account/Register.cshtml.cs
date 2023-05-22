@@ -110,7 +110,7 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            public string? Role { get; set; }
+            public string Role { get; set; }
 
           
         }
