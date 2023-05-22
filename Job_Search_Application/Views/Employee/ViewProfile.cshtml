@@ -3,58 +3,88 @@
     ViewData["Title"] = "Profile";
 }
 
-<h1>Your Profile</h1>
 
-<hr />
-<div class="row">
 
+<br />
+<br />
+<div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+    <div class="row d-flex justify-content-center">
+        <h1 style="text-align: center; color:aliceblue;">Your Profile</h1>
+
+      
+        <div class="col-md-4">
+            <hr />
+            <div class="col " style="border-radius:30px;">
+                <br />
+                <img src="/resources/websitefiles/profile_default.png" />
+                <br />
+            </div>
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.ProfileImage): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.ProfileImage) </p>
+                    <br />
+                </div>
+        </div>
     
     <div class="col-md-4">
-        <ul class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>  @Html.DisplayNameFor(model => model.First_name): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.First_name) </p>
+            <hr />
+            <div class="row d-flex justify-content-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.First_name): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.First_name) </p>
+                    <br />
+                </div>
 
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>  @Html.DisplayNameFor(model => model.Last_name): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.Last_name) </p>
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.Last_name): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Last_name) </p>
+                    <br />
+                </div>
+                </div>
 
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>  @Html.DisplayNameFor(model => model.birthDate): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.birthDate) </p>
+            <div class="row d-flex justify-content-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.birthDate): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.birthDate) </p>
+                    <br />
+                </div>
 
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>  @Html.DisplayNameFor(model => model.Gender): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.Gender) </p>
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.Gender): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Gender) </p>
+                    <br />
+                </div>
+            </div>
 
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>  @Html.DisplayNameFor(model => model.Address): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.Address) </p>
+            <div class="row d-flex justify-content-center">
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.Address): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Address) </p>
+                    <br />
+                </div>
 
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>  @Html.DisplayNameFor(model => model.ProfileImage): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.ProfileImage) </p>
-
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <h5>  @Html.DisplayNameFor(model => model.Resume): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.Resume) </p>
-
-            </li>
-        </ul>
-      
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.Resume): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Resume) </p>
+                    <br />
+                </div>
+            </div>
             <fieldset>
-                <a  asp-controller="Employee" asp-action="Update" class="btn btn-primary" >Edit Profile</a>
+                <a asp-controller="Employee" asp-action="Update" class="btn btn-primary">Edit Profile</a>
             </fieldset>
-
-
-    </div>
+           </div>
+   
+       
 </div>
+</div>
+
 
 @section Scripts {
     @{
