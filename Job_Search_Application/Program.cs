@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Job_Search_Application.Services;
 using WebPWrecover.Services;
 using Azure.Identity;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +25,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
   //  .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentity<ApplicationUsers, IdentityRole>().AddDefaultTokenProviders()
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+    });
+
+builder.Services.AddIdentity<ApplicationUsers, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = true; // Require email confirmation
+}).AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();

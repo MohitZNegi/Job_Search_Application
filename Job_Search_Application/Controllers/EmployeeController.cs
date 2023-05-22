@@ -17,10 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using Job_Search_Application.Areas.Identity.Pages.Account;
 using Job_Search_Application.ViewModels;
 using System.Data;
-using NuGet.Protocol.Plugins;
 using MessagePack.Internal;
 using Job_Search_Application.Data.Migrations;
-using NuGet.DependencyResolver;
 using Microsoft.AspNetCore.Hosting.Server;
 
 namespace Job_Search_Application.Controllers
