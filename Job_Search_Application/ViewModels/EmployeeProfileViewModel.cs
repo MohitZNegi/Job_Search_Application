@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Job_Search_Application.Constants;
-
-
+using System.ComponentModel.DataAnnotations.Schema;
+using Job_Search_Application.Models;
 
 namespace Job_Search_Application.ViewModels
 {
@@ -46,13 +46,10 @@ namespace Job_Search_Application.ViewModels
         [Required]
         [Display(Name = "Date Of Birth")]
         public DateTime birthDate { get; set; }
-
         [Display(Name = "Profile Image")]
-        public string ProfileImage { get; set; }
+        public IFormFile ProfileImage { get; set; }
 
         [Display(Name = "Resume")]
-        public string Resume { get; set; }
-
-
+        public IFormFile Resume { get; set; }
     }
 }
