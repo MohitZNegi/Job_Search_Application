@@ -25,7 +25,7 @@ using NuGet.DependencyResolver;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.Net;
 using Job_Search_Application.Interfaces;
-using Job_Search_Application.Models;
+
 
 namespace Job_Search_Application.Controllers
 {
@@ -57,8 +57,6 @@ namespace Job_Search_Application.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
-            var model = "profile.Resume";
-            return PartialView("_PreviewWordDocument", model);
 
             var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
@@ -108,7 +106,7 @@ namespace Job_Search_Application.Controllers
             if (CheckIfEmployeeHasProfile == null && CheckIfUserIsEmployee != null)
             {
 
-                var viewModel = new Employee_Model();
+                var viewModel = new EmployeeProfileViewModel();
 
 
                 return View(viewModel);
@@ -178,7 +176,7 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employee");
             }
 
-            var viewModel = new Employee_Model
+            var viewModel = new EmployeeProfileViewModel
             {
                
                 First_name = profile.First_name,
@@ -186,8 +184,7 @@ namespace Job_Search_Application.Controllers
                 Address = profile.Address,
                 birthDate = profile.birthDate,
                 Gender = profile.Gender,
-                ProfileImage = profile.ProfileImage,
-                Resume = profile.Resume
+
                
             };
 
@@ -202,15 +199,15 @@ namespace Job_Search_Application.Controllers
             var pdfresult = await _photoService.AddPhotoAsync(UserVM.Resume);
             var profile = _context.Employee.Single(e => e.Employee_Id == userId);
 
-            var viewModel = new Employee_Model
-            {
-                First_name = UserVM.First_name,
-                Last_name = UserVM.Last_name,
-                birthDate = UserVM.birthDate,
-                Gender = UserVM.Gender,
-                ProfileImage = result.Url.ToString(),
-                Resume = pdfresult.Url.ToString(),
-            };
+            profile.First_name = UserVM.First_name;
+            profile.Last_name = UserVM.Last_name;
+            profile.birthDate = UserVM.birthDate;
+            profile.Gender = UserVM.Gender;
+            profile.Address = UserVM.Address;
+            profile.ProfileImage = result.Url.ToString();
+            profile.Resume = pdfresult.Url.ToString();
+
+          
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");

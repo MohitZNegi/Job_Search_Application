@@ -55,16 +55,16 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            var viewModel = new EmployerProfileViewModel
+            var viewModel = new Employer_Model
             {
 
                 Company_Name = profile.Company_Name,
                 Company_CEO = profile.Company_CEO,
                 Company_Description = profile.Company_Description,
                 Company_Industry = profile.Company_Industry,
-                //Company_Logo = profile.Company_Logo,
+                Company_Logo = profile.Company_Logo,
                 Company_URL = profile.Company_URL,
-                //Company_Banner = profile.Company_Banner,
+                Company_Banner = profile.Company_Banner,
                 Location = profile.Location,
 
             };
@@ -174,10 +174,11 @@ namespace Job_Search_Application.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(EmployerProfileViewModel viewModel)
+        public async Task<ActionResult> UpdateAsync(EmployerProfileViewModel viewModel)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-
+            var result = await _photoService.AddPhotoAsync(viewModel.Company_Logo);
+            var bannerresult = await _photoService.AddPhotoAsync(viewModel.Company_Banner);
 
             var profile = _context.Employer.Single(e => e.Employer_Id == userId);
 
@@ -185,9 +186,9 @@ namespace Job_Search_Application.Controllers
             profile.Company_Name = viewModel.Company_Name;
             profile.Company_CEO = viewModel.Company_CEO;
             profile.Company_Description = viewModel.Company_Description;
-            //profile.Company_Logo = viewModel.Company_Logo;
+            profile.Company_Logo = result.Url.ToString();
             profile.Company_URL = viewModel.Company_URL;
-            //profile.Company_Banner = viewModel.Company_Banner;
+            profile.Company_Banner = bannerresult.Url.ToString();
             profile.Company_Industry = viewModel.Company_Industry;
             profile.Location = viewModel.Location;
 
