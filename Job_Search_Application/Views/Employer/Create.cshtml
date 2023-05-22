@@ -8,8 +8,8 @@
 <div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10">
-            <h1 style="text-align:center;">Complete your profile</h1>
-            <h5 style="text-align:center;">Your journey starts here!</h5>
+            <h1 style="text-align:center; color:aliceblue">Complete your profile</h1>
+            <h5 style="text-align:center; color:aliceblue">Your journey starts here!</h5>
             <hr />
             <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -59,7 +59,7 @@
                 <div class="col">
                 <div class="form-group">
                     <label asp-for="Company_URL" class="control-label"></label>
-                    <input asp-for="Company_URL" class="form-control" />
+                    <input type="url" asp-for="Company_URL" class="form-control" />
                     <span asp-validation-for="Company_URL" class="text-danger"></span>
                 </div>
            
@@ -67,20 +67,20 @@
             </div>
             <div class="row">
             <div class="col">
-                <div class="form-group">
-                    <label asp-for="Company_Logo" class="control-label"></label>
-                    <input asp-for="Company_Logo" class="form-control" />
-                    <span asp-validation-for="Company_Logo" class="text-danger"></span>
-                </div>
+                        <div class="form-group">
+                            <label for="formFile" asp-for="Company_Logo" class="control-label"></label>
+                            <input type="file" id="formFile" asp-for="Company_Logo" class="form-control" />
+                            <span asp-validation-for="Company_Logo" class="text-danger"></span>
+                        </div>
       
             </div>
               
                 <div class="col">
-            <div class="form-group">
-            <label asp-for="Company_Banner" class="control-label"></label>
-            <input asp-for="Company_Banner" class="form-control" />
-            <span asp-validation-for="Company_Banner" class="text-danger"></span>
-            </div>
+                        <div class="form-group">
+                            <label for="formFile" asp-for="Company_Banner" class="control-label"></label>
+                            <input type="file" id="formFile" asp-for="Company_Banner" class="form-control" />
+                            <span asp-validation-for="Company_Banner" class="text-danger"></span>
+                        </div>
             </div>
             </div>
                 <br />
