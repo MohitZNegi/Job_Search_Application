@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Job_Search_Application.Services;
 using WebPWrecover.Services;
 using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authentication.Cookies;
 

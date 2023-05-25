@@ -22,6 +22,9 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
 
+      - name: Restore NuGet packages
+        run: dotnet restore
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
@@ -55,3 +58,5 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4D06ED1C428C4A4690885268C3966B44 }}
           package: .
+        env:
+           SENDGRID_API_KEY: ${{ secrets.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 }}
