@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Job_Search_Application.Interfaces;
+using Job_Search_Application.Services;
 
 namespace Job_Search_Application.Controllers
 {
@@ -16,18 +18,21 @@ namespace Job_Search_Application.Controllers
         private readonly UserManager<ApplicationUsers> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
+        private readonly IPhotoService _photoService;
 
         public EmployerController(
             ApplicationDbContext context,
             UserManager<ApplicationUsers> userManager,
             RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+            IPhotoService photoService
             )
         {
             _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
             _emailSender = emailSender;
+            _photoService = photoService;
         }
 
         [Authorize(Roles = "Employer")]
@@ -43,7 +48,6 @@ namespace Job_Search_Application.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
-
             var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
 
             if (profile == null)
@@ -51,7 +55,7 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            var viewModel = new EmployerProfileViewModel
+            var viewModel = new Employer_Model
             {
 
                 Company_Name = profile.Company_Name,
@@ -99,7 +103,7 @@ namespace Job_Search_Application.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EmployerProfileViewModel user)
+        public async Task<IActionResult> Create(EmployerProfileViewModel user)
         {
             // var userId = _userManager.GetUserAsync(HttpContext.User);
             var userId = _userManager.GetUserId(HttpContext.User);
@@ -109,6 +113,8 @@ namespace Job_Search_Application.Controllers
             if (ModelState.IsValid && employerProfile == null)
             {
 
+                var result = await _photoService.AddPhotoAsync(user.Company_Logo);
+                var bannerresult = await _photoService.AddPhotoAsync(user.Company_Banner);
 
                 var employer = new Employer_Model
                 {
@@ -117,15 +123,15 @@ namespace Job_Search_Application.Controllers
                     Company_CEO = user.Company_CEO,
                     Company_Description = user.Company_Description,
                     Company_Industry = user.Company_Industry,
-                    Company_Logo = user.Company_Logo,
+                    Company_Logo = result.Url.ToString(),
                     Company_URL = user.Company_URL,
-                    Company_Banner = user.Company_Banner,
+                    Company_Banner = bannerresult.Url.ToString(),
                     Location = user.Location,
                     UserId = userId
                 };
 
-                _context.Employer.AddAsync(employer);
-                _context.SaveChangesAsync();
+                await _context.Employer.AddAsync(employer);
+                await _context.SaveChangesAsync();
 
                 ViewBag.UserProfile = null;
                 ViewBag.comProfile = null;
@@ -157,9 +163,9 @@ namespace Job_Search_Application.Controllers
                     Company_CEO = profile.Company_CEO,
                     Company_Description = profile.Company_Description,
                     Company_Industry = profile.Company_Industry,
-                    Company_Logo = profile.Company_Logo,
+                    //Company_Logo = profile.Company_Logo,
                     Company_URL = profile.Company_URL,
-                    Company_Banner = profile.Company_Banner,
+                    //Company_Banner = profile.Company_Banner,
                     Location = profile.Location,
 
             };
@@ -168,10 +174,11 @@ namespace Job_Search_Application.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(EmployerProfileViewModel viewModel)
+        public async Task<ActionResult> UpdateAsync(EmployerProfileViewModel viewModel)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-
+            var result = await _photoService.AddPhotoAsync(viewModel.Company_Logo);
+            var bannerresult = await _photoService.AddPhotoAsync(viewModel.Company_Banner);
 
             var profile = _context.Employer.Single(e => e.Employer_Id == userId);
 
@@ -179,9 +186,9 @@ namespace Job_Search_Application.Controllers
             profile.Company_Name = viewModel.Company_Name;
             profile.Company_CEO = viewModel.Company_CEO;
             profile.Company_Description = viewModel.Company_Description;
-            profile.Company_Logo = viewModel.Company_Logo;
+            profile.Company_Logo = result.Url.ToString();
             profile.Company_URL = viewModel.Company_URL;
-            profile.Company_Banner = viewModel.Company_Banner;
+            profile.Company_Banner = bannerresult.Url.ToString();
             profile.Company_Industry = viewModel.Company_Industry;
             profile.Location = viewModel.Location;
 

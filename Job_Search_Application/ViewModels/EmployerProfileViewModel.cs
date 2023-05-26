@@ -32,10 +32,10 @@ namespace Job_Search_Application.ViewModels
         public string Location { get; set; }
 
         [Display(Name = "Company Logo")]
-        public string Company_Logo { get; set; }
+        public IFormFile Company_Logo { get; set; }
 
         [Display(Name = "Company Banner")]
-        public string Company_Banner { get; set; }
+        public IFormFile Company_Banner { get; set; }
 
         [Display(Name = "Company link")]
         public string Company_URL { get; set; }
