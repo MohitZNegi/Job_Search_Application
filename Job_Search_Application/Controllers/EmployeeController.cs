@@ -79,7 +79,7 @@ namespace Job_Search_Application.Controllers
         }
 
         [Authorize(Roles = "Employee")]
-        public IActionResult Create()
+        public ActionResult Create()
         {
 
 
@@ -109,7 +109,7 @@ namespace Job_Search_Application.Controllers
         }
 
         [HttpPost]
-        public  IActionResult Create(EmployeeProfileViewModel user )
+        public  ActionResult Create(EmployeeProfileViewModel user )
         {
            // var userId = _userManager.GetUserAsync(HttpContext.User);
             var userId = _userManager.GetUserId(HttpContext.User);
@@ -137,8 +137,8 @@ namespace Job_Search_Application.Controllers
                 _context.SaveChangesAsync();
 
                 ViewBag.UserProfile = null;
-                ViewBag.comProfile = null;
-                ViewBag.empProfile = employeeProfile;
+                ViewBag.employerProfile = null;
+                ViewBag.employeeProfile = employeeProfile;
 
                 return RedirectToAction("Index", "Home");
 
