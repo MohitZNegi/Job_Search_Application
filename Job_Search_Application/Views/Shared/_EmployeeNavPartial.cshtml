@@ -1,0 +1,60 @@
+﻿
+<div class="dropdown-menu dropdown-menu-end flex-fill" style="background-color:aliceblue">
+    <ul style="padding-left: 0;">
+        <li  style="white-space: normal; padding: 10px; display: flex; align-items: center;">
+            <div class="d-flex justify-content-center" style="overflow: hidden; text-overflow: ellipsis;">
+                <div class="d-flex justify-content-center">
+                    <a asp-controller="Employee" asp-action="ViewProfile" class="img-link">
+                        <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle d-flex justify-content-center" style=" text-align:center; height: 68px; width: 68px; margin-right: 10px;" />
+                    </a>
+                </div>
+                <a asp-controller="Employee" asp-action="ViewProfile" style="flex-grow: 1;"  class="nav-link text-dark" >
+                    <ul class="list-unstyled info-list">
+                  
+                        <li class="text-sm-center text-muted text-info link-info" style="font-size: small;">@User.Identity?.Name</li>
+                        <li class="link-text">view profile</li>
+                      
+                    </ul>
+                </a>
+            </div>
+        </li>
+
+
+        <li role="separator" class="dropdown-divider"></li>
+
+
+        <li class="dropdown-item">
+
+
+            <a asp-controller="Employee" asp-action="Update" class="nav-link text-dark">
+                <i class="bi bi-pencil-square"></i>
+                Edit Profile
+            </a>
+        </li>
+
+
+        <li role="separator" class="dropdown-divider"></li>
+
+
+        <li class="dropdown-item">
+
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <i class="bi bi-gear-fill"></i>
+                Account Settings
+            </a>
+
+
+        </li>
+        <li role="separator" class="dropdown-divider"></li>
+        <li class="dropdown-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+
+                   <button  type="submit" class="nav-link btn btn-link text-dark"><i class="bi bi-box-arrow-left"></i> Logout</button>  
+                
+            </form>
+        </li>
+
+    </ul>
+</div>
+
+

@@ -133,10 +133,6 @@ namespace Job_Search_Application.Controllers
                 await _context.Employer.AddAsync(employer);
                 await _context.SaveChangesAsync();
 
-                ViewBag.UserProfile = null;
-                ViewBag.comProfile = null;
-                ViewBag.empProfile = employerProfile;
-
                 return RedirectToAction("Index", "Home");
 
             }
