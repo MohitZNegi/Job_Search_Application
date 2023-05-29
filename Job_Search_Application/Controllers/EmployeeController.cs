@@ -57,9 +57,6 @@ namespace Job_Search_Application.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
-            var model = "profile.Resume";
-            return PartialView("_PreviewWordDocument", model);
-
             var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
 
@@ -108,7 +105,7 @@ namespace Job_Search_Application.Controllers
             if (CheckIfEmployeeHasProfile == null && CheckIfUserIsEmployee != null)
             {
 
-                var viewModel = new Employee_Model();
+                var viewModel = new EmployeeProfileViewModel();
 
 
                 return View(viewModel);
@@ -166,10 +163,10 @@ namespace Job_Search_Application.Controllers
         }
 
       
-        public ActionResult Update(string id)
+        public ActionResult Update()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-
+            var CheckIfEmployeeHasProfile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
             var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
@@ -178,20 +175,16 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employee");
             }
 
-            var viewModel = new Employee_Model
+            if (CheckIfEmployeeHasProfile != null)
             {
-               
-                First_name = profile.First_name,
-                Last_name = profile.Last_name,
-                Address = profile.Address,
-                birthDate = profile.birthDate,
-                Gender = profile.Gender,
-                ProfileImage = profile.ProfileImage,
-                Resume = profile.Resume
-               
-            };
 
-            return View(viewModel);
+                var viewModel = new EmployeeProfileViewModel();
+
+
+                return View(viewModel);
+            }
+
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
