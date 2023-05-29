@@ -4,6 +4,7 @@ using Job_Search_Application.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Search_Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230517084202_JobsModel Added")]
+    partial class JobsModelAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,6 +111,7 @@ namespace Job_Search_Application.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileImage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Resume")
@@ -190,7 +193,6 @@ namespace Job_Search_Application.Data.Migrations
             modelBuilder.Entity("Job_Search_Application.Models.Jobs_Model", b =>
                 {
                     b.Property<string>("Jobs_Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Classification")
@@ -198,8 +200,8 @@ namespace Job_Search_Application.Data.Migrations
 
                     b.Property<string>("Job_Details")
                         .IsRequired()
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Job_Location")
                         .IsRequired()

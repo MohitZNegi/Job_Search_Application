@@ -35,6 +35,7 @@ namespace Job_Search_Application.Data
 
         public DbSet<Employee_Model> Employee { get; set; }
         public DbSet<Employer_Model> Employer { get; set; }
-       
+        public DbSet<Jobs_Model> Jobs { get; set; }
+
     }
 }
