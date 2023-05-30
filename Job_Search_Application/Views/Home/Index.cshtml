@@ -2,7 +2,27 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Home Page -->
+<form class="d-flex" method="get" action="/Job/JobsFeed">
+    <input class="form-control me-sm-2" type="search" name="searchTerm1" placeholder="Job title">
+    <input class="form-control me-sm-2" type="search" id="locationSearch" name="searchTerm2" placeholder="Location">
+
+
+    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        // Restore input field values from sessionStorage
+        $('#jobTitleInput').val(sessionStorage.getItem('jobTitle'));
+        $('#locationSearch').val(sessionStorage.getItem('location'));
+        // Restore values of other form fields as needed
+
+        // Store input field values in sessionStorage on form submission
+        $('form').on('submit', function () {
+            sessionStorage.setItem('jobTitle', $('#jobTitleInput').val());
+            sessionStorage.setItem('location', $('#locationSearch').val());
+            // Store values of other form fields as needed
+        });
+    });
+</script>
