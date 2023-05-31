@@ -40,7 +40,6 @@ namespace Job_Search_Application.Controllers
             var jobs = _context.Jobs.Include(j => j.Employer).ToList();
 
 
-
             if (!String.IsNullOrWhiteSpace(searchTerm))
             {
                 jobs = _context.Jobs
@@ -59,8 +58,10 @@ namespace Job_Search_Application.Controllers
 
         public ActionResult JobsApplication(string id)
         {
-
-
+            var userId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.CurrentUser = userId;
+            var ApplyedJobsIds = _context.Job_Request.Where(e => e.EmployeeId == userId).ToList().Select(e => e.JobId);
+            ViewBag.ApplyedJobs = ApplyedJobsIds;
 
             var job = _context.Jobs.Where(j => j.Jobs_Id  == id).FirstOrDefault();
             return View(job);

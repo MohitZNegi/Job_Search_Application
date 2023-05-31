@@ -13,6 +13,7 @@ using X.PagedList;
 
 namespace Job_Search_Application.Controllers
 {
+    [Authorize(Roles = "Employer")]
     public class EmployerController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -281,6 +282,35 @@ namespace Job_Search_Application.Controllers
             return View(jobs.ToPagedList(page ?? 1, 3));
 
         }
+
+        public ActionResult All_Requests()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            var requests = _context.Job_Request
+                                    .Include(e => e.Job)
+                                    .Include(e => e.Employee)
+                                    .Where(e => e.Employer.Employer_Id == userId && e.Request_Status == "pending")
+                                    .ToList();
+
+            return View(requests);
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult GetEmployee_Profile(string id, string requestID)
+        {
+            var profile = _context.Employee.Where(e => e.Employee_Id == id).Include(e => e.User).FirstOrDefault();
+            var jobRequest = _context.Job_Request.Where(e => e.JobRequest_Id == requestID).FirstOrDefault();
+
+            ViewBag.jobRequestID = jobRequest.JobRequest_Id;
+
+            if (profile == null)
+                return Content("something wrong!");
+
+            return View(profile);
+        }
+
 
     }
 }

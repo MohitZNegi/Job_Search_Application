@@ -18,6 +18,8 @@ builder.Services.AddIdentity<ApplicationUsers, IdentityRole>().AddDefaultTokenPr
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
@@ -25,6 +27,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    
 }
 else
 {
@@ -45,6 +48,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
