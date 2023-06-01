@@ -1,8 +1,301 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis&display=swap" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
+</head>
+<style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+    body {
+        background: linear-gradient(to bottom, #b0e0e6, gray);
+        font-family: 'Dosis', sans-serif;
+    }
+
+    .container {
+        max-width: 800px;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+
+    }
+
+    p {
+        font-size: 18px;
+        margin-bottom: 30px;
+    }
+
+    .cssbuttons-io-button {
+        background: powderblue;
+        color: gray;
+        font-family: inherit;
+        padding: 0.35em;
+        padding-left: 1.2em;
+        font-size: 17px;
+        font-weight: 500;
+        border-radius: 0.9em;
+        border: none;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+        box-shadow: inset 0 0 1.6em -0.6em #714da6;
+        overflow: hidden;
+        position: relative;
+        height: 2.8em;
+        padding-right: 3.3em;
+    }
+
+        .cssbuttons-io-button .icon {
+            background: white;
+            margin-left: 1em;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.2em;
+            width: 2.2em;
+            border-radius: 0.7em;
+            box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+            right: 0.3em;
+            transition: all 0.3s;
+        }
+
+        .cssbuttons-io-button:hover .icon {
+            width: calc(100% - 0.6em);
+        }
+
+        .cssbuttons-io-button .icon svg {
+            width: 1.1em;
+            transition: transform 0.3s;
+            color: #7b52b9;
+        }
+
+        .cssbuttons-io-button:hover .icon svg {
+            transform: translateX(0.1em);
+        }
+
+        .cssbuttons-io-button:active .icon {
+            transform: scale(0.95);
+        }
+
+    .input {
+        color: #fff;
+        font-size: 0.9rem;
+        background-color: transparent;
+        width: 100%;
+        box-sizing: border-box;
+        padding-inline: 0.5em;
+        padding-block: 0.7em;
+        border: none;
+        border-bottom: var(--border-height) solid var(--border-before-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-border {
+        position: absolute;
+        background: var(--border-after-color);
+        width: 0%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        transition: width 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+    }
+
+    .input:focus {
+        outline: none;
+    }
+
+        .input:focus + .input-border {
+            width: 100%;
+        }
+
+    .form-control {
+        position: relative;
+        --width-of-input: 300px;
+    }
+
+    .input-alt {
+        font-size: 1.2rem;
+        padding-inline: 1em;
+        padding-block: 0.8em;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-border-alt {
+        height: 3px;
+        background: linear-gradient(90deg, #FF6464 0%, #FFBF59 50%, #47C9FF 100%);
+        transition: width 0.4s cubic-bezier(0.42, 0, 0.58, 1.00);
+    }
+
+    .input-alt:focus + .input-border-alt {
+        width: 100%;
+    }
+
+    .filters {
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    select {
+        background-color: powderblue;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        font-size: 14px;
+        color: black;
+    }
+
+    .contact-section {
+        background-color: transparent;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+    }
+
+        .contact-section p {
+            background-color: rgba(0, 0, 0, 0.1);
+            display: inline;
+        }
+
+        .contact-section a {
+            text-decoration: underline;
+            color: #000;
+        }
+
+
+    section {
+        position: relative;
+        display: flex;
+        width: 1920px;
+        background-color: black;
+    }
+
+    .image-container {
+        position: relative;
+        flex: 1;
+    }
+
+        .image-container img {
+            object-fit: cover;
+
+        }
+
+    .overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    h2 {
+        color: white;
+        font-size: 24px;
+    }
+
+    .create-profile-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+
+</style>
+
+<body>
+    <div class="bg">
+
+    <div class="container">
+        <h1>Welcome to Our Job Portal</h1>
+        <p>
+            Explore job opportunities and find your dream career.
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-wrench-adjustable-circle-fill" viewBox="0 0 16 16">
+                <path d="M6.705 8.139a.25.25 0 0 0-.288-.376l-1.5.5.159.474.808-.27-.595.894a.25.25 0 0 0 .287.376l.808-.27-.595.894a.25.25 0 0 0 .287.376l1.5-.5-.159-.474-.808.27.596-.894a.25.25 0 0 0-.288-.376l-.808.27.596-.894Z" />
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm-6.202-4.751 1.988-1.657a4.5 4.5 0 0 1 7.537-4.623L7.497 6.5l1 2.5 1.333 3.11c-.56.251-1.18.39-1.833.39a4.49 4.49 0 0 1-1.592-.29L4.747 14.2a7.031 7.031 0 0 1-2.949-2.951ZM12.496 8a4.491 4.491 0 0 1-1.703 3.526L9.497 8.5l2.959-1.11c.027.2.04.403.04.61Z" />
+            </svg>
+        </p>
+        <div class=button-container style="display: flex; align-items: center;">
+        <button class="cssbuttons-io-button" style="margin-left: 200px;">
+            Search Jobs
+            <a href="#" class="icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path></svg>
+            </a>
+        </button>
+            <button class="cssbuttons-io-button" style="margin-left: 30px;">
+            Post a Job
+                <a href="#" class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path></svg>
+                </a>
+        </div>
+
+
+        </div>
+            <div class="form-control" style="margin-top: 60px;">
+                <input class="input input-alt" placeholder="Search something intelligent" required="" type="text" style="color: black;">
+                <span class="input-border input-border-alt"></span>
+            </div>
+
+        <div class="filters">
+            <label for="job-type">Job Type:</label>
+            <select id="job-type">
+                <option value="">All</option>
+                <option value="doctor">Doctor</option>
+                <option value="technician">Technician</option>
+                <option value="engineer">Engineer</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <label for="salary-range">Salary Range:</label>
+            <select id="salary-range">
+                <option value="">All</option>
+                <option value="10000 - 20000">$10,000 - $20,000</option>
+                <option value="30000 - 50000">$30,000 - $50,000</option>
+                <option value="60000 - 80000">$60,000 - $80,000</option>
+                <option value="90000 - 110000">$90,000 - $110,000</option>
+                <option value="120000 - 140000">$120,000 - $140,000</option>
+                <option value="150000+">$150,000+</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <label for="job-location">Job Location:</label>
+            <select id="job-location">
+                <option value="">All</option>
+                <option value="Takanini">Takanini</option>
+                <option value="Manurewa">Manurewa</option>
+                <option value="Manukau">Manukau</option>
+                <option value="Auckland City">Auckland City</option>
+                <option value="Favona">Favona</option>
+                <option value="Mangere">Mangere</option>
+                <option value="Bucklands Beach">Bucklands Beach</option>
+                <option value="Papatoetoe">Papatoetoe</option>
+                <option value="Otahuhu">Otahuhu</option>
+                <option value="East Tamaki">East Tamaki</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+
+        <div class="contact-section" style="margin-top: 50px;">
+            <p style="font-size: 20px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-outbound" viewBox="0 0 16 16">
+                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5z" />
+                </svg> Need to Contact Us? Contact us <a href="contact.html">Here</a>
+            </p>
+        </div>
+
+
+</body>

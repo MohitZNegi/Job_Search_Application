@@ -10,18 +10,37 @@
     ViewData["Title"] = "Published Job";
 }
 
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap" rel="stylesheet">
+</head>
+<style>
+
+
+    body {
+        background: linear-gradient(to bottom, #1f4068, #4d4d4d);
+        font-family: 'Dosis', sans-serif;
+    }
+
+
+</style>
+<body>
 <br />
 <br />
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
-<div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+<div class="container shadow" style=" background-color:rgb(150, 165, 234); border-radius:20px;">
     <br />
     <div class="col-md-9 ">
         <form class="d-flex">
             <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit" style="display: flex; align-items: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin-right: 8px;">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+                Search
+            </button>
         </form>
-
-
     </div>
     <br />
 
@@ -36,9 +55,13 @@
     {
 
         <div class="row d-flex justify-content-center">
-            <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+            <div class="col-md-10 shadow" style="background: linear-gradient(to bottom, powderblue,  #4d4d4d); border-radius:20px;">
                 <br />
-                <div class="card-header">
+                <div class="card-header justify-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                        <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z" />
+                        <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                    </svg>
                     <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
                     <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
                 </div>
@@ -79,7 +102,7 @@
 
 </div>
 
-
+</body>
 
 
 
