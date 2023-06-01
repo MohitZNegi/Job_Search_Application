@@ -373,8 +373,11 @@ namespace Job_Search_Application.Controllers
                 jobs = jobs.Where(j => j.IsPublished && j.IsActive).ToList();
             }
             var jobViews = _analyticsService.GetJobViews(jobs);
+            var jobApplies = _analyticsService.GetJobApplies(jobs);
 
             ViewBag.JobViews = jobViews;
+            ViewBag.JobApplies = jobApplies;
+
             return View(jobs.ToPagedList(page ?? 1, 3));
 
         }

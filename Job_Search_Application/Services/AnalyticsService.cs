@@ -26,6 +26,17 @@ namespace Job_Search_Application.Services
 
             return jobViews;
         }
+
+        public Dictionary<string, int> GetJobApplies(List<Jobs_Model> jobs)
+        {
+            var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
+            var jobApplies = _context.Job_Request
+                .Where(r => jobIds.Contains(r.JobId))
+                .GroupBy(r => r.JobId)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            return jobApplies;
+        }
     }
 
 }

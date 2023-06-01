@@ -55,7 +55,8 @@ namespace Job_Search_Application.Controllers.API
 
 
             [HttpPost]
-            public IActionResult ApplyForJob(string id)
+
+        public IActionResult ApplyForJob(string id)
             {
             var userId = _userManager.GetUserId(HttpContext.User);
 
@@ -82,7 +83,27 @@ namespace Job_Search_Application.Controllers.API
                 _context.Job_Request.Add(request);
                 _context.SaveChanges();
 
-                return Ok();
+
+            // Increment the apply count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == id);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = selectedJob.PublisherId,
+                    JobId = id,
+                    Views = 0,
+                    Applies = 1 // Increment the apply count by 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.Applies++; // Increment the apply count by 1
+            }
+            _context.SaveChanges();
+
+            return Ok();
             }
 
             [HttpGet]
