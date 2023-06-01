@@ -191,6 +191,7 @@ namespace Job_Search_Application.Data.Migrations
             modelBuilder.Entity("Job_Search_Application.Models.JobRequest_Model", b =>
                 {
                     b.Property<string>("JobRequest_Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("EmployeeId")
@@ -232,6 +233,15 @@ namespace Job_Search_Application.Data.Migrations
                     b.Property<string>("Classification")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DeactivationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Job_Details")
                         .IsRequired()
                         .HasMaxLength(1500)
@@ -246,6 +256,9 @@ namespace Job_Search_Application.Data.Migrations
 
                     b.Property<string>("Job_Type")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PublishDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PublisherId")
                         .IsRequired()

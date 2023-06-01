@@ -42,5 +42,33 @@ namespace Job_Search_Application.Models
         [Display(Name = "Job Classification")]
         public string? Classification { get; set; }
 
+
+        [Display(Name = "Publish Date")]
+        public DateTime? PublishDate { get; set; }
+
+        [Display(Name = "Is Published")]
+        public bool IsPublished { get; set; }
+
+
+        [Display(Name = "Deactivated")]
+        public bool IsActive { get; set; }
+
+        [Display(Name = "Deactivation Date")]
+        public DateTime? DeactivationDate { get; set; }
+
+
+     /*   [Display(Name = "Reviewed Candidates")]
+        public int ReviewedCandidates { get; set; }
+
+        [Display(Name = "Selected Candidates")]
+        public int SelectedCandidates { get; set; }
+
+        [Display(Name = "Interviewed Candidates")]
+        public int InterviewedCandidates { get; set; }
+
+        [Display(Name = "Hired Candidates")]
+        public int HiredCandidates { get; set; }*/
     }
+
 }
+

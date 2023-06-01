@@ -31,5 +31,18 @@ namespace Job_Search_Application.ViewModels
 
         [Display(Name = "Job Classification")]
         public string? Classification { get; set; }
+
+
+        [Display(Name = "Publish Date")]
+        public DateTime? PublishDate { get; set; }
+
+        [Display(Name = "Is Published")]
+        public bool IsPublished { get; set; }
+
+        [Display(Name = "Deactivated")]
+        public bool IsActive { get; set; }
+
+        [Display(Name = "Deactivation Date")]
+        public DateTime? DeactivationDate { get; set; }
     }
 }

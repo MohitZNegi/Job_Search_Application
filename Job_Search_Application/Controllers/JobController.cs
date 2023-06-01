@@ -37,24 +37,36 @@ namespace Job_Search_Application.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             ViewBag.CurrentUser = userId;
+            var currentDate = DateTime.Now;
             var jobs = _context.Jobs.Include(j => j.Employer).ToList();
-
 
             if (!String.IsNullOrWhiteSpace(searchTerm))
             {
                 jobs = _context.Jobs
-                                    .Where(j => j.Title.Contains(searchTerm) || j.Job_Location.Contains(searchTerm)
-                                            || j.Job_Type.Contains(searchTerm)
-                                            || j.Job_Schedule.Contains(searchTerm)
-                                            || j.Classification.Contains(searchTerm)
-                                            || j.Employer.Company_Name.Contains(searchTerm))
-                                    .Include(j => j.Employer)
-                                    .ToList();
-
+                    .Where(j => (j.Title.Contains(searchTerm) || j.Job_Location.Contains(searchTerm)
+                        || j.Job_Type.Contains(searchTerm) || j.Job_Schedule.Contains(searchTerm)
+                        || j.Classification.Contains(searchTerm) || j.Employer.Company_Name.Contains(searchTerm))
+                        && j.IsPublished == true && j.DeactivationDate > currentDate)
+                    .Include(j => j.Employer)
+                    .ToList();
+            }
+            else
+            {
+                // Exclude draft jobs, jobs that have passed deactivation date, and set IsActive to false
+                jobs = jobs.Where(j => j.IsPublished && j.DeactivationDate > currentDate).ToList();
+                foreach (var job in jobs)
+                {
+                    if (job.DeactivationDate <= currentDate)
+                    {
+                        job.IsActive = false;
+                    }
+                }
+                _context.SaveChanges();
             }
 
             return View(jobs.ToPagedList(page ?? 1, 3));
         }
+
 
         public ActionResult JobsApplication(string id)
         {
