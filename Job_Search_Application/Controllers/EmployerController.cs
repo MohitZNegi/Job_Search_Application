@@ -11,6 +11,7 @@ using MessagePack.Internal;
 using X.PagedList.Mvc;
 using X.PagedList;
 using System.Net;
+using Job_Search_Application.Services;
 
 namespace Job_Search_Application.Controllers
 {
@@ -21,18 +22,22 @@ namespace Job_Search_Application.Controllers
         private readonly UserManager<ApplicationUsers> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
+        private readonly AnalyticsService _analyticsService;
 
         public EmployerController(
             ApplicationDbContext context,
             UserManager<ApplicationUsers> userManager,
             RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+           AnalyticsService analyticsService
             )
         {
             _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
             _emailSender = emailSender;
+            _analyticsService = analyticsService;
+
         }
 
         [Authorize(Roles = "Employer")]
@@ -367,6 +372,9 @@ namespace Job_Search_Application.Controllers
                 // Exclude draft jobs
                 jobs = jobs.Where(j => j.IsPublished && j.IsActive).ToList();
             }
+            var jobViews = _analyticsService.GetJobViews(jobs);
+
+            ViewBag.JobViews = jobViews;
             return View(jobs.ToPagedList(page ?? 1, 3));
 
         }
@@ -473,6 +481,7 @@ namespace Job_Search_Application.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+     
 
         public ActionResult All_Requests()
         {

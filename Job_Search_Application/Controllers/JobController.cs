@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using X.PagedList.Mvc;
 using X.PagedList.Mvc.Core;
+using Job_Search_Application.Models;
 
 namespace Job_Search_Application.Controllers
 {
@@ -32,7 +33,6 @@ namespace Job_Search_Application.Controllers
         {
             return View();
         }
-
         public ActionResult JobsFeed(string searchTerm, int? page)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
@@ -64,6 +64,9 @@ namespace Job_Search_Application.Controllers
                 _context.SaveChanges();
             }
 
+       
+            
+
             return View(jobs.ToPagedList(page ?? 1, 3));
         }
 
@@ -74,10 +77,28 @@ namespace Job_Search_Application.Controllers
             ViewBag.CurrentUser = userId;
             var ApplyedJobsIds = _context.Job_Request.Where(e => e.EmployeeId == userId).ToList().Select(e => e.JobId);
             ViewBag.ApplyedJobs = ApplyedJobsIds;
+            var job = _context.Jobs.Where(j => j.Jobs_Id == id).FirstOrDefault();
 
-            var job = _context.Jobs.Where(j => j.Jobs_Id  == id).FirstOrDefault();
+            // Increment view count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == job.Jobs_Id);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = job.PublisherId,
+                    JobId = job.Jobs_Id,
+                    Views = 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.Views++;
+            }
+
+            _context.SaveChanges();
             return View(job);
-
         }
+
     }
 }

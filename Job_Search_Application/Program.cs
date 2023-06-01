@@ -1,4 +1,5 @@
 using Job_Search_Application.Data;
+using Job_Search_Application.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ builder.Services.AddIdentity<ApplicationUsers, IdentityRole>().AddDefaultTokenPr
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<AnalyticsService>();
 
 var app = builder.Build();
 

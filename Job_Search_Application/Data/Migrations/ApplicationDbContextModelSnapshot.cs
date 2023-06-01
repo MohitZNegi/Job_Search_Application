@@ -188,6 +188,47 @@ namespace Job_Search_Application.Data.Migrations
                     b.ToTable("Employer");
                 });
 
+            modelBuilder.Entity("Job_Search_Application.Models.JobAnalytics_Model", b =>
+                {
+                    b.Property<string>("JobAnalysis_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Applies")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EmployerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("HiredCandidates")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InterviewedCandidates")
+                        .HasColumnType("int");
+
+                    b.Property<string>("JobId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ReviewedCandidates")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SelectedCandidates")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Views")
+                        .HasColumnType("int");
+
+                    b.HasKey("JobAnalysis_Id");
+
+                    b.HasIndex("EmployerId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("Job_Analytics");
+                });
+
             modelBuilder.Entity("Job_Search_Application.Models.JobRequest_Model", b =>
                 {
                     b.Property<string>("JobRequest_Id")
@@ -444,6 +485,25 @@ namespace Job_Search_Application.Data.Migrations
                     b.Navigation("User");
 
                     b.Navigation("UserData");
+                });
+
+            modelBuilder.Entity("Job_Search_Application.Models.JobAnalytics_Model", b =>
+                {
+                    b.HasOne("Job_Search_Application.Models.Employer_Model", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Job_Search_Application.Models.Jobs_Model", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employer");
+
+                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("Job_Search_Application.Models.JobRequest_Model", b =>
