@@ -30,13 +30,49 @@ namespace Job_Search_Application.Services
         public Dictionary<string, int> GetJobApplies(List<Jobs_Model> jobs)
         {
             var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
-            var jobApplies = _context.Job_Request
-                .Where(r => jobIds.Contains(r.JobId))
-                .GroupBy(r => r.JobId)
-                .ToDictionary(g => g.Key, g => g.Count());
+            var jobAnalytics = _context.Job_Analytics.Where(a => jobIds.Contains(a.JobId)).ToList();
+
+            var jobApplies = new Dictionary<string, int>();
+
+            foreach (var analytics in jobAnalytics)
+            {
+                jobApplies[analytics.JobId] = analytics.Applies;
+            }
 
             return jobApplies;
         }
+
+        public Dictionary<string, int> GetReviewedCandidates(List<Jobs_Model> jobs)
+        {
+            var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
+            var jobAnalytics = _context.Job_Analytics.Where(a => jobIds.Contains(a.JobId)).ToList();
+
+            var reviewedCandidates = new Dictionary<string, int>();
+
+            foreach (var analytics in jobAnalytics)
+            {
+                reviewedCandidates[analytics.JobId] = analytics.ReviewedCandidates;
+            }
+
+            return reviewedCandidates;
+        }
+
+        public Dictionary<string, int> GetSelectedCandidates(List<Jobs_Model> jobs)
+        {
+            var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
+            var jobAnalytics = _context.Job_Analytics.Where(a => jobIds.Contains(a.JobId)).ToList();
+
+            var selectedCandidates = new Dictionary<string, int>();
+
+            foreach (var analytics in jobAnalytics)
+            {
+                selectedCandidates[analytics.JobId] = analytics.SelectedCandidates;
+            }
+
+            return selectedCandidates;
+        }
+
+
     }
 
 }

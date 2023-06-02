@@ -374,9 +374,13 @@ namespace Job_Search_Application.Controllers
             }
             var jobViews = _analyticsService.GetJobViews(jobs);
             var jobApplies = _analyticsService.GetJobApplies(jobs);
+            var reviewedCandidates = _analyticsService.GetReviewedCandidates(jobs);
+            var selectedCandidates = _analyticsService.GetSelectedCandidates(jobs);
 
             ViewBag.JobViews = jobViews;
             ViewBag.JobApplies = jobApplies;
+            ViewBag.ReviewedCandidates = reviewedCandidates;
+            ViewBag.SelectedCandidates = selectedCandidates;
 
             return View(jobs.ToPagedList(page ?? 1, 3));
 

@@ -38,6 +38,19 @@
         var jobViews = ViewBag.JobViews as Dictionary<string, int>;
         // Get the views count for the current job
         int viewsCount = jobViews != null && jobViews.ContainsKey(item.Jobs_Id) ? jobViews[item.Jobs_Id] : 0;
+        // Access the applies for the current job
+        var jobApplies = ViewBag.JobApplies as Dictionary<string, int>;
+        // Get the applies count for the current job
+        int appliesCount = jobApplies != null && jobApplies.ContainsKey(item.Jobs_Id) ? jobApplies[item.Jobs_Id] : 0;
+        // Access the Reviewed Candidates for the current job
+        var reviewedCandidates = ViewBag.ReviewedCandidates as Dictionary<string, int>;
+        // Get the Reviewed candidates count for the current job
+        int reviewedCandidatesCount = reviewedCandidates != null && reviewedCandidates.ContainsKey(item.Jobs_Id) ? reviewedCandidates[item.Jobs_Id] : 0;
+        // Access the Selected candidates for the current job
+        var selectedCandidates = ViewBag.SelectedCandidates as Dictionary<string, int>;
+        // Get the selected candidates count for the current job
+        int selectedCandidatesCount = selectedCandidates != null && selectedCandidates.ContainsKey(item.Jobs_Id) ? selectedCandidates[item.Jobs_Id] : 0;
+
 
 
         <div class="row d-flex justify-content-center">
@@ -54,6 +67,9 @@
                     <p class="text-capitalize"> @item.Classification</p>
                     <p class="text-capitalize">@item.Salary</p>
                     <p>Views: @viewsCount</p>
+                    <p>Applies: @appliesCount</p>
+                    <p>Reviewed Candidates: @reviewedCandidatesCount</p>
+                    <p>Selected Candidates: @selectedCandidatesCount</p>
                         </div>
 
                         <div class="card-footer">
