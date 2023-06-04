@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Search_Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230518210253_empimg")]
-    partial class empimg
+    [Migration("20230604234833_Profileimageadded")]
+    partial class Profileimageadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
