@@ -168,6 +168,9 @@ namespace Job_Search_Application.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -186,6 +189,29 @@ namespace Job_Search_Application.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Employer");
+                });
+
+            modelBuilder.Entity("Job_Search_Application.Models.EmployerReviewRequest_Model", b =>
+                {
+                    b.Property<string>("JobReviewRequest_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EmployerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsReviewed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("Request_Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("JobReviewRequest_Id");
+
+                    b.HasIndex("EmployerId");
+
+                    b.ToTable("EmployerReviewRequest");
                 });
 
             modelBuilder.Entity("Job_Search_Application.Models.JobAnalytics_Model", b =>
@@ -485,6 +511,17 @@ namespace Job_Search_Application.Data.Migrations
                     b.Navigation("User");
 
                     b.Navigation("UserData");
+                });
+
+            modelBuilder.Entity("Job_Search_Application.Models.EmployerReviewRequest_Model", b =>
+                {
+                    b.HasOne("Job_Search_Application.Models.Employer_Model", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("Job_Search_Application.Models.JobAnalytics_Model", b =>
