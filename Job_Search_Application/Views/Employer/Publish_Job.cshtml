@@ -77,14 +77,6 @@
                     </div>
                 <br />
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="Job_Schedule" class="control-label"></label>
-                            <input asp-for="Job_Schedule" class="form-control" />
-                            <span asp-validation-for="Job_Schedule" class="text-danger"></span>
-                        </div>
-                    </div>
                 <br />
                 <div class="row">
                     <div class="col d-flex justify-content-center">
@@ -189,16 +181,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    // Add the "fade-in" class to the dropdowns after the page is loaded
-    document.addEventListener("DOMContentLoaded", function(event) {
-      var dropdowns = document.querySelectorAll(".fade-in");
-      dropdowns.forEach(function(dropdown) {
-        dropdown.classList.add("fade-in");
-      });
-    });
-  </script>
 
 @section Scripts {
     @{

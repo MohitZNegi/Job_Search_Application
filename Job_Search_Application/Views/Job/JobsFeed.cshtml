@@ -48,6 +48,7 @@
     <br />
 
     <br />
+</body>
 
 
 
@@ -58,6 +59,7 @@
             <div class="col-md-10 shadow" style="background: linear-gradient(to bottom, powderblue,  #4d4d4d); border-radius:20px;">
                 <br />
                 <div class="card-header">
+                <p>Posted @CalculateDaysAgo(item.PublishDate) ago</p>
                     <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
                     <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
                 </div>
@@ -91,52 +93,51 @@
 
 
 
-<div class="pagination">
+    <div class="pagination">
+        { @Html.PagedListPager(Model, page => Url.Action("JobsFeed", new { page })) }
+    </div>
 
-    @Html.PagedListPager(Model,page => Url.Action("JobsFeed",new { page}))
-
-
-</div>
-@functions {
+    @functions {
         public string CalculateDaysAgo(DateTime? publishDate)
         {
             if (publishDate.HasValue)
             {
-                var currentDate = DateTime.Now;
-                var timeAgo = currentDate - publishDate.Value;
-                string result;
+                DateTime currentDate = DateTime.Now;
+                TimeSpan timeSincePublish = currentDate - publishDate.Value;
+                int daysAgo = (int)timeSincePublish.TotalDays;
 
-                if (timeAgo.Days > 1)
+
+
+                if (daysAgo == 0)
                 {
-                    result = $"{timeAgo.Days} days";
+                    return "Today";
                 }
-                else if (timeAgo.Days == 1)
+                else if (daysAgo == 1)
                 {
-                    result = "1 day";
+                    return "Yesterday";
                 }
-                else if (timeAgo.Hours > 1)
+                else if (daysAgo < 7)
                 {
-                    result = $"{timeAgo.Hours} hours";
+                    return $"{daysAgo} days ago";
                 }
-                else if (timeAgo.Hours == 1)
+                else if (daysAgo < 30)
                 {
-                    result = "1 hour";
-                }
-                else if (timeAgo.Minutes > 1)
-                {
-                    result = $"{timeAgo.Minutes} minutes";
+                    int weeksAgo = daysAgo / 7;
+                    return $"{weeksAgo} weeks ago";
                 }
                 else
                 {
-                    result = "just now";
+                    int monthsAgo = daysAgo / 30;
+                    return $"{monthsAgo} months ago";
                 }
-
-                return result;
             }
 
 
 
 
 
-
-
+            // Return a default value or throw an exception depending on your requirements
+            return "Unknown";
+        }
+        }
+    }
