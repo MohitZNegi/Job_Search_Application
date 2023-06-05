@@ -8,12 +8,9 @@ namespace Job_Search_Application.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Company_Logo",
-                table: "Employer");
-            migrationBuilder.DropColumn(
-                name: "Company_Banner",
-                table: "Employer");
+            migrationBuilder.AddColumn<string>(
+                name: "ProfileImage",
+                table: "Employee");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
