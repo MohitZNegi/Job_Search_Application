@@ -12,8 +12,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Search_Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< HEAD:Job_Search_Application/Data/Migrations/20230602163304_pfp.Designer.cs
     [Migration("20230602163304_pfp")]
     partial class pfp
+========
+    [Migration("20230604234833_Profileimageadded")]
+    partial class Profileimageadded
+>>>>>>>> 8f6b19596f62271f1db1078b0cf0334468d2944b:Job_Search_Application/Data/Migrations/20230604234833_Profileimageadded.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
