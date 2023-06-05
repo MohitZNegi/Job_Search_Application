@@ -106,7 +106,39 @@ namespace Job_Search_Application.Controllers.API
             return Ok();
             }
 
-            [HttpGet]
+        [HttpPost]
+        public IActionResult WithdrawApplication(string id)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
+            var request = _context.Job_Request.FirstOrDefault(e => e.EmployeeId == userId && e.JobId == id && e.Request_Status == "pending");
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            request.Request_Status = "withdrawn";
+            _context.SaveChanges();
+
+            // Decrement the apply count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == id);
+            if (jobAnalytics != null)
+            {
+                jobAnalytics.Applies--; // Decrement the apply count by 1
+                _context.SaveChanges();
+            }
+
+            return Ok();
+        }
+
+
+        [HttpGet]
             public IEnumerable<JobRequest_Model> GetRequestsStatus()
             {
             var userId = _userManager.GetUserId(HttpContext.User);

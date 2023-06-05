@@ -22,23 +22,102 @@
 
             if (item.Request_Status == "pending")
             {
-                <div class="alert alert-primary">
-                    Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_URL</strong> company in <strong>pending state</strong>.
+               
+
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+                        <div class="alert alert-primary">
+                            Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_Name</strong> company in <strong>pending state</strong>.
+                        </div>
+                        <br />
+                        <div class="card-header">
+                            <h5> <a href="/Job/JobsApplication/@item.Job.Jobs_Id">@item.Job.Title</a></h5>
+                            <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-capitalize">@item.Job.Job_Location</p>
+                            <p class="text-capitalize d-inline">@item.Job.Job_Schedule</p>
+                            <p class="text-capitalize">@item.Job.Job_Type</p>
+                            <p class="text-capitalize"> @item.Job.Classification</p>
+                            <p class="text-capitalize">@item.Job.Salary</p>
+                        </div>
+
+                        <div class="card-footer">
+
+                            <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job.Job_Details</p>
+
+                        </div>
+                        <br />
+                    </div>
+
                 </div>
+                <br />
             }
             else
             {
                 if (item.Request_Status == "rejected")
                 {
-                    <div class="alert alert-danger">
-                        Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_URL</strong> have been <strong>@item.Request_Status</strong>
+                   
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+                            <div class="alert alert-danger">
+                                Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_Name</strong> company have been <strong>@item.Request_Status</strong>
+                            </div>
+                            <br />
+                            <div class="card-header">
+                                <h5> <a href="/Job/JobsApplication/@item.Job.Jobs_Id">@item.Job.Title</a></h5>
+                                <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-capitalize">@item.Job.Job_Location</p>
+                                <p class="text-capitalize d-inline">@item.Job.Job_Schedule</p>
+                                <p class="text-capitalize">@item.Job.Job_Type</p>
+                                <p class="text-capitalize"> @item.Job.Classification</p>
+                                <p class="text-capitalize">@item.Job.Salary</p>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job.Job_Details</p>
+
+                            </div>
+                            <br />
+                        </div>
+
                     </div>
+                    <br />
                 }
                 else
                 {
-                    <div class="alert alert-success">
-                        Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_Name</strong> have been <strong>@item.Request_Status</strong>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+
+                            <div class="alert alert-success">
+                                Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_Name</strong> company have been <strong>@item.Request_Status</strong>
+                            </div>
+                            <br />
+                            <div class="card-header">
+                                <h5> <a href="/Job/JobsApplication/@item.Job.Jobs_Id">@item.Job.Title</a></h5>
+                                <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-capitalize">@item.Job.Job_Location</p>
+                                <p class="text-capitalize d-inline">@item.Job.Job_Schedule</p>
+                                <p class="text-capitalize">@item.Job.Job_Type</p>
+                                <p class="text-capitalize"> @item.Job.Classification</p>
+                                <p class="text-capitalize">@item.Job.Salary</p>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job.Job_Details</p>
+
+                            </div>
+                            <br />
+                        </div>
+
                     </div>
+                    <br />
                 }
             }
         }

@@ -77,6 +77,13 @@ namespace Job_Search_Application.Controllers
             ViewBag.CurrentUser = userId;
             var ApplyedJobsIds = _context.Job_Request.Where(e => e.EmployeeId == userId).ToList().Select(e => e.JobId);
             ViewBag.ApplyedJobs = ApplyedJobsIds;
+            // Get the job request status for the current user and the specified job 
+            var jobRequestStatus = _context.Job_Request
+                .Where(e => e.EmployeeId == userId && e.JobId == id)
+                .ToDictionary(e => e.JobId, e => e.Request_Status);
+
+            ViewBag.RequestStatus = jobRequestStatus;
+
             var job = _context.Jobs.Where(j => j.Jobs_Id == id).FirstOrDefault();
 
             // Increment view count for the selected job

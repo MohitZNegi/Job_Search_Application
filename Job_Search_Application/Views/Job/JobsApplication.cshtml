@@ -8,10 +8,12 @@
     ViewData["Title"] = "Published Job";
 }
 
+
 <div class="row d-flex justify-content-center">
     <div class="col-md-10 shadow" style="background-color: aliceblue; border-radius: 20px;">
         <br />
         <div class="card-header">
+           
             <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
             <p style="display:none;">@Html.DisplayFor(modelItem => modelItem.PublisherId)</p>
             <h5>@Html.DisplayFor(modelItem => modelItem.Title)</h5>
@@ -32,9 +34,30 @@
 
         @if (((IEnumerable<string>)ViewBag.ApplyedJobs).Contains(Model.Jobs_Id))
         {
-            <button data-job-id="@Model.Jobs_Id" class="btn btn-primary disabled apply-btn js-apply-request">
-                Applied
-            </button>
+            var jobRequestStatus = (Dictionary<string, string>)ViewBag.RequestStatus;
+            var requestStatus = jobRequestStatus.ContainsKey(Model.Jobs_Id) ? jobRequestStatus[Model.Jobs_Id] : null;
+
+            if (requestStatus == "pending")
+            {
+                  <button data-job-id="@Model.Jobs_Id" class="btn btn-primary disabled apply-btn js-apply-request">
+                    Applied
+                </button>
+
+                <button data-job-id="@Model.Jobs_Id" class="btn btn-danger js-withdraw-request">
+                    Withdraw
+                </button>
+
+
+
+            }
+            else if (requestStatus == "withdrawn")
+            {
+                TempData["WithdrawnMessage"] = "You have withdrawn the application.";
+                @if (TempData.ContainsKey("WithdrawnMessage"))
+                {
+                    <div class="alert alert-danger">@TempData["WithdrawnMessage"]</div>
+                }
+            }
         }
         else if (SignInManager.IsSignedIn(User))
         {
@@ -94,6 +117,45 @@
                                 .done(function () {
                                     bootbox.alert("You applied successfully");
                                     $(e.target).show().addClass("btn-primary disabled").text("Applied");
+                                })
+                                .fail(function (jqXHR, textStatus, errorThrown) {
+                                    bootbox.alert("An error occurred: " + errorThrown);
+                                });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".js-withdraw-request").click(function (e) {
+                var withdrawButton = $(this);
+
+                bootbox.confirm({
+                    message: "Are you sure you want to withdraw your application?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            var jobId = withdrawButton.data("job-id");
+
+                            $.ajax({
+                                url: "/api/Employee/WithdrawApplication/" + jobId,
+                                method: "POST",
+                            })
+                                .done(function () {
+                                    withdrawButton.hide();
+                                    bootbox.alert("You have withdrawn your application successfully");
                                 })
                                 .fail(function (jqXHR, textStatus, errorThrown) {
                                     bootbox.alert("An error occurred: " + errorThrown);

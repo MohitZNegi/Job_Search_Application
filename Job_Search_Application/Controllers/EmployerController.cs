@@ -503,6 +503,19 @@ namespace Job_Search_Application.Controllers
             return View(requests);
         }
 
+        public ActionResult SelectedCandidates()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            var requests = _context.Job_Request
+                                    .Include(e => e.Job)
+                                    .Include(e => e.Employee)
+                                    .Where(e => e.Employer.Employer_Id == userId && e.Request_Status == "accepted")
+                                    .ToList();
+
+            return View(requests);
+        }
+
 
         [AllowAnonymous]
         public ActionResult GetEmployee_Profile(string id, string requestID)
