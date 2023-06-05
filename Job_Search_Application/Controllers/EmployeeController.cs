@@ -125,11 +125,8 @@ namespace Job_Search_Application.Controllers
             var employeeProfile = _context.Employee.Include(e => e.User).Where(e => e.Employee_Id == userId).FirstOrDefault();
             if (ModelState.IsValid && employeeProfile == null)
             {
-
-
-
-                var result = await _photoService.AddPhotoAsync(userVM.ProfileImage);
                 var pdfresult = await _photoService.AddPhotoAsync(userVM.Resume);
+                var result = await _photoService.AddPhotoAsync(userVM.ProfileImage);
 
                 var employee = new Employee_Model
                 {
@@ -191,10 +188,9 @@ namespace Job_Search_Application.Controllers
         public async Task<ActionResult> UpdateAsync(EmployeeProfileViewModel UserVM)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
             var pdfresult = await _photoService.AddPhotoAsync(UserVM.Resume);
             var profile = _context.Employee.Single(e => e.Employee_Id == userId);
-
+            var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
             var viewModel = new Employee_Model
             {
                 First_name = UserVM.First_name,
