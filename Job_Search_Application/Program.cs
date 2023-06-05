@@ -1,4 +1,9 @@
 using Job_Search_Application.Data;
+<<<<<<< HEAD
+=======
+using Job_Search_Application.Helpers;
+using Job_Search_Application.Interfaces;
+>>>>>>> origin/User_Profile_UploadFiles
 using Job_Search_Application.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,6 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IPhotoService, PhotoService>();
+
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
 //builder.Services.AddDefaultIdentity<ApplicationUsers>(options => options.SignIn.RequireConfirmedAccount = true)
   //  .AddEntityFrameworkStores<ApplicationDbContext>();
