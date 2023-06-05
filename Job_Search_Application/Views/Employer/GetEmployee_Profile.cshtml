@@ -1,0 +1,100 @@
+﻿@model Employee_Model
+@{
+    ViewData["Title"] = "GetProfile";
+}
+
+<h2>GetProfile</h2>
+
+<div class="container">
+    <div class="userphoto">
+        <div class="userphoto-img">
+            <img class="profile-img" src="~/images/Employee/@Model.ProfileImage" alt="" />
+        </div>
+    </div>
+    <div class="first-name">
+        <p>@Model.First_name</p>
+    </div>
+    <div class="last-name">
+        <p>@Model.Last_name</p>
+    </div>
+    <div class="">
+        <p>@Model.birthDate</p>
+    </div>
+    <div class="">
+        <p>@Model.Gender</p>
+    </div>
+
+    <button data-request-id="@ViewBag.jobRequestID" class="btn btn-danger js-reject-btn">Reject</button>
+    <button data-request-id="@ViewBag.jobRequestID" class="btn btn-success js-accept-btn">Accept</button>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.js-reject-btn').click(function (e) {
+                debugger;
+                bootbox.confirm({
+                    message: "Are you sure you want to reject this job request?",
+                    buttons: {
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-primary'
+                        },
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/Employer/RejectRequest/" + $(e.target).data("request-id"),
+                                method: "PUT"
+                            })
+                                .done(function () {
+                                    bootbox.alert("You rejected the request successfully");
+                                })
+                                .fail(function () {
+                                    bootbox.alert("Something went wrong!");
+                                });
+                        }
+                    }
+                });
+            });
+
+            $('.js-accept-btn').click(function (e) {
+                debugger;
+                bootbox.confirm({
+                    message: "Are you sure you want to accept this request?",
+                    buttons: {
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        },
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/Employer/AcceptRequest/" + $(e.target).data("request-id"),
+                                method: "PUT"
+                            })
+                                .done(function () {
+                                    bootbox.alert("You accepted the request successfully");
+                                })
+                                .fail(function () {
+                                    bootbox.alert("Something went wrong!");
+                                });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

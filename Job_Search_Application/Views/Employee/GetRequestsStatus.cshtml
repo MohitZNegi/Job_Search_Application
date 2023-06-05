@@ -1,0 +1,63 @@
+﻿﻿
+@model IEnumerable<Job_Search_Application.Models.JobRequest_Model>
+
+@{
+    ViewBag.Title = "GetRequestsStatus";
+}
+
+
+
+<div class="container mt-3">
+    @if (Model.Count() == 0)
+    {
+        <div class="alert alert-info">
+            <span>you have not apply for job yet.</span>
+        </div>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+
+
+            if (item.Request_Status == "pending")
+            {
+                <div class="alert alert-primary">
+                    Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_URL</strong> company in <strong>pending state</strong>.
+                </div>
+            }
+            else
+            {
+                if (item.Request_Status == "rejected")
+                {
+                    <div class="alert alert-danger">
+                        Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_URL</strong> have been <strong>@item.Request_Status</strong>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-success">
+                        Your request for <strong>@item.Job.Title</strong> job to <strong>@item.Employer.Company_Name</strong> have been <strong>@item.Request_Status</strong>
+                    </div>
+                }
+            }
+        }
+
+    }
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.js-refresh').click(function () {
+                $.get('/api/Employee/GetRequestsStatus', function (data) {
+                    $('.data-count').text(data.length);
+                    $.each(data, function (i, jobRequest) {
+                        $('.requests').append('<li>' + jobRequest.RequestStatus + '</li>');
+                    });
+                });
+            });
+        });
+    </script>
+}

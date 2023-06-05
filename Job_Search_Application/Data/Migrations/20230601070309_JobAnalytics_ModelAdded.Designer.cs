@@ -4,6 +4,7 @@ using Job_Search_Application.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Search_Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230601070309_JobAnalytics_ModelAdded")]
+    partial class JobAnalytics_ModelAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,10 +206,14 @@ namespace Job_Search_Application.Data.Migrations
                     b.Property<int>("HiredCandidates")
                         .HasColumnType("int");
 
+                    b.Property<string>("Id_Job")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("InterviewedCandidates")
                         .HasColumnType("int");
 
-                    b.Property<string>("JobId")
+                    b.Property<string>("Jobs_Id")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -224,7 +230,7 @@ namespace Job_Search_Application.Data.Migrations
 
                     b.HasIndex("EmployerId");
 
-                    b.HasIndex("JobId");
+                    b.HasIndex("Jobs_Id");
 
                     b.ToTable("Job_Analytics");
                 });
@@ -497,7 +503,7 @@ namespace Job_Search_Application.Data.Migrations
 
                     b.HasOne("Job_Search_Application.Models.Jobs_Model", "Job")
                         .WithMany()
-                        .HasForeignKey("JobId")
+                        .HasForeignKey("Jobs_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

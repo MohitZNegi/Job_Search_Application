@@ -1,28 +1,107 @@
-﻿@model Job_Search_Application.Models.Jobs_Model;
+﻿@using System.Linq;
+@using Job_Search_Application.Data;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUsers> SignInManager
+@inject UserManager<ApplicationUsers> UserManager
+@model Job_Search_Application.Models.Jobs_Model;
 @{
     ViewData["Title"] = "Published Job";
 }
+
 <div class="row d-flex justify-content-center">
-    <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+    <div class="col-md-10 shadow" style="background-color: aliceblue; border-radius: 20px;">
         <br />
         <div class="card-header">
-            <h5> @Html.DisplayFor(modelItem => modelItem.Title) </h5>
+            <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
+            <p style="display:none;">@Html.DisplayFor(modelItem => modelItem.PublisherId)</p>
+            <h5>@Html.DisplayFor(modelItem => modelItem.Title)</h5>
             <h6 class="text-capitalize fw-bold">@Html.DisplayFor(modelItem => modelItem.Employer.Company_Name)</h6>
         </div>
         <div class="card-body">
             <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Location)</p>
             <p class="text-capitalize d-inline">@Html.DisplayFor(modelItem => modelItem.Job_Schedule)</p>
             <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Type)</p>
-            <p class="text-capitalize"> @Html.DisplayFor(modelItem => modelItem.Classification)</p>
+            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Classification)</p>
             <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Salary)</p>
         </div>
 
         <div class="card-footer">
-
-            <p  > @Html.DisplayFor(modelItem => modelItem.Job_Details)</p>
-
+            <p>@Html.DisplayFor(modelItem => modelItem.Job_Details)</p>
         </div>
         <br />
-    </div>
 
+        @if (((IEnumerable<string>)ViewBag.ApplyedJobs).Contains(Model.Jobs_Id))
+        {
+            <button data-job-id="@Model.Jobs_Id" class="btn btn-primary disabled apply-btn js-apply-request">
+                Applied
+            </button>
+        }
+        else if (SignInManager.IsSignedIn(User))
+        {
+            var user = await UserManager.GetUserAsync(User);
+            var roles = await UserManager.GetRolesAsync(user);
+            if (roles.Contains("Employer"))
+            {
+                <button disabled class="btn btn-primary apply-btn" style="display:none">
+                    Apply Now
+                </button>
+            }
+            else
+            {
+                <button data-job-id="@Model.Jobs_Id" class="btn btn-primary apply-btn js-apply-request">
+                    Apply Now
+                </button>
+            }
+        }
+        else
+        {
+            <button onclick="redirectToLogin()" class="btn btn-primary apply-btn">
+                Apply Now
+            </button>
+        }
+    </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
+
+    <script>
+        function redirectToLogin() {
+            window.location.href = "/Identity/Account/Login";
+        }
+        $(document).ready(function () {
+            $(".js-apply-request").click(function (e) {
+                bootbox.confirm({
+                    message: "Are you sure you want to apply to this job?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/Employee/ApplyForJob/" + $(e.target).data("job-id"),
+                                method: "POST",
+                            })
+                                .done(function () {
+                                    bootbox.alert("You applied successfully");
+                                    $(e.target).show().addClass("btn-primary disabled").text("Applied");
+                                })
+                                .fail(function (jqXHR, textStatus, errorThrown) {
+                                    bootbox.alert("An error occurred: " + errorThrown);
+                                });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

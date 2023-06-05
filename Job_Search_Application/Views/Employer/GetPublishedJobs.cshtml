@@ -34,8 +34,13 @@
 
         @foreach (var item in Model)
         {
+        // Access the views for the current job
+        var jobViews = ViewBag.JobViews as Dictionary<string, int>;
+        // Get the views count for the current job
+        int viewsCount = jobViews != null && jobViews.ContainsKey(item.Jobs_Id) ? jobViews[item.Jobs_Id] : 0;
 
-                <div class="row d-flex justify-content-center">
+
+        <div class="row d-flex justify-content-center">
                 <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
                 <br />
                         <div class="card-header">
@@ -48,6 +53,7 @@
                     <p class="text-capitalize">@item.Job_Type</p>
                     <p class="text-capitalize"> @item.Classification</p>
                     <p class="text-capitalize">@item.Salary</p>
+                    <p>Views: @viewsCount</p>
                         </div>
 
                         <div class="card-footer">
@@ -56,6 +62,10 @@
                                  
                         </div>
                 <br />
+
+                <div class="d-flex justify-content-end">
+                    <a href="@Url.Action("EditJobs", new { id = item.Jobs_Id })" class="btn btn-primary">Edit</a>
+                </div>
                         </div>
           
                         </div>
@@ -78,7 +88,6 @@
 </div>
 
 
- 
 
    
 

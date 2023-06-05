@@ -25,6 +25,8 @@ using Microsoft.AspNetCore.Hosting.Server;
 
 namespace Job_Search_Application.Controllers
 {
+
+    [Authorize(Roles = "Employee")]
     public class EmployeeController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -199,6 +201,19 @@ namespace Job_Search_Application.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult GetRequestsStatus()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            var applyRequests = _context.Job_Request
+                                        .Include(r => r.Job)
+                                        .Include(r => r.Employer)
+                                        .Where(r => r.EmployeeId == userId)
+                                        .ToList();
+
+            return View(applyRequests);
+        }
 
     }
 }
