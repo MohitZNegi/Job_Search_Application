@@ -497,7 +497,7 @@ namespace Job_Search_Application.Controllers
             var requests = _context.Job_Request
                                     .Include(e => e.Job)
                                     .Include(e => e.Employee)
-                                    .Where(e => e.Employer.Employer_Id == userId && e.Request_Status == "pending")
+                                    .Where(e => e.Employer.Employer_Id == userId && e.Request_Status == "pending" || e.Request_Status == "accepted" || e.Request_Status == "rejected")
                                     .ToList();
 
             return View(requests);
@@ -518,19 +518,19 @@ namespace Job_Search_Application.Controllers
 
 
         [AllowAnonymous]
-        public ActionResult GetEmployee_Profile(string id, string requestID)
+        public ActionResult GetEmployee_Profile(string requestID)
         {
-            var profile = _context.Employee.Where(e => e.Employee_Id == id).Include(e => e.User).FirstOrDefault();
-            var jobRequest = _context.Job_Request.Where(e => e.JobRequest_Id == requestID).FirstOrDefault();
+            var jobRequest = _context.Job_Request
+                .Where(e => e.JobRequest_Id == requestID)
+                .Include(e => e.Employee)
+                .ThenInclude(e => e.User)
+                .FirstOrDefault();
 
-            ViewBag.jobRequestID = jobRequest.JobRequest_Id;
+            if (jobRequest == null)
+                return Content("Something went wrong!");
 
-            if (profile == null)
-                return Content("something wrong!");
-
-            return View(profile);
+            return View(jobRequest);
         }
-
 
     }
 }

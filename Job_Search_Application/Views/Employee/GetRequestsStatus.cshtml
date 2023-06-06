@@ -31,7 +31,7 @@
                         </div>
                         <br />
                         <div class="card-header">
-                            <h5> <a href="/Job/JobsApplication/@item.Job.Jobs_Id">@item.Job.Title</a></h5>
+                            <h5> <a href="/Job/JobsApplication/@item.JobId">@item.Job.Title</a></h5>
                             <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
                         </div>
                         <div class="card-body">
@@ -53,9 +53,7 @@
                 </div>
                 <br />
             }
-            else
-            {
-                if (item.Request_Status == "rejected")
+            if (item.Request_Status == "rejected")
                 {
                    
                     <div class="row d-flex justify-content-center">
@@ -65,7 +63,8 @@
                             </div>
                             <br />
                             <div class="card-header">
-                                <h5> <a href="/Job/JobsApplication/@item.Job.Jobs_Id">@item.Job.Title</a></h5>
+                            <h5> <a href="/Job/JobsApplication/@item.JobId">@item.Job.Title</a></h5>
+
                                 <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
                             </div>
                             <div class="card-body">
@@ -87,8 +86,8 @@
                     </div>
                     <br />
                 }
-                else
-                {
+                if (item.Request_Status == "accepted")
+                    {
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
 
@@ -97,8 +96,8 @@
                             </div>
                             <br />
                             <div class="card-header">
-                                <h5> <a href="/Job/JobsApplication/@item.Job.Jobs_Id">@item.Job.Title</a></h5>
-                                <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                            <h5> <a href="/Job/JobsApplication/@item.JobId">@item.Job.Title</a></h5>
+                            <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
                             </div>
                             <div class="card-body">
                                 <p class="text-capitalize">@item.Job.Job_Location</p>
@@ -114,13 +113,16 @@
 
                             </div>
                             <br />
+                        @Html.ActionLink("View Request", "GetJobsApplied", "Employee", new { id = item.EmployerId, requestID = item.JobRequest_Id }, new { @class = "btn btn-primary" })
+
                         </div>
 
                     </div>
                     <br />
                 }
-            }
         }
+        
+        
 
     }
 </div>
@@ -139,4 +141,5 @@
             });
         });
     </script>
+   
 }

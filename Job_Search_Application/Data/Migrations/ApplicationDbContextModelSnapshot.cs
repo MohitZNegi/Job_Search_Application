@@ -211,6 +211,9 @@ namespace Job_Search_Application.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Rejected")
+                        .HasColumnType("int");
+
                     b.Property<int>("ReviewedCandidates")
                         .HasColumnType("int");
 
@@ -218,6 +221,9 @@ namespace Job_Search_Application.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Views")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Withdrawn")
                         .HasColumnType("int");
 
                     b.HasKey("JobAnalysis_Id");
@@ -242,6 +248,13 @@ namespace Job_Search_Application.Data.Migrations
                     b.Property<string>("EmployerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("InterviewRequest_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InterviewRequest_Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobId")
                         .IsRequired()

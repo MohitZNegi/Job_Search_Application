@@ -79,8 +79,10 @@ namespace Job_Search_Application.Controllers.API
                 request.JobId = selectedJob.Jobs_Id;
                 request.EmployeeId = userId;
                 request.Request_Status = "pending";
+                request.InterviewRequest_Status = "null";
 
-                _context.Job_Request.Add(request);
+
+            _context.Job_Request.Add(request);
                 _context.SaveChanges();
 
 
@@ -151,11 +153,58 @@ namespace Job_Search_Application.Controllers.API
 
                 return applyRequests;
             }
+        [HttpPut]
+        public IActionResult AcceptRequest(string id)
+        {
+            var request = _context.Job_Request.Where(r => r.JobRequest_Id == id).FirstOrDefault();
+
+            if (request == null)
+                return NotFound();
+
+            request.InterviewRequest_Status = "accepted";
+            _context.SaveChanges();
 
 
 
-
+            return Ok();
         }
+        [HttpPut]
+        public IActionResult DeclineRequest(string id)
+        {
+            var request = _context.Job_Request.Where(r => r.JobRequest_Id == id).FirstOrDefault();
+
+            if (request == null)
+                return NotFound();
+
+            request.InterviewRequest_Status = "declined";
+            _context.SaveChanges();
+            // Increment the reviewed and selected count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = request.Job.PublisherId,
+                    JobId = request.JobId,
+                    Views = 0,
+                    Applies = 0,
+                    ReviewedCandidates = 0,
+                    SelectedCandidates = 0,
+                    InterviewedCandidates = 0,
+                    Withdrawn = 1 // Increment the interviewed and selected count by 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.Withdrawn++; // Increment the interviewed and selected count by 1
+            }
+            _context.SaveChanges();
+            return Ok();
+        }
+
+
+    }
     }
 
 
