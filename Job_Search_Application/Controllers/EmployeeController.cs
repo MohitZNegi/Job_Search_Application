@@ -187,26 +187,42 @@ namespace Job_Search_Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateAsync(EmployeeProfileViewModel UserVM)
         {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var pdfresult = await _photoService.AddPhotoAsync(UserVM.Resume);
-            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
-            var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
-            var viewModel = new Employee_Model
+            if (ModelState.IsValid)
             {
-                First_name = UserVM.First_name,
-                Last_name = UserVM.Last_name,
-                birthDate = UserVM.birthDate,
-                Gender = UserVM.Gender,
-                ProfileImage = result.Url.ToString(),
-                Resume = pdfresult.Url.ToString(),
-            };
-            _context.SaveChanges();
+                var userId = _userManager.GetUserId(HttpContext.User);
+                var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
+                var pdfresult = await _photoService.AddPhotoAsync(UserVM.Resume);
+                var profile = _context.Employee.Single(e => e.Employee_Id == userId);
 
-            return RedirectToAction("Index", "Home");
+                profile.First_name = UserVM.First_name;
+                profile.Last_name = UserVM.Last_name;
+                profile.birthDate = UserVM.birthDate;
+                profile.Gender = UserVM.Gender;
+                profile.ProfileImage = result.Url.ToString();
+                profile.Resume = pdfresult.Url.ToString();
 
+                _context.Employee.Update(profile);
+                _context.SaveChanges();
 
+                var viewModel = new Employee_Model
+                {
+                    First_name = profile.First_name,
+                    Last_name = profile.Last_name,
+                    birthDate = profile.birthDate,
+                    Gender = profile.Gender,
+                    ProfileImage = profile.ProfileImage,
+                    Resume = profile.Resume
+                };
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            // If the ModelState is not valid, you can return the view with the provided viewModel to display validation errors
+            return View(UserVM);
         }
 
 
     }
+
+
 }

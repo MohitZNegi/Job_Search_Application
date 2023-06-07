@@ -47,7 +47,7 @@ namespace Job_Search_Application.ViewModels
         [Display(Name = "Date Of Birth")]
         public DateTime birthDate { get; set; }
         [Display(Name = "Profile Image")]
-        public IFormFile ProfileImage { get; set; }
+        public IFormFile? ProfileImage { get; set; }
 
         [Display(Name = "Resume")]
         public IFormFile Resume { get; set; }

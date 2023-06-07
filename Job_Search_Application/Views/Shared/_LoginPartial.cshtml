@@ -1,15 +1,27 @@
 ﻿@using Job_Search_Application.Data;
 @using Microsoft.AspNetCore.Identity
+@using Job_Search_Application.ViewModels
 @inject SignInManager<ApplicationUsers> SignInManager
 @inject UserManager<ApplicationUsers> UserManager
 
+<style>
+    .navbar-middle {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a  class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+            <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFYeg6gVBB9s29sFcyBvh2qwM2KL0ZgXuYuYph8XB0oA&s" class="rounded-circle d-flex justify-content-center" style="width: 50px; height: 50px;" />
+            </a>
     </li>
-    <li class="nav-item">
+        <li class="navbar-middle">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button  type="submit" class="nav-link btn btn-link text-white">Logout</button>
         </form>

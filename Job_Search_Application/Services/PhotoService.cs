@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Job_Search_Application.Helpers;
 using Job_Search_Application.Interfaces;
+using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.Extensions.Options;
 
 namespace Job_Search_Application.Services
@@ -22,17 +23,43 @@ namespace Job_Search_Application.Services
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
+
             if (file.Length > 0)
             {
                 using var stream = file.OpenReadStream();
-                var UploadParams = new ImageUploadParams
+                var uploadParams = new ImageUploadParams
                 {
                     File = new FileDescription(file.FileName, stream),
                     Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
                 };
-                uploadResult = await _Cloudinary.UploadAsync(UploadParams);
+                uploadResult = await _Cloudinary.UploadAsync(uploadParams);
             }
+
+            if (uploadResult.Url == null)
+            {
+                Uri defaultImageUrl = new(GetDefaultProfilePictureUrl());
+                uploadResult.Url = defaultImageUrl;
+                uploadResult.PublicId = null; // Set public ID to null for default image
+            }
+
             return uploadResult;
+        }
+
+        private string GetDefaultProfilePictureUrl()
+        {
+
+            var transformation = new Transformation()
+                .Width(150) // Adjust the width as per your requirement
+                .Height(150) // Adjust the height as per your requirement
+                .Crop("fill")
+                .Gravity("auto")
+                .Radius("max")
+                .Effect("sharpen", 100); // Apply any desired effects
+
+            var defaultImageUrl = _Cloudinary.Api.UrlImgUp.Transform(transformation)
+                                      .BuildUrl("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFYeg6gVBB9s29sFcyBvh2qwM2KL0ZgXuYuYph8XB0oA&s");
+
+            return defaultImageUrl;
         }
 
         public async Task<DeletionResult> DeletePhotoAsync(string publicId)
