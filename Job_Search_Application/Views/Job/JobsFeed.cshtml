@@ -4,7 +4,6 @@
 @using System.Linq;
 @using System.Web;
 
-
 @model IPagedList<Job_Search_Application.Models.Jobs_Model>;
 @{
     ViewData["Title"] = "Published Job";
@@ -15,113 +14,183 @@
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
 <div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
     <br />
-    <div class="col-md-9 ">
-        <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
+
+    <div class="col-md-12">
+        <form class="d-flex" method="get" id="jobSearchForm">
+            <input class="form-control me-sm-2" type="search" name="searchTerm1" id="jobTitleInput" placeholder="Job title">
+              <div class="search-dropdown" name="searchTerm2">
+                <ul id="locationDropdown"></ul>
+            </div>
+            <input class="form-control me-sm-2" type="search" id="locationSearch" name="searchTerm2" placeholder="Location">
+          
+
+            <select class="form-control me-sm-2" name="searchTerm3" id="jobTypeSelect">
+                <option value="">All Job Types</option>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Contract">Contract</option>
+            </select>
+            <select class="form-control me-sm-2" name="searchTerm4" id="scheduleSelect">
+                <option value="">All Schedules</option>
+                <option value="Morning Shift">Morning Shift</option>
+                <option value="Afternoon Shift">Afternoon Shift</option>
+                <option value="Evening Shift">Evening Shift</option>
+                <option value="Flexible Schedule">Flexible Schedule</option>
+                <!-- Add more schedule options here -->
+            </select>
+
+            <select class="form-control me-sm-2" name="searchTerm5" id="classificationSelect">
+                <option value="">All Classifications</option>
+                <option value="Entry-Level">Entry-Level</option>
+                <option value="Mid-Level">Mid-Level</option>
+                <option value="Senior-Level">Senior-Level</option>
+            </select>
+                <select class="form-control me-sm-2 custom-select" name="searchTerm6" id="salarySelect">
+                    <option value="">All Salaries</option>
+                    <optgroup label="Hourly">
+                        <option value="Below $20 per hour">Below $20 per hour</option>
+                        <option value="$20 - $30 per hour">$20 - $30 per hour</option>
+                        <option value="$30 - $40 per hour">$30 - $40 per hour</option>
+                        <!-- Add more hourly options here -->
+                    </optgroup>
+                    <optgroup label="Annually">
+                        <option value="Below $50000">Below $50,000</option>
+                        <option value="$50000 - $100000">$50,000 - $100,000</option>
+                        <option value="$100000 - $150000">$100,000 - $150,000</option>
+                        <!-- Add more annual options here -->
+                    </optgroup>
+                </select>
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
-
-
     </div>
-    <br />
 
+    <br />
     <h3>Your listings</h3>
     <br />
-
     <br />
 
-
-
-    @foreach (var item in Model)
+    @if (Model.Any())
     {
-
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
-                <br />
-                <div class="card-header">
-                    <p>Posted @CalculateDaysAgo(item.PublishDate) ago</p>
-                    <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
-                    <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+        @foreach (var item in Model)
+        {
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+                    <br />
+                    <div class="card-header">
+                        <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
+                        <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-capitalize">@item.Job_Location</p>
+                        <p class="text-capitalize d-inline">@item.Job_Schedule</p>
+                        <p class="text-capitalize">@item.Job_Type</p>
+                        <p class="text-capitalize"> @item.Classification</p>
+                        <p class="text-capitalize">@item.Salary</p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;">@item.Job_Details</p>
+                    </div>
+                    <br />
                 </div>
-                <div class="card-body">
-                    <p class="text-capitalize">@item.Job_Location</p>
-                    <p class="text-capitalize d-inline">@item.Job_Schedule</p>
-                    <p class="text-capitalize">@item.Job_Type</p>
-                    <p class="text-capitalize"> @item.Classification</p>
-                    <p class="text-capitalize">@item.Salary</p>
-                </div>
-
-                <div class="card-footer">
-
-                    <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job_Details</p>
-
-                </div>
-                <br />
             </div>
-
-        </div>
-        <br />
-
-
-
-
+            <br />
+        }
+    }
+    else
+    {
+        <p>No jobs found.</p>
     }
 
     <br />
     <br />
 </div>
 
-
-
-<div class="pagination">
-
-    @Html.PagedListPager(Model,page => Url.Action("JobsFeed",new { page}))
-
-
+<div class="pagination" style="display: flex; justify-content: center; margin-top: 20px;">
+    @Html.PagedListPager(Model, page => Url.Action("JobsFeed", new { page }))
 </div>
-@functions {
-        public string CalculateDaysAgo(DateTime? publishDate)
-        {
-            if (publishDate.HasValue)
-            {
-                var currentDate = DateTime.Now;
-                var timeAgo = currentDate - publishDate.Value;
-                string result;
 
-                if (timeAgo.Days > 1)
-                {
-                    result = $"{timeAgo.Days} days";
-                }
-                else if (timeAgo.Days == 1)
-                {
-                    result = "1 day";
-                }
-                else if (timeAgo.Hours > 1)
-                {
-                    result = $"{timeAgo.Hours} hours";
-                }
-                else if (timeAgo.Hours == 1)
-                {
-                    result = "1 hour";
-                }
-                else if (timeAgo.Minutes > 1)
-                {
-                    result = $"{timeAgo.Minutes} minutes";
-                }
-                else
-                {
-                    result = "just now";
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function () {
+        var cities = [
+            "Auckland", "Wellington", "Christchurch" // Add more city options here
+        ];
+
+        $("#locationSearch").on("input", function () {
+            var value = $(this).val().toLowerCase();
+            var dropdown = $("#locationDropdown");
+            dropdown.empty();
+
+            if (value.length > 0) {
+                var matchingCities = cities.filter(function (city) {
+                    return city.toLowerCase().includes(value);
+                });
+
+                if (matchingCities.length > 0) {
+                    matchingCities.forEach(function (city) {
+                        var listItem = $("<li>").text(city);
+                        dropdown.append(listItem);
+                    });
+                } else {
+                    var listItem = $("<li>").text("No matching cities").addClass("disabled");
+                    dropdown.append(listItem);
+
                 }
 
-                return result;
+                dropdown.show();
+            } else {
+                dropdown.hide();
             }
+        });
 
-            return string.Empty; // or any default value you prefer
+        $("#locationDropdown").on("click", "li:not(.disabled)", function () {
+            var selectedCity = $(this).text();
+            $("#locationSearch").val(selectedCity);
+            $("#locationDropdown").hide();
+        });
+
+        $(document).on("click", function (event) {
+            if (!$(event.target).closest(".search-dropdown").length) {
+                $("#locationDropdown").hide();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Restore input field values from sessionStorage
+        $('#jobTitleInput').val(sessionStorage.getItem('jobTitle'));
+        $('#locationSearch').val(sessionStorage.getItem('location'));
+        $('#jobTypeSelect').val(sessionStorage.getItem('jobType'));
+        $('#classificationSelect').val(sessionStorage.getItem('classification'));
+        $('#salarySelect').val(sessionStorage.getItem('salary'));
+        $('#scheduleSelect').val(sessionStorage.getItem('schedule'));
+
+        // Store input field values in sessionStorage on form submission
+        $('#jobSearchForm').on('submit', function () {
+            sessionStorage.setItem('jobTitle', $('#jobTitleInput').val());
+            sessionStorage.setItem('location', $('#locationSearch').val());
+            sessionStorage.setItem('jobType', $('#jobTypeSelect').val());
+            sessionStorage.setItem('classification', $('#classificationSelect').val());
+            sessionStorage.setItem('salary', $('#salarySelect').val());
+            sessionStorage.setItem('schedule', $('#scheduleSelect').val());
+        });
+    });
+</script>
+
+
+<script>
+    $(function () {
+        // Adjust the width of the dropdown to match the input field
+        function adjustDropdownWidth() {
+            var inputWidth = $('#locationSearch').outerWidth();
+            $('#locationDropdown').css('width', inputWidth);
         }
-}
 
+        // Call the adjustDropdownWidth function when the window is resized
+        $(window).on('resize', adjustDropdownWidth);
 
-
-
-
-
+        // Call the adjustDropdownWidth function initially
+        adjustDropdownWidth();
+    });
+</script>
