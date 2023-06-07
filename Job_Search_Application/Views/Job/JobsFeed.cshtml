@@ -18,18 +18,15 @@
 <style>
 
 
-    body {
-        background: linear-gradient(to bottom, #1f4068, #4d4d4d);
-        font-family: 'Dosis', sans-serif;
-    }
-
 
 </style>
 <body>
 <br />
 <br />
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
-<div class="container shadow" style=" background-color:rgb(150, 165, 234); border-radius:20px;">
+    <div class="container shadow" style="background:linear-gradient(to bottom, #007bff, white); border-radius: 10px; margin-top: 20px;">
+
+        
     <br />
     <div class="col-md-9 ">
         <form class="d-flex">
@@ -56,10 +53,10 @@
     {
 
         <div class="row d-flex justify-content-center">
-            <div class="col-md-10 shadow" style="background: linear-gradient(to bottom, powderblue,  #4d4d4d); border-radius:20px;">
+            <div class="col-md-10 shadow" style="background-color: white; border-radius:20px;">
                 <br />
                 <div class="card-header">
-                <p>Posted @CalculateDaysAgo(item.PublishDate) ago</p>
+                <p>Posted @CalculateDaysAgo(item.PublishDate)</p>
                     <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
                     <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
                 </div>

@@ -1,3 +1,33 @@
 ﻿body {
-    background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
+    font-family: 'Dosis', sans-serif;
 }
+
+.banner {
+    background-image: linear-gradient(rgba(0,0,0,0.75), rbga(0,0,0,0.75)), url("https://cdn.decoist.com/wp-content/uploads/2020/08/Charming-tropical-style-home-office-in-black-with-custom-wooden-decor-98299-870x520.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.navbar-nav .nav-link {
+    position: relative;
+    transition: color 0.3s;
+}
+
+    .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: white;
+        transition: width 0.3s;
+    }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+    .navbar-nav .nav-link:hover {
+        transform: scale(1.1);
+    }

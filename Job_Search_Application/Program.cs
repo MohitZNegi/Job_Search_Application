@@ -1,9 +1,6 @@
 using Job_Search_Application.Data;
-<<<<<<< HEAD
-=======
 using Job_Search_Application.Helpers;
 using Job_Search_Application.Interfaces;
->>>>>>> origin/User_Profile_UploadFiles
 using Job_Search_Application.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

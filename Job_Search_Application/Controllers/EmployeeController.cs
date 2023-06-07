@@ -143,13 +143,13 @@ namespace Job_Search_Application.Controllers
                     UserId = userId
                 };
 
-<<<<<<< HEAD
+
                 _context.Employee.Add(employee);
                 _context.SaveChanges();
-=======
+
                 await _context.Employee.AddAsync(employee);
                 await _context.SaveChangesAsync();
->>>>>>> origin/User_Profile_UploadFiles
+
 
                 ViewBag.UserProfile = null;
                 ViewBag.comProfile = null;

@@ -7,14 +7,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
 using MessagePack.Internal;
 using X.PagedList.Mvc;
 using X.PagedList;
 using System.Net;
-=======
 using Job_Search_Application.Interfaces;
->>>>>>> origin/User_Profile_UploadFiles
 using Job_Search_Application.Services;
 
 namespace Job_Search_Application.Controllers
@@ -26,34 +23,34 @@ namespace Job_Search_Application.Controllers
         private readonly UserManager<ApplicationUsers> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
-<<<<<<< HEAD
+
         private readonly AnalyticsService _analyticsService;
-=======
+
         private readonly IPhotoService _photoService;
->>>>>>> origin/User_Profile_UploadFiles
+        
 
         public EmployerController(
             ApplicationDbContext context,
             UserManager<ApplicationUsers> userManager,
             RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
-<<<<<<< HEAD
-           AnalyticsService analyticsService
-=======
+
+           AnalyticsService analyticsService,
+
             IPhotoService photoService
->>>>>>> origin/User_Profile_UploadFiles
+            
             )
         {
             _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
             _emailSender = emailSender;
-<<<<<<< HEAD
+
             _analyticsService = analyticsService;
 
-=======
+
             _photoService = photoService;
->>>>>>> origin/User_Profile_UploadFiles
+         
         }
 
         [Authorize(Roles = "Employer")]
