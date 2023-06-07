@@ -64,7 +64,7 @@
         {
             var user = await UserManager.GetUserAsync(User);
             var roles = await UserManager.GetRolesAsync(user);
-            if (roles.Contains("Employer"))
+            if (roles.Contains("Employer") || roles.Contains("Admin") )
             {
                 <button disabled class="btn btn-primary apply-btn" style="display:none">
                     Apply Now
@@ -75,6 +75,8 @@
                 <button data-job-id="@Model.Jobs_Id" class="btn btn-primary apply-btn js-apply-request">
                     Apply Now
                 </button>
+                <button id="saveButton" class="btn btn-primary" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                <button id="unsaveButton" class="btn btn-primary" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
             }
         }
         else
@@ -90,7 +92,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
+   
 
+ 
     <script>
         function redirectToLogin() {
             window.location.href = "/Identity/Account/Login";
@@ -166,6 +170,74 @@
                 });
             });
         });
+    </script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+       <script>
+        $(document).ready(function () {
+            var jobId = '@Model.Jobs_Id';
+
+            // Check if the job is already saved
+            $.ajax({
+                url: '/Employee/CheckSavedJob',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function (response) {
+                    if (response === true) {
+                        // Job is saved, hide the save button and show the unsave button
+                        $('#saveButton').hide();
+                        $('#unsaveButton').show();
+                    } else {
+                        // Job is not saved, show the save button and hide the unsave button
+                        $('#saveButton').show();
+                        $('#unsaveButton').hide();
+                    }
+                },
+                error: function () {
+                    // Handle the error response, e.g., show an error message
+                    alert('An error occurred while checking if the job is saved.');
+                }
+            });
+        });
+
+        function saveJob(jobId) {
+            // Send an AJAX request to save the job
+            $.ajax({
+                url: '/Employee/SaveJob',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function () {
+                    // Handle the success response, e.g., show a success message
+
+                    // Hide the save button and show the unsave button
+                    $('#saveButton').hide();
+                    $('#unsaveButton').show();
+                },
+                error: function () {
+                    // Handle the error response, e.g., show an error message
+                    alert('An error occurred while saving the job.');
+                }
+            });
+        }
+
+        function unsaveJob(jobId) {
+            // Send an AJAX request to unsave the job
+            $.ajax({
+                url: '/Employee/UnsaveJob',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function () {
+                    // Handle the success response, e.g., show a success message
+
+                    // Hide the unsave button and show the save button
+                    $('#unsaveButton').hide();
+                    $('#saveButton').show();
+                },
+                error: function () {
+                    // Handle the error response, e.g., show an error message
+                    alert('An error occurred while unsaving the job.');
+                }
+            });
+        }
     </script>
     
 }

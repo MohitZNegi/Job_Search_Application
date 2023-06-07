@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using System.Net;
 using Job_Search_Application.Interfaces;
 using Job_Search_Application.Models;
+using X.PagedList;
 
 namespace Job_Search_Application.Controllers
 {
@@ -233,5 +234,87 @@ namespace Job_Search_Application.Controllers
 
             return View(jobRequest);
         }
+        public IActionResult SavedJobs(int? page)
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+            // Retrieve the saved jobs for the user
+            var savedJobs = _context.SavedJobs
+                .Where(sj => sj.EmployeeId == userId)
+                .Include(sj => sj.Job).Include(sj => sj.Employer) // Include the related Job entity
+                .ToList();
+
+            // Pass the saved jobs to the view
+            return View(savedJobs.ToPagedList(page ?? 1, 3));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveJob(string jobId)
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+            var job = _context.Jobs.Include(e => e.Employer).Where(j => j.Jobs_Id == jobId).FirstOrDefault();
+
+            // Create a new SavedJob instance
+            var savedJob = new SavedJobs_Model
+            {
+                JobId = jobId,
+                EmployeeId = userId,
+                EmployerId = job.PublisherId
+
+            };
+
+            // Save the job to the database
+            _context.SavedJobs.Add(savedJob);
+            await _context.SaveChangesAsync();
+
+            // Redirect or return a response indicating success
+            return RedirectToAction("SavedJobs", "Employee");
+        }
+        [HttpPost]
+        public IActionResult UnsaveJob(string jobId)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+            // Retrieve the saved job from the database
+            var savedJob = _context.SavedJobs.SingleOrDefault(j => j.JobId == jobId && j.EmployeeId == userId);
+
+            if (savedJob != null)
+            {
+                // Remove the saved job from the database
+                _context.SavedJobs.Remove(savedJob);
+                _context.SaveChanges();
+
+                // Return a response indicating success, or perform any additional logic
+                return Ok();
+            }
+            else
+            {
+                // Return a response indicating that the job was not found or was already unsaved
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CheckSavedJob(string jobId)
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            // Check if the job is saved by the current user
+            var isSaved = _context.SavedJobs.Any(s => s.JobId == jobId && s.EmployeeId == userId);
+
+            // Return the result as a JSON response
+            return Json(isSaved);
+        }
+
     }
 }
