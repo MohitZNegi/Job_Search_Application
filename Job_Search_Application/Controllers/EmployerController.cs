@@ -47,7 +47,7 @@ namespace Job_Search_Application.Controllers
         public ActionResult ViewProfile(string id)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var CheckIfEmployerHasProfile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
             var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
 
             if (profile == null)
@@ -55,16 +55,21 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            if (CheckIfEmployerHasProfile != null)
+            var viewModel = new Employer_Model
             {
 
-                var viewModel = new EmployeeProfileViewModel();
+                Company_Name = profile.Company_Name,
+                Company_CEO = profile.Company_CEO,
+                Company_Description = profile.Company_Description,
+                Company_Industry = profile.Company_Industry,
+                Company_Logo = profile.Company_Logo,
+                Company_URL = profile.Company_URL,
+                Company_Banner = profile.Company_Banner,
+                Location = profile.Location,
 
+            };
 
-                return View(viewModel);
-            }
-
-            return View();
+            return View(viewModel);
         }
 
         [Authorize(Roles = "Employer")]
@@ -128,10 +133,6 @@ namespace Job_Search_Application.Controllers
                 await _context.Employer.AddAsync(employer);
                 await _context.SaveChangesAsync();
 
-                ViewBag.UserProfile = null;
-                ViewBag.comProfile = null;
-                ViewBag.empProfile = employerProfile;
-
                 return RedirectToAction("Index", "Home");
 
             }
@@ -142,7 +143,6 @@ namespace Job_Search_Application.Controllers
         public ActionResult Update(string id)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var CheckIfEmployerHasProfile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
 
 
             var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
@@ -152,20 +152,25 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            if (CheckIfEmployerHasProfile != null)
+            var viewModel = new EmployerProfileViewModel
             {
 
-                var viewModel = new EmployerProfileViewModel();
+                Company_Name = profile.Company_Name,
+                    Company_CEO = profile.Company_CEO,
+                    Company_Description = profile.Company_Description,
+                    Company_Industry = profile.Company_Industry,
+                    //Company_Logo = profile.Company_Logo,
+                    Company_URL = profile.Company_URL,
+                    //Company_Banner = profile.Company_Banner,
+                    Location = profile.Location,
 
+            };
 
-                return View(viewModel);
-            }
-
-            return View();
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateAsync(EmployerProfileViewModel viewModel)
+        public async Task<ActionResult> UpdateAsync(EmployerProfileViewModel viewModel)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var result = await _photoService.AddPhotoAsync(viewModel.Company_Logo);
@@ -173,17 +178,16 @@ namespace Job_Search_Application.Controllers
 
             var profile = _context.Employer.Single(e => e.Employer_Id == userId);
 
-            var employer = new Employer_Model
-            {
-                Company_Name = viewModel.Company_Name,
-                Company_CEO = viewModel.Company_CEO,
-                Company_Description = viewModel.Company_Description,
-                Company_Logo = result.Url.ToString(),
-                Company_URL = viewModel.Company_URL,
-                Company_Banner = bannerresult.Url.ToString(),
-                Company_Industry = viewModel.Company_Industry,
-                Location = viewModel.Location
-            };
+
+            profile.Company_Name = viewModel.Company_Name;
+            profile.Company_CEO = viewModel.Company_CEO;
+            profile.Company_Description = viewModel.Company_Description;
+            profile.Company_Logo = result.Url.ToString();
+            profile.Company_URL = viewModel.Company_URL;
+            profile.Company_Banner = bannerresult.Url.ToString();
+            profile.Company_Industry = viewModel.Company_Industry;
+            profile.Location = viewModel.Location;
+
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");

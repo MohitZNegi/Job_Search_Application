@@ -153,8 +153,8 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, Roles.Employer.ToString());
                     }
-                   
-                   //  await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+
+                    //  await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -172,13 +172,21 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        await _emailSender.SendEmailAsync(
+                    Input.Email,
+                    "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                            TempData["ConfirmEmailMessage"] = "A confirmation email has been sent to your email address. Please confirm your email before logging in.";
+                        return RedirectToPage("Login", new { returnUrl = returnUrl });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        TempData["ConfirmEmailMessage"] = "Registration successful. A confirmation email has been sent to your email address. Please confirm your email before logging in.";
+                        return RedirectToPage("Login", new { returnUrl = returnUrl });
                     }
+
+                
                 }
                 foreach (var error in result.Errors)
                 {
