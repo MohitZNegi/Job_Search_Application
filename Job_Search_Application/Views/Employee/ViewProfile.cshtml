@@ -1,13 +1,30 @@
-﻿@model Job_Search_Application.ViewModels.EmployeeProfileViewModel;
+﻿@model Employee_Model;
 @{
     ViewData["Title"] = "Profile";
 }
 
+<style>
+    body {
+        background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
+    }
 
+    .registration-form {
+        padding: 50px 0;
+    }
 
+        .registration-form form {
+            background-color: #fff;
+            max-width: 600px;
+            margin: auto;
+            padding: 50px 70px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+        }
+</style>
 <br />
 <br />
-<div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+<div class="container shadow" style="background: linear-gradient(to bottom, #007bff, white); border-radius:20px; max-width:800px;">
     <div class="row d-flex justify-content-center">
         <h1 style="text-align: center; color:aliceblue;">Your Profile</h1>
 
@@ -16,16 +33,12 @@
             <hr />
             <div class="col " style="border-radius:30px;">
                 <br />
-                <img src="/resources/websitefiles/profile_default.png" />
+                <img class="img-fluid" src="@Model.ProfileImage" alt="lol">
                 <br />
             </div>
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.ProfileImage): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.ProfileImage) </p>
-                    <br />
-                </div>
+               
         </div>
+
     
     <div class="col-md-4">
             <hr />
@@ -68,16 +81,10 @@
                     <p> @Html.DisplayFor(modelItem => modelItem.Address) </p>
                     <br />
                 </div>
-
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.Resume): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Resume) </p>
-                    <br />
-                </div>
+                <a href="@Model.Resume" data-lightbox="@Model.Resume" data-title="My caption">@Model.Resume</a>
             </div>
             <fieldset>
-                <a asp-controller="Employee" asp-action="Update" class="btn btn-primary">Edit Profile</a>
+                <a asp-controller="Employee" asp-action="Update" class="w-100 btn btn-lg btn-success shadow  " style="background-color:#3C9AFF; color:white" id="save">Edit Profile</a>
             </fieldset>
            </div>
    

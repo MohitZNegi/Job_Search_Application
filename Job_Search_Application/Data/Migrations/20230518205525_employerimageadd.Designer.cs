@@ -4,6 +4,7 @@ using Job_Search_Application.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Search_Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230518205525_employerimageadd")]
+    partial class employerimageadd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,9 +169,6 @@ namespace Job_Search_Application.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -188,174 +187,6 @@ namespace Job_Search_Application.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Employer");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.EmployerReviewRequest_Model", b =>
-                {
-                    b.Property<string>("JobReviewRequest_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EmployerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsReviewed")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("Request_Date")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("JobReviewRequest_Id");
-
-                    b.HasIndex("EmployerId");
-
-                    b.ToTable("EmployerReviewRequest");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.JobAnalytics_Model", b =>
-                {
-                    b.Property<string>("JobAnalysis_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Applies")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EmployerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("HiredCandidates")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InterviewedCandidates")
-                        .HasColumnType("int");
-
-                    b.Property<string>("JobId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Rejected")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReviewedCandidates")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SelectedCandidates")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Views")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Withdrawn")
-                        .HasColumnType("int");
-
-                    b.HasKey("JobAnalysis_Id");
-
-                    b.HasIndex("EmployerId");
-
-                    b.HasIndex("JobId");
-
-                    b.ToTable("Job_Analytics");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.JobRequest_Model", b =>
-                {
-                    b.Property<string>("JobRequest_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("EmployerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("InterviewRequest_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InterviewRequest_Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JobId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("Request_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Request_Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("JobRequest_Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.HasIndex("EmployerId");
-
-                    b.HasIndex("JobId");
-
-                    b.ToTable("Job_Request");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.Jobs_Model", b =>
-                {
-                    b.Property<string>("Jobs_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Classification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeactivationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPublished")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Job_Details")
-                        .IsRequired()
-                        .HasMaxLength(1500)
-                        .HasColumnType("nvarchar(1500)");
-
-                    b.Property<string>("Job_Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job_Schedule")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job_Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PublishDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PublisherId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Salary")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Jobs_Id");
-
-                    b.HasIndex("PublisherId");
-
-                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -523,74 +354,6 @@ namespace Job_Search_Application.Data.Migrations
                     b.Navigation("User");
 
                     b.Navigation("UserData");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.EmployerReviewRequest_Model", b =>
-                {
-                    b.HasOne("Job_Search_Application.Models.Employer_Model", "Employer")
-                        .WithMany()
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employer");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.JobAnalytics_Model", b =>
-                {
-                    b.HasOne("Job_Search_Application.Models.Employer_Model", "Employer")
-                        .WithMany()
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Job_Search_Application.Models.Jobs_Model", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employer");
-
-                    b.Navigation("Job");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.JobRequest_Model", b =>
-                {
-                    b.HasOne("Job_Search_Application.Models.Employee_Model", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Job_Search_Application.Models.Employer_Model", "Employer")
-                        .WithMany()
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Job_Search_Application.Models.Jobs_Model", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Employer");
-
-                    b.Navigation("Job");
-                });
-
-            modelBuilder.Entity("Job_Search_Application.Models.Jobs_Model", b =>
-                {
-                    b.HasOne("Job_Search_Application.Models.Employer_Model", "Employer")
-                        .WithMany()
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
