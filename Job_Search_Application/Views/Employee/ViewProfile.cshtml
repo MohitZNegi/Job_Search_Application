@@ -1,4 +1,4 @@
-﻿@model Job_Search_Application.ViewModels.EmployeeProfileViewModel;
+﻿@model Employee_Model;
 @{
     ViewData["Title"] = "Profile";
 }
@@ -16,16 +16,13 @@
             <hr />
             <div class="col " style="border-radius:30px;">
                 <br />
-                <img src="/resources/websitefiles/profile_default.png" />
+                <img class="img-thumbnail rounded-circle" src="@Model.ProfileImage" alt="lol">
                 <br />
+              
             </div>
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.ProfileImage): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.ProfileImage) </p>
-                    <br />
-                </div>
+               
         </div>
+
     
     <div class="col-md-4">
             <hr />
@@ -68,17 +65,12 @@
                     <p> @Html.DisplayFor(modelItem => modelItem.Address) </p>
                     <br />
                 </div>
-
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.Resume): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Resume) </p>
-                    <br />
-                </div>
+                <a href="@Model.Resume" data-lightbox="@Model.Resume" data-title="My caption">@Model.Resume</a>
             </div>
             <fieldset>
                 <a asp-controller="Employee" asp-action="Update" class="btn btn-primary">Edit Profile</a>
             </fieldset>
+            <br />
            </div>
    
        

@@ -1,4 +1,4 @@
-﻿@model Job_Search_Application.ViewModels.EmployerProfileViewModel;
+﻿@model Employer_Model;
 @{
     ViewData["Title"] = "Profile";
 }
@@ -16,14 +16,9 @@
             <hr />
             <div class="col " style="border-radius:30px;">
                 <br />
-                <img src="/resources/websitefiles/profile_default.png" />
+                <img class="img-thumbnail rounded-circle" src="@Model.Company_Logo" alt="">
                 <br />
-            </div>
-            <div class="col " style="border-radius:30px;">
-                <br />
-                <h5>  @Html.DisplayNameFor(model => model.Company_Logo): </h5>
-                <p> @Html.DisplayFor(modelItem => modelItem.Company_Logo) </p>
-                <br />
+
             </div>
         </div>
 
@@ -79,7 +74,7 @@
                 <div class="col " style="border-radius:30px;">
                     <br />
                     <h5>  @Html.DisplayNameFor(model => model.Company_Banner): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Banner) </p>
+                    <a href="@Model.Company_Banner" data-lightbox="@Model.Company_Banner" data-title="My caption">@Model.Company_Banner</a>
                     <br />
                 </div>
             </div>

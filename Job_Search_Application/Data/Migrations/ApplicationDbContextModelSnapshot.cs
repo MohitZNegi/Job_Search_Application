@@ -109,7 +109,6 @@ namespace Job_Search_Application.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProfileImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Resume")
