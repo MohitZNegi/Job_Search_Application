@@ -1,13 +1,31 @@
-﻿@model Employer_Model;
+﻿@model Job_Search_Application.ViewModels.EmployerProfileViewModel;
 @{
     ViewData["Title"] = "Profile";
 }
 
+<style>
+    body {
+        background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
+    }
 
+    .registration-form {
+        padding: 50px 0;
+    }
+
+        .registration-form form {
+            background-color: #fff;
+            max-width: 600px;
+            margin: auto;
+            padding: 50px 70px;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+        }
+</style>
 
 <br />
 <br />
-<div class="container-fluid shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+<div class="container shadow" style="background: linear-gradient(to bottom, #007bff, white); border-radius:20px; max-width:800px;">
     <div class="row d-flex justify-content-center">
         <h1 style="text-align: center; color:aliceblue;">Your Profile</h1>
 
@@ -16,9 +34,14 @@
             <hr />
             <div class="col " style="border-radius:30px;">
                 <br />
-                <img class="img-thumbnail rounded-circle" src="@Model.Company_Logo" alt="">
+                <img src="/resources/websitefiles/profile_default.png" />
                 <br />
-
+            </div>
+            <div class="col " style="border-radius:30px;">
+                <br />
+                <h5>  @Html.DisplayNameFor(model => model.Company_Logo): </h5>
+                <p> @Html.DisplayFor(modelItem => modelItem.Company_Logo) </p>
+                <br />
             </div>
         </div>
 
@@ -74,12 +97,12 @@
                 <div class="col " style="border-radius:30px;">
                     <br />
                     <h5>  @Html.DisplayNameFor(model => model.Company_Banner): </h5>
-                    <a href="@Model.Company_Banner" data-lightbox="@Model.Company_Banner" data-title="My caption">@Model.Company_Banner</a>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Company_Banner) </p>
                     <br />
                 </div>
             </div>
             <fieldset>
-                <a asp-controller="Employer" asp-action="Update" class="btn btn-primary">Edit Profile</a>
+                <a asp-controller="Employer" asp-action="Update" class="w-100 btn btn-lg btn-success shadow  " style="background-color:#3C9AFF; color:white" id="save">Edit Profile</a>
             </fieldset>
             <br />
         </div>

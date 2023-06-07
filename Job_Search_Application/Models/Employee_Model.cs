@@ -42,7 +42,7 @@ namespace Job_Search_Application.Models
         public DateTime birthDate { get; set; }
 
         [Display(Name = "Profile Image")]
-        public string? ProfileImage { get; set; }
+        public string ProfileImage { get; set; }
 
         [Display(Name = "Resume")]
         public string Resume { get; set; }

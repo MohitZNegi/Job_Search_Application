@@ -23,7 +23,7 @@ using Job_Search_Application.Data.Migrations;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.Net;
 using Job_Search_Application.Interfaces;
-
+using Job_Search_Application.Models;
 
 namespace Job_Search_Application.Controllers
 {
@@ -54,7 +54,6 @@ namespace Job_Search_Application.Controllers
         public IActionResult ViewProfile()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-
 
             var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
@@ -124,11 +123,8 @@ namespace Job_Search_Application.Controllers
             var employeeProfile = _context.Employee.Include(e => e.User).Where(e => e.Employee_Id == userId).FirstOrDefault();
             if (ModelState.IsValid && employeeProfile == null)
             {
-
-
-
-                var result = await _photoService.AddPhotoAsync(userVM.ProfileImage);
                 var pdfresult = await _photoService.AddPhotoAsync(userVM.Resume);
+                var result = await _photoService.AddPhotoAsync(userVM.ProfileImage);
 
                 var employee = new Employee_Model
                 {
@@ -162,10 +158,10 @@ namespace Job_Search_Application.Controllers
         }
 
       
-        public ActionResult Update(string id)
+        public ActionResult Update()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-
+            var CheckIfEmployeeHasProfile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
             var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
@@ -174,38 +170,34 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employee");
             }
 
-            var viewModel = new EmployeeProfileViewModel
+            if (CheckIfEmployeeHasProfile != null)
             {
-               
-                First_name = profile.First_name,
-                Last_name = profile.Last_name,
-                Address = profile.Address,
-                birthDate = profile.birthDate,
-                Gender = profile.Gender,
 
-               
-            };
+                var viewModel = new EmployeeProfileViewModel();
 
-            return View(viewModel);
+
+                return View(viewModel);
+            }
+
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateAsync(EmployeeProfileViewModel UserVM)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
             var pdfresult = await _photoService.AddPhotoAsync(UserVM.Resume);
             var profile = _context.Employee.Single(e => e.Employee_Id == userId);
-
-            profile.First_name = UserVM.First_name;
-            profile.Last_name = UserVM.Last_name;
-            profile.birthDate = UserVM.birthDate;
-            profile.Gender = UserVM.Gender;
-            profile.Address = UserVM.Address;
-            profile.ProfileImage = result.Url.ToString();
-            profile.Resume = pdfresult.Url.ToString();
-
-          
+            var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
+            var viewModel = new Employee_Model
+            {
+                First_name = UserVM.First_name,
+                Last_name = UserVM.Last_name,
+                birthDate = UserVM.birthDate,
+                Gender = UserVM.Gender,
+                ProfileImage = result.Url.ToString(),
+                Resume = pdfresult.Url.ToString(),
+            };
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
