@@ -44,5 +44,7 @@ namespace Job_Search_Application.Models
         [Display(Name = "Company Industry")]
         public string Company_Industry { get; set; }
 
+        public bool IsApproved { get; set; }
+
     }
 }
