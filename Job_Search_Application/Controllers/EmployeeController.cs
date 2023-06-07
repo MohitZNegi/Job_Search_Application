@@ -213,6 +213,33 @@ namespace Job_Search_Application.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult GetRequestsStatus()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
 
+            var applyRequests = _context.Job_Request
+                                        .Include(r => r.Job)
+                                        .Include(r => r.Employer)
+                                        .Where(r => r.EmployeeId == userId)
+                                        .ToList();
+
+            return View(applyRequests);
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetJobsApplied(string requestID)
+        {
+
+            var jobRequest = _context.Job_Request
+                .Where(e => e.JobRequest_Id == requestID)
+                .Include(e => e.Job)
+                .FirstOrDefault();
+
+            if (jobRequest == null)
+                return Content("Something went wrong!");
+
+            return View(jobRequest);
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace Job_Search_Application.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
             ViewBag.CurrentUser = userId;
             var currentDate = DateTime.Now;
-            var jobs = _context.Jobs.Include(j => j.Employer).ToList();
+            var jobs = _context.Jobs.Include(j => j.Employer).Where(j => j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
 
             if (!string.IsNullOrWhiteSpace(searchTerm1))
             {
@@ -53,25 +53,25 @@ namespace Job_Search_Application.Controllers
             else if (!string.IsNullOrWhiteSpace(searchTerm2))
             {
                 // Search by location
-                jobs = jobs.Where(j => j.Job_Location.Contains(searchTerm2) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
+                jobs = _context.Jobs.Where(j => j.Job_Location.Contains(searchTerm2) ).Include(j => j.Employer).ToList();
             }
 
-            if (!String.IsNullOrWhiteSpace(searchTerm3))
+            if (!string.IsNullOrWhiteSpace(searchTerm3))
             {
-                jobs = jobs.Where(j => j.Job_Type.Contains(searchTerm3) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
+                jobs = _context.Jobs.Where(j => j.Job_Type.Contains(searchTerm3)).Include(j => j.Employer).ToList();
             }
 
-            if (!String.IsNullOrWhiteSpace(searchTerm4))
+            if (!string.IsNullOrWhiteSpace(searchTerm4))
             {
-                jobs = jobs.Where(j => j.Job_Schedule.Contains(searchTerm4) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
+                jobs = _context.Jobs.Where(j => j.Job_Schedule.Contains(searchTerm4) && j.IsPublished == true && j.DeactivationDate > currentDate).Include(j => j.Employer).ToList();
             }
 
-            if (!String.IsNullOrWhiteSpace(searchTerm5))
+            if (!string.IsNullOrWhiteSpace(searchTerm5))
             {
-                jobs = jobs.Where(j => j.Classification.Contains(searchTerm5) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
+                jobs = _context.Jobs.Where(j => j.Classification.Contains(searchTerm5) && j.IsPublished == true && j.DeactivationDate > currentDate).Include(j => j.Employer).ToList();
             }
 
-            if (!String.IsNullOrWhiteSpace(searchTerm6))
+            if (!string.IsNullOrWhiteSpace(searchTerm6))
             {
                 // Parse the search term to numeric values
                 var searchMinSalary = 0;
@@ -95,7 +95,7 @@ namespace Job_Search_Application.Controllers
 
                 // Filter jobs within the salary range
                 jobs = jobs.Where(j =>
-                    !String.IsNullOrWhiteSpace(j.Salary) &&
+                    !string.IsNullOrWhiteSpace(j.Salary) &&
                     int.TryParse(j.Salary, out var jobSalary) &&
                     jobSalary >= searchMinSalary &&
                     jobSalary <= searchMaxSalary
