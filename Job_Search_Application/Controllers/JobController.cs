@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 using X.PagedList.Mvc;
 using X.PagedList.Mvc.Core;
+using Job_Search_Application.Models;
 
 namespace Job_Search_Application.Controllers
 {
@@ -36,39 +37,38 @@ namespace Job_Search_Application.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             ViewBag.CurrentUser = userId;
+            var currentDate = DateTime.Now;
             var jobs = _context.Jobs.Include(j => j.Employer).ToList();
 
             if (!string.IsNullOrWhiteSpace(searchTerm1))
             {
                 jobs = _context.Jobs
-                      .Where(j => j.Title.Contains(searchTerm1)
-                              || j.Job_Type.Contains(searchTerm1)
-                              || j.Job_Schedule.Contains(searchTerm1)
-                              || j.Classification.Contains(searchTerm1)
-                              || j.Job_Details.Contains(searchTerm1)
-                              || j.Employer.Company_Name.Contains(searchTerm1))
-                      .Include(j => j.Employer)
-                      .ToList();
+                    .Where(j => (j.Title.Contains(searchTerm1) || j.Job_Location.Contains(searchTerm1)
+                        || j.Job_Type.Contains(searchTerm1) || j.Job_Schedule.Contains(searchTerm1)
+                        || j.Classification.Contains(searchTerm1) || j.Employer.Company_Name.Contains(searchTerm1))
+                        && j.IsPublished == true && j.DeactivationDate > currentDate)
+                    .Include(j => j.Employer)
+                    .ToList();
             }
             else if (!string.IsNullOrWhiteSpace(searchTerm2))
             {
                 // Search by location
-                jobs = jobs.Where(j => j.Job_Location.Contains(searchTerm2)).ToList();
+                jobs = jobs.Where(j => j.Job_Location.Contains(searchTerm2) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
             }
 
             if (!String.IsNullOrWhiteSpace(searchTerm3))
             {
-                jobs = jobs.Where(j => j.Job_Type.Contains(searchTerm3)).ToList();
+                jobs = jobs.Where(j => j.Job_Type.Contains(searchTerm3) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
             }
 
             if (!String.IsNullOrWhiteSpace(searchTerm4))
             {
-                jobs = jobs.Where(j => j.Job_Schedule.Contains(searchTerm4)).ToList();
+                jobs = jobs.Where(j => j.Job_Schedule.Contains(searchTerm4) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
             }
 
             if (!String.IsNullOrWhiteSpace(searchTerm5))
             {
-                jobs = jobs.Where(j => j.Classification.Contains(searchTerm5)).ToList();
+                jobs = jobs.Where(j => j.Classification.Contains(searchTerm5) && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
             }
 
             if (!String.IsNullOrWhiteSpace(searchTerm6))
@@ -99,9 +99,21 @@ namespace Job_Search_Application.Controllers
                     int.TryParse(j.Salary, out var jobSalary) &&
                     jobSalary >= searchMinSalary &&
                     jobSalary <= searchMaxSalary
-                ).ToList();
+                && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
             }
-
+            else
+            {
+                // Exclude draft jobs, jobs that have passed deactivation date, and set IsActive to false
+                jobs = jobs.Where(j => j.IsPublished && j.DeactivationDate > currentDate).ToList();
+                foreach (var job in jobs)
+                {
+                    if (job.DeactivationDate <= currentDate)
+                    {
+                        job.IsActive = false;
+                    }
+                }
+                _context.SaveChanges();
+            }
 
             return View(jobs.ToPagedList(page ?? 1, 3));
         }
@@ -110,11 +122,42 @@ namespace Job_Search_Application.Controllers
         public ActionResult JobsApplication(string id)
         {
 
+            var userId = _userManager.GetUserId(HttpContext.User);
+            ViewBag.CurrentUser = userId;
+            var ApplyedJobsIds = _context.Job_Request.Where(e => e.EmployeeId == userId).ToList().Select(e => e.JobId);
+            ViewBag.ApplyedJobs = ApplyedJobsIds;
+            // Get the job request status for the current user and the specified job 
+            var jobRequestStatus = _context.Job_Request
+                .Where(e => e.EmployeeId == userId && e.JobId == id)
+                .ToDictionary(e => e.JobId, e => e.Request_Status);
 
+            ViewBag.RequestStatus = jobRequestStatus;
 
-            var job = _context.Jobs.Where(j => j.Jobs_Id  == id).FirstOrDefault();
+            var job = _context.Jobs.Where(j => j.Jobs_Id == id).FirstOrDefault();
+
+            // Increment view count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == job.Jobs_Id);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = job.PublisherId,
+                    JobId = job.Jobs_Id,
+                    Views = 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.Views++;
+            }
+
+            _context.SaveChanges();
             return View(job);
-
         }
+
+
+
+        
     }
 }

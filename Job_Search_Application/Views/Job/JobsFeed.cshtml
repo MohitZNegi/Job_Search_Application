@@ -77,6 +77,7 @@
                 <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
                     <br />
                     <div class="card-header">
+                        <p>Posted @CalculateDaysAgo(item.PublishDate) ago</p>
                         <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
                         <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
                     </div>
@@ -194,3 +195,49 @@
         adjustDropdownWidth();
     });
 </script>
+</div>
+@functions {
+    public string CalculateDaysAgo(DateTime? publishDate)
+    {
+        if (publishDate.HasValue)
+        {
+            var currentDate = DateTime.Now;
+            var timeAgo = currentDate - publishDate.Value;
+            string result;
+
+            if (timeAgo.Days > 1)
+            {
+                result = $"{timeAgo.Days} days";
+            }
+            else if (timeAgo.Days == 1)
+            {
+                result = "1 day";
+            }
+            else if (timeAgo.Hours > 1)
+            {
+                result = $"{timeAgo.Hours} hours";
+            }
+            else if (timeAgo.Hours == 1)
+            {
+                result = "1 hour";
+            }
+            else if (timeAgo.Minutes > 1)
+            {
+                result = $"{timeAgo.Minutes} minutes";
+            }
+            else
+            {
+                result = "just now";
+            }
+
+            return result;
+        }
+
+        return string.Empty; // or any default value you prefer
+    }
+}
+
+
+
+
+
