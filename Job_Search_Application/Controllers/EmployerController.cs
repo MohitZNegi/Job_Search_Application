@@ -92,6 +92,7 @@ namespace Job_Search_Application.Controllers
 
             var CheckIfUserIsEmployer = _context.UserRoles.Where(u => u.UserId == userId && u.RoleId == "f1b1a323-474a-4b5a-844b-b2831d9fe48c").FirstOrDefault();
             var CheckIfEmployerHasProfile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
+            var CheckIfEmployerIsReviewed = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == false).FirstOrDefault();
 
 
             if (CheckIfEmployerHasProfile == null && CheckIfUserIsEmployer != null)
@@ -103,8 +104,19 @@ namespace Job_Search_Application.Controllers
                 return View(viewModel);
             }
 
+            if (CheckIfEmployerHasProfile != null && CheckIfUserIsEmployer != null && CheckIfEmployerIsReviewed != null)
+            {
+                TempData["ProfileMessage"] = "Your profile has been created. It is currently being reviewed.";
+                return RedirectToAction("ProfileMessage");
+            }
+
             return Content("you have already create a profile! ");
 
+        }
+
+        public IActionResult ProfileMessage()
+        {
+            return View();
         }
 
         [HttpPost]

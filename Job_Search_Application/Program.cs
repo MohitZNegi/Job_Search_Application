@@ -51,6 +51,8 @@ builder.Services.AddIdentity<ApplicationUsers, IdentityRole>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
+builder.Services.AddScoped<AnalyticsService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
