@@ -1,0 +1,108 @@
+﻿@model (List<Job_Search_Application.Models.Employer_Model> employers, List<Job_Search_Application.Models.Employee_Model> employees)
+
+<h2>All Users</h2>
+
+<div class="container">
+    <ul class="nav nav-tabs" id="usersTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="employers-tab" data-toggle="tab" href="#employers" role="tab" aria-controls="employers" aria-selected="true">Employers</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="employees" aria-selected="false">Employees</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="usersTabContent">
+        <div class="tab-pane fade show active" id="employers" role="tabpanel" aria-labelledby="employers-tab">
+            <h3>Employers</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Employer ID</th>
+                            <th>Company Name</th>
+                            <th>Company CEO</th>
+                            <th>Company Description</th>
+                            <th>Location</th>
+                            <th>Company URL</th>
+                            <th>Company Industry</th>
+                            <th>Company Logo</th>
+                            <th>Company Banner</th>
+                            <th>Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var employer in Model.employers)
+                        {
+                            <tr>
+                                <td>@employer.Employer_Id</td>
+                                <td>@employer.Company_Name</td>
+                                <td>@employer.Company_CEO</td>
+                                <td>@employer.Company_Description</td>
+                                <td>@employer.Location</td>
+                                <td><a href="@employer.Company_URL">@employer.Company_URL</a></td>
+                                <td>@employer.Company_Industry</td>
+                                <td><a href="@employer.Company_Logo">Company Logo</a></td>
+                                <td><a href="@employer.Company_Banner">Company Banner</a></td>
+                                <td>
+                                    @if (!employer.IsApproved)
+                                    {
+                                       <span>Not Approved</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Approved</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
+            <h3>Employees</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Address</th>
+                            <th>Gender</th>
+                            <th>Date of Birth</th>
+                            <th>Profile Image</th>
+                            <th>Resume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var employee in Model.employees)
+                        {
+                            <tr>
+                                <td>@employee.Employee_Id</td>
+                                <td>@employee.First_name</td>
+                                <td>@employee.Last_name</td>
+                                <td>@employee.Address</td>
+                                <td>@employee.Gender</td>
+                                <td>@employee.birthDate</td>
+                                <td><a href="@employee.ProfileImage">Profile Image</a></td>
+                                <td><a href="@employee.Resume">Preview CV</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#usersTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            })
+        });
+    </script>
+}

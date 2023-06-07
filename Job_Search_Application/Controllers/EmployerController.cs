@@ -54,7 +54,7 @@ namespace Job_Search_Application.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
 
 
-            var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
 
             if (profile == null)
             {
@@ -93,19 +93,32 @@ namespace Job_Search_Application.Controllers
 
             var CheckIfUserIsEmployer = _context.UserRoles.Where(u => u.UserId == userId && u.RoleId == "f1b1a323-474a-4b5a-844b-b2831d9fe48c").FirstOrDefault();
             var CheckIfEmployerHasProfile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
+            var CheckIfEmployerIsReviewed = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == false).FirstOrDefault();
 
 
             if (CheckIfEmployerHasProfile == null && CheckIfUserIsEmployer != null)
             {
 
                 var viewModel = new EmployerProfileViewModel();
+    
 
 
                 return View(viewModel);
             }
 
+            if (CheckIfEmployerHasProfile != null && CheckIfUserIsEmployer !=null && CheckIfEmployerIsReviewed != null)
+            {
+                TempData["ProfileMessage"] = "Your profile has been created. It is currently being reviewed.";
+                return RedirectToAction("ProfileMessage");
+            }
+
             return Content("you have already create a profile! ");
 
+        }
+
+        public IActionResult ProfileMessage()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -131,6 +144,7 @@ namespace Job_Search_Application.Controllers
                     Company_URL = user.Company_URL,
                     Company_Banner = user.Company_Banner,
                     Location = user.Location,
+                    IsApproved = false,
                     UserId = userId
                 };
 
@@ -140,6 +154,18 @@ namespace Job_Search_Application.Controllers
                 ViewBag.UserProfile = null;
                 ViewBag.comProfile = null;
                 ViewBag.empProfile = employerProfile;
+
+                // Create a review request
+                var reviewRequest = new EmployerReviewRequest_Model
+                {
+                   EmployerId = userId,
+                   Request_Date = DateTime.Now,
+                   IsReviewed = false,
+                };
+
+                // Save the review request in the database
+                _context.EmployerReviewRequest.Add(reviewRequest);
+                _context.SaveChanges();
 
                 return RedirectToAction("Index", "Home");
 
@@ -153,7 +179,7 @@ namespace Job_Search_Application.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
 
 
-            var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
 
             if (profile == null)
             {
@@ -207,8 +233,7 @@ namespace Job_Search_Application.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
 
 
-            var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
-
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
             if (profile == null)
             {
                 return RedirectToAction("Create", "Employer");
@@ -303,8 +328,7 @@ namespace Job_Search_Application.Controllers
             var jobs = _context.Jobs.Include(j => j.Employer).Where(j => j.PublisherId == userId).ToList();
 
 
-            var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
-
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
             if (profile == null)
             {
                 return RedirectToAction("Create", "Employer");
@@ -343,8 +367,7 @@ namespace Job_Search_Application.Controllers
             var jobs = _context.Jobs.Include(j => j.Employer).Where(j => j.PublisherId == userId).ToList();
 
 
-            var profile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
-
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
             if (profile == null)
             {
                 return RedirectToAction("Create", "Employer");
@@ -388,6 +411,11 @@ namespace Job_Search_Application.Controllers
         public ActionResult GetDeactivatedJobs(string searchTerm, int? page)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employer");
+            }
             ViewBag.CurrentUser = userId;
             var currentDate = DateTime.Now;
             var jobs = _context.Jobs.Include(j => j.Employer).ToList();
@@ -493,6 +521,11 @@ namespace Job_Search_Application.Controllers
         public ActionResult All_Requests()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
+            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employer");
+            }
 
             var requests = _context.Job_Request
                                     .Include(e => e.Job)
