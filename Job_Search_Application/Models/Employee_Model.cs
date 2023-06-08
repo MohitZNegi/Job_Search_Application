@@ -47,6 +47,12 @@ namespace Job_Search_Application.Models
         [Display(Name = "Resume")]
         public string Resume { get; set; }
 
+        [Display(Name = "Personal Summary")]
+        public string Personal_Summary { get; set; }
+
+        [Display(Name = "Profession")]
+        public string Profession { get; set; }
+
 
     }
 }

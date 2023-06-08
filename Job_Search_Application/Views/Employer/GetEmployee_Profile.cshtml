@@ -3,73 +3,83 @@
     ViewData["Title"] = "GetProfile";
 }
 
-<h2>GetProfile</h2>
-
-<div class="container">
-    <div class="userphoto">
-        <div class="userphoto-img">
-            <img class="profile-img" src="~/images/Employee/@Model.Employee.ProfileImage" alt="" />
-        </div>
-    </div>
-    <div class="first-name">
-        <p>@Model.Employee.First_name</p>
-    </div>
-    <div class="last-name">
-        <p>@Model.Employee.Last_name</p>
-    </div>
-    <div class="">
-        <p>@Model.Employee.birthDate</p>
-    </div>
-    <div class="">
-        <p>@Model.Employee.Gender</p>
-    </div>
-    @if(Model.Request_Status == "pending")
-    {
-        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-reject-btn">Reject</button>
-        <button data-request-id="@Model.JobRequest_Id" class="btn btn-success js-accept-btn">Accept</button>
-    }
-    @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status=="pending")
-    {
-        TempData["AcceptMessage"] = "This application has been accepted";
-        @if (TempData.ContainsKey("AcceptMessage"))
-        {
-            <div class="alert alert-success">@TempData["AcceptMessage"]</div>
-        }
-      
-        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-decline-btn">Decline</button>
+<h2>@Model.Job.Title</h2>
+<button class="btn btn-primary" onclick="goBack()">Back</button>
 
 
-    }
-    @if (Model.InterviewRequest_Status == "accepted")
-    {
-       
-        <button data-request-id="@Model.JobRequest_Id" class="btn btn-info js-interviewed-btn">Mark as Interviewed</button>
-        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-decline-btn">Decline</button>
 
-    }
-    @if (Model.InterviewRequest_Status == "interviewed" && Model.Request_Status == "accepted")
-    {
+           <div class="card mb-4 border-light shadow " style="max-width:900px">
+                <div class="card-body border-bottom ">
+                    <div class="row">
+                        <div class="col">
+                            <img src="@Model.Employee.ProfileImage" alt="" class="rounded-circle float-start" style="height: 50px; width: 50px; float: left; margin-right: 10px; border:solid; border-color:paleturquoise; border-width:0.9px" />
+                            <h5 class="card-title text-capitalize">@Model.Employee.First_name @Model.Employee.Last_name</h5>
+                        <div class="row">
+                            <div class="col">
+                                <p class="card-text">Birth Date: @Model.Employee.birthDate.ToShortDateString()</p>
+                                <p class="card-text">Gender: @Model.Employee.Gender</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                <a href="@Model.Employee.Resume" download="@Model.Employee.Resume">Preview CV</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @if (Model.Request_Status == "pending")
+                    {
+                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-reject-btn">Reject</button>
+                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-success js-accept-btn">Accept</button>
+                    }
+                    @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "pending")
+                    {
+                        TempData["AcceptMessage"] = "This application has been accepted";
+                        @if (TempData.ContainsKey("AcceptMessage"))
+                        {
+                            <div class="alert alert-success">@TempData["AcceptMessage"]</div>
+                        }
 
-        <button data-request-id="@Model.JobRequest_Id" class="btn btn-info js-hire-btn">Hire</button>
-        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-reject-btn">Reject</button>
-    }
-    @if (Model.Request_Status == "rejected")
-    {
-        TempData["RejectMessage"] = "This application has been rejected";
-        @if (TempData.ContainsKey("RejectMessage"))
-        {
-            <div class="alert alert-danger">@TempData["RejectMessage"]</div>
-        }
-        
-    }
+                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-decline-btn">Decline</button>
+                    }
+                    @if (Model.InterviewRequest_Status == "accepted")
+                    {
+                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-info js-interviewed-btn">Mark as Interviewed</button>
+                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-decline-btn">Decline</button>
+                    }
+                    @if (Model.InterviewRequest_Status == "interviewed" && Model.Request_Status == "accepted")
+                    {
+                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-info js-hire-btn">Hire</button>
+                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-reject-btn">Reject</button>
+                    }
+                    @if (Model.Request_Status == "rejected")
+                    {
+                        TempData["RejectMessage"] = "This application has been rejected";
+                        @if (TempData.ContainsKey("RejectMessage"))
+                        {
+                            <div class="alert alert-danger">@TempData["RejectMessage"]</div>
+                        }
+                    }
+                </div>
+           
+            </div>
+          
 
-</div>
+
+
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
     <script>
+        function goBack() {
+            window.history.back();
+        }
         $(document).ready(function () {
             $('.js-reject-btn').click(function (e) {
                 debugger;

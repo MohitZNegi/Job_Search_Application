@@ -548,6 +548,7 @@ namespace Job_Search_Application.Controllers
         {
             var jobRequest = _context.Job_Request
                 .Where(e => e.JobRequest_Id == requestID)
+                .Include(e => e.Job)
                 .Include(e => e.Employee)
                 .ThenInclude(e => e.User)
                 .FirstOrDefault();

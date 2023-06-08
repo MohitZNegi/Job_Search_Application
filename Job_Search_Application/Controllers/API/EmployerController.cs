@@ -125,6 +125,7 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.InterviewRequest_Status = "interviewed";
+            request.InterviewRequest_Date = DateTime.Now;
             _context.SaveChanges();
 
 

@@ -35,11 +35,12 @@
                 There are <strong>@Model.Count()</strong> requests.
             </div>
 
-            <table class="table">
+            <table class="table" style="text-align:center">
                 <thead>
                     <tr>
                         <th>Employee Name</th>
                         <th>Applied Job</th>
+                        <th>Status</th>
                         <th>View Profile</th>
                     </tr>
                 </thead>
@@ -47,8 +48,25 @@
                     @foreach (var item in Model)
                     {
                         <tr class="job-request-row" data-job="@item.Job.Title">
-                            <td>@item.Employee.First_name @item.Employee.Last_name</td>
+                            <td class="text-capitalize">@item.Employee.First_name @item.Employee.Last_name</td>
+                            
                             <td>@item.Job.Title</td>
+                            <td>
+                                @{
+                                    string status = string.Empty;
+                                    if (item.Request_Status == "pending")
+                                    {
+                                        status = "Awaiting Review";
+                                    }
+                                    else if (item.Request_Status == "accepted")
+                                    {
+                                        status = "Reviewed Accepted";
+                                    }
+                                }
+                                @status <br />
+                                <p class=" text-muted" style="font-size:smaller;">Applied on @item.Request_Date.Value.ToShortDateString()</p>
+                            </td>
+
                             <td>
                                 @Html.ActionLink("View Profile", "GetEmployee_Profile", "Employer",
                         new { id = item.EmployeeId, requestID = item.JobRequest_Id },

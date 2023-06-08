@@ -79,6 +79,7 @@ namespace Job_Search_Application.Controllers.API
                 request.JobId = selectedJob.Jobs_Id;
                 request.EmployeeId = userId;
                 request.Request_Status = "pending";
+                request.Request_Date = DateTime.Now;
                 request.InterviewRequest_Status = "null";
 
 
