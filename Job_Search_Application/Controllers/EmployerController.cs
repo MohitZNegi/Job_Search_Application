@@ -367,14 +367,15 @@ namespace Job_Search_Application.Controllers
                     .Where(j => (j.Title.Contains(searchTerm) || j.Job_Location.Contains(searchTerm)
                         || j.Job_Type.Contains(searchTerm) || j.Job_Schedule.Contains(searchTerm)
                         || j.Classification.Contains(searchTerm) || j.Employer.Company_Name.Contains(searchTerm))
-                        && j.IsPublished == true && j.IsActive == true)
+                        && j.IsPublished == true)
+                       
                     .Include(j => j.Employer)
                     .ToList();
             }
             else
             {
                 // Exclude draft jobs
-                jobs = jobs.Where(j => j.IsPublished && j.IsActive).ToList();
+                jobs = jobs.Where(j => j.IsPublished).Where(j => j.IsActive || j.IsActive == false).ToList();
             }
             var jobViews = _analyticsService.GetJobViews(jobs);
             var jobApplies = _analyticsService.GetJobApplies(jobs);

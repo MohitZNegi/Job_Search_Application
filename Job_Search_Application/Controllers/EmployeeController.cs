@@ -249,17 +249,21 @@ namespace Job_Search_Application.Controllers
             // Get the current user's ID
             var userId = _userManager.GetUserId(HttpContext.User);
 
-
             var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+
             // Retrieve the saved jobs for the user
             var savedJobs = _context.SavedJobs
                 .Where(sj => sj.EmployeeId == userId)
                 .Include(sj => sj.Job).Include(sj => sj.Employer) // Include the related Job entity
                 .ToList();
 
-            // Pass the saved jobs to the view
+            // Filter out inactive jobs with deactivation date higher than the current time
+            savedJobs = savedJobs.Where(sj => sj.Job.IsActive && sj.Job.DeactivationDate > DateTime.Now).ToList();
+
+            // Pass the filtered saved jobs to the view
             return View(savedJobs.ToPagedList(page ?? 1, 3));
         }
+
 
         [HttpPost]
         public async Task<IActionResult> SaveJob(string jobId)

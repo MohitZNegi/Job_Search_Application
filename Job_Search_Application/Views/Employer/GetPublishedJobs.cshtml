@@ -11,8 +11,7 @@
 }
 
 <br />
-<br />
-<br />
+
 <div class="col-md-9">
     <form class="d-flex">
         <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
@@ -36,6 +35,7 @@
                 <th>Views</th>
                 <th>Applies</th>
                 <th style="min-width:150px">Candidates</th>
+                <th>Job Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -97,7 +97,15 @@
                         </span>
                     </td>
 
-                
+                    <td>
+                        <select class="form-control js-update-status-select" data-job-id="@item.Jobs_Id" data-is-active="@item.IsActive">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </td>
+
+
+
                  
                     <td>
                         <a href="@Url.Action("EditJobs", new { id = item.Jobs_Id })" class="btn btn-primary">Edit</a>
@@ -114,3 +122,48 @@
 <div class="pagination">
     @Html.PagedListPager(Model, page => Url.Action("GetPublishedJobs", new { page }))
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('.js-update-status-select').change(function (e) {
+            var jobId = $(this).data('job-id');
+            var selectedStatus = $(this).val();
+
+            var isActive = selectedStatus === 'true';
+
+            $.ajax({
+                url: "/api/Employer/UpdateJobStatus/" + jobId,
+                type: "PUT",
+                data: {
+                    isActive: isActive,
+                    id: jobId
+                },
+                success: function () {
+                    // Handle success response
+                    // For example, you can show a success message or update the UI
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText); // Display the error response
+                    alert("Failed to update job status");
+                }
+            });
+        });
+
+        // Set the initial selected option based on the job status
+        $('.js-update-status-select').each(function () {
+            var isActive = $(this).data('is-active');
+            if (isActive) {
+                $(this).val('true');
+            } else {
+                $(this).val('false');
+            }
+        });
+    });
+
+
+
+
+</script>
+

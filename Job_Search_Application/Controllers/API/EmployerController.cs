@@ -224,6 +224,21 @@ namespace Job_Search_Application.Controllers.API
             return Ok();
         }
 
+        [HttpPut]
+        public IActionResult UpdateJobStatus(string id, bool isActive)
+        {
+            var job = _context.Jobs.FirstOrDefault(r => r.Jobs_Id == id);
+
+            if (job == null)
+                return NotFound();
+
+            job.IsActive = isActive;
+            _context.SaveChanges();
+
+            return Ok();
+        }
+
+
     }
 }
 

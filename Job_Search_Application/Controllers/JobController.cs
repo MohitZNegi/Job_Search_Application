@@ -46,7 +46,7 @@ namespace Job_Search_Application.Controllers
                     .Where(j => (j.Title.Contains(searchTerm1) || j.Job_Location.Contains(searchTerm1)
                         || j.Job_Type.Contains(searchTerm1) || j.Job_Schedule.Contains(searchTerm1)
                         || j.Classification.Contains(searchTerm1) || j.Employer.Company_Name.Contains(searchTerm1))
-                        && j.IsPublished == true && j.DeactivationDate > currentDate)
+                        && j.IsPublished == true && j.DeactivationDate > currentDate && j.IsActive == true)
                     .Include(j => j.Employer)
                     .ToList();
             }
@@ -104,7 +104,7 @@ namespace Job_Search_Application.Controllers
             else
             {
                 // Exclude draft jobs, jobs that have passed deactivation date, and set IsActive to false
-                jobs = jobs.Where(j => j.IsPublished && j.DeactivationDate > currentDate).ToList();
+                jobs = jobs.Where(j => j.IsPublished && j.DeactivationDate > currentDate && j.IsActive).ToList();
                 foreach (var job in jobs)
                 {
                     if (job.DeactivationDate <= currentDate)
