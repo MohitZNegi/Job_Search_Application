@@ -65,6 +65,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Profession" class="control-label"></label>
+                            <input asp-for="Profession" class="form-control" />
+                            <span asp-validation-for="Profession" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Personal_Summary" class="control-label"></label>
+                            <textarea asp-for="Personal_Summary" class="form-control" id="exampleTextarea" rows="8" spellcheck="false"></textarea>
+                            <span asp-validation-for="Personal_Summary" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
                 <fieldset class="form-group">
                     <label class="control-label"> Gender</label>
                     <div class="form-check">

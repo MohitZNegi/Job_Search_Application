@@ -81,6 +81,21 @@
                     <p> @Html.DisplayFor(modelItem => modelItem.Address) </p>
                     <br />
                 </div>
+                <div class="col " style="border-radius:30px;">
+                    <br />
+                    <h5>  @Html.DisplayNameFor(model => model.Profession): </h5>
+                    <p> @Html.DisplayFor(modelItem => modelItem.Profession) </p>
+                    <br />
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col " style="border-radius:30px;">
+                        <br />
+                        <h5>  @Html.DisplayNameFor(model => model.Personal_Summary): </h5>
+                        <p> @Html.DisplayFor(modelItem => modelItem.Personal_Summary) </p>
+                        <br />
+                    </div>
+                </div>
+
                 <a href="@Model.Resume" data-lightbox="@Model.Resume" data-title="My caption">Preview CV</a>
             </div>
             <fieldset>

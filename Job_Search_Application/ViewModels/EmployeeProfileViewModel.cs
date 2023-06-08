@@ -51,5 +51,11 @@ namespace Job_Search_Application.ViewModels
 
         [Display(Name = "Resume")]
         public IFormFile Resume { get; set; }
+
+        [Display(Name = "Personal Summary")]
+        public string Personal_Summary { get; set; }
+
+        [Display(Name = "Profession")]
+        public string Profession { get; set; }
     }
 }

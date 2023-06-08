@@ -72,6 +72,8 @@ namespace Job_Search_Application.Controllers
                 Address = profile.Address,
                 birthDate = profile.birthDate,
                 Gender = profile.Gender,
+                Profession = profile.Profession,
+                Personal_Summary = profile.Personal_Summary,
                 ProfileImage = profile.ProfileImage,
                 Resume = profile.Resume
 
@@ -135,6 +137,8 @@ namespace Job_Search_Application.Controllers
                     Address = userVM.Address,
                     birthDate = userVM.birthDate,
                     Gender = userVM.Gender,
+                    Personal_Summary = userVM.Personal_Summary,
+                    Profession = userVM.Profession,
                     ProfileImage = result.Url.ToString(),
                     Resume = pdfresult.Url.ToString(),
                     UserId = userId
@@ -162,7 +166,7 @@ namespace Job_Search_Application.Controllers
         public ActionResult Update()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var CheckIfEmployeeHasProfile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
 
             var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
@@ -171,16 +175,20 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employee");
             }
 
-            if (CheckIfEmployeeHasProfile != null)
+            var viewModel = new EmployeeProfileViewModel
             {
 
-                var viewModel = new EmployeeProfileViewModel();
+                First_name = profile.First_name,
+                Last_name = profile.Last_name,
+                Address = profile.Address,
+                birthDate = profile.birthDate,
+                Gender = profile.Gender,
+                Personal_Summary = profile.Personal_Summary,
+                Profession = profile.Profession
 
+            };
 
-                return View(viewModel);
-            }
-
-            return View();
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -190,15 +198,17 @@ namespace Job_Search_Application.Controllers
             var pdfresult = await _photoService.AddPhotoAsync(UserVM.Resume);
             var profile = _context.Employee.Single(e => e.Employee_Id == userId);
             var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
-            var viewModel = new Employee_Model
-            {
-                First_name = UserVM.First_name,
-                Last_name = UserVM.Last_name,
-                birthDate = UserVM.birthDate,
-                Gender = UserVM.Gender,
-                ProfileImage = result.Url.ToString(),
-                Resume = pdfresult.Url.ToString(),
-            };
+
+            profile.First_name = UserVM.First_name;
+            profile.Last_name = UserVM.Last_name;
+            profile.Address = UserVM.Address;
+            profile.birthDate = UserVM.birthDate;
+            profile.Gender = UserVM.Gender;
+            profile.Personal_Summary = UserVM.Personal_Summary;
+            profile.Profession = UserVM.Profession;
+            profile.ProfileImage = result.Url.ToString();
+            profile.Resume = pdfresult.Url.ToString();
+            
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
