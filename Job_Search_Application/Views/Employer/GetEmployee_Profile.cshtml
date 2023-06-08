@@ -7,25 +7,70 @@
 <button class="btn btn-primary" onclick="goBack()">Back</button>
 
 
-
-           <div class="card mb-4 border-light shadow " style="max-width:900px">
-                <div class="card-body border-bottom ">
+            <div class="card mb-4 border-light shadow" style="max-width: 900px">
+                <div class="card-body border-bottom">
                     <div class="row">
                         <div class="col">
-                            <img src="@Model.Employee.ProfileImage" alt="" class="rounded-circle float-start" style="height: 50px; width: 50px; float: left; margin-right: 10px; border:solid; border-color:paleturquoise; border-width:0.9px" />
-                            <h5 class="card-title text-capitalize">@Model.Employee.First_name @Model.Employee.Last_name</h5>
-                        <div class="row">
-                            <div class="col">
-                                <p class="card-text">Birth Date: @Model.Employee.birthDate.ToShortDateString()</p>
-                                <p class="card-text">Gender: @Model.Employee.Gender</p>
-                            </div>
-                        </div>
-                        </div>
+                            <img src="@Model.Employee.ProfileImage" alt="" class="rounded-circle float-start" style="height: 50px; width: 50px; margin-right: 10px; border: solid; border-color: paleturquoise; border-width: 0.9px" />
+                <div class="d-flex justify-content-between align-items-center">
+                    <div> <h5 class="card-title text-capitalize">@Model.Employee.First_name @Model.Employee.Last_name</h5>
+                        <p class="card-text text-dark">@Model.Employee.User.Email, @Model.Employee.Address</p>
+
+
+                   
+                    </div>
+                    @if (Model.Request_Status == "pending")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:150px; min-height:40px;  padding: 10px;">Status: Awaiting Review</div>
+
+                    }
+                    @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "pending")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(179, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Accepted</div>
+
+                    }
+                    @if (Model.Request_Status == "rejected")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Rejected</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "declined")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Withdrawn</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "canceled")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Declined</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "interviewed")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Interviewed</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "hired")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(179, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Hired</div>
+
+                    }
+                </div>
+
+             
+
+
+                <p class="card-text">@Model.Employee.Profession</p>
+                <p class="card-text">@Model.Employee.birthDate.ToShortDateString()</p>
+                <p class="card-text">@Model.Employee.Gender</p>
+
+
+            </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
+                <p class="card-text"><h4>Personal Summary</h4> @Model.Employee.Personal_Summary</p>
                 <a href="@Model.Employee.Resume" download="@Model.Employee.Resume">Preview CV</a>
                         </div>
                     </div>
