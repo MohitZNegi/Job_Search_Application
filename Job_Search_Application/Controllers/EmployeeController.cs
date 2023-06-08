@@ -162,6 +162,7 @@ namespace Job_Search_Application.Controllers
       
         public ActionResult Update()
         {
+
             var userId = _userManager.GetUserId(HttpContext.User);
             var CheckIfEmployeeHasProfile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
