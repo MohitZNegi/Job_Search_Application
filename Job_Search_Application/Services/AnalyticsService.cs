@@ -71,7 +71,62 @@ namespace Job_Search_Application.Services
 
             return selectedCandidates;
         }
+        public Dictionary<string, int> GetRejectedCandidates(List<Jobs_Model> jobs)
+        {
+            var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
+            var jobAnalytics = _context.Job_Analytics.Where(a => jobIds.Contains(a.JobId)).ToList();
 
+            var selectedCandidates = new Dictionary<string, int>();
+
+            foreach (var analytics in jobAnalytics)
+            {
+                selectedCandidates[analytics.JobId] = analytics.Rejected;
+            }
+
+            return selectedCandidates;
+        }
+        public Dictionary<string, int> GetWithdrawnApplicants(List<Jobs_Model> jobs)
+        {
+            var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
+            var jobAnalytics = _context.Job_Analytics.Where(a => jobIds.Contains(a.JobId)).ToList();
+
+            var selectedCandidates = new Dictionary<string, int>();
+
+            foreach (var analytics in jobAnalytics)
+            {
+                selectedCandidates[analytics.JobId] = analytics.Withdrawn;
+            }
+
+            return selectedCandidates;
+        }
+        public Dictionary<string, int> GetInterviewedCandidates(List<Jobs_Model> jobs)
+        {
+            var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
+            var jobAnalytics = _context.Job_Analytics.Where(a => jobIds.Contains(a.JobId)).ToList();
+
+            var selectedCandidates = new Dictionary<string, int>();
+
+            foreach (var analytics in jobAnalytics)
+            {
+                selectedCandidates[analytics.JobId] = analytics.InterviewedCandidates;
+            }
+
+            return selectedCandidates;
+        }
+        public Dictionary<string, int> GetHiredCandidates(List<Jobs_Model> jobs)
+        {
+            var jobIds = jobs.Select(j => j.Jobs_Id).ToList();
+            var jobAnalytics = _context.Job_Analytics.Where(a => jobIds.Contains(a.JobId)).ToList();
+
+            var selectedCandidates = new Dictionary<string, int>();
+
+            foreach (var analytics in jobAnalytics)
+            {
+                selectedCandidates[analytics.JobId] = analytics.HiredCandidates;
+            }
+
+            return selectedCandidates;
+        }
 
     }
 

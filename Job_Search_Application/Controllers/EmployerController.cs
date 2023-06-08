@@ -374,11 +374,19 @@ namespace Job_Search_Application.Controllers
             var jobApplies = _analyticsService.GetJobApplies(jobs);
             var reviewedCandidates = _analyticsService.GetReviewedCandidates(jobs);
             var selectedCandidates = _analyticsService.GetSelectedCandidates(jobs);
+            var rejected = _analyticsService.GetRejectedCandidates(jobs);
+            var withdrawn = _analyticsService.GetWithdrawnApplicants(jobs);
+            var interviewed = _analyticsService.GetInterviewedCandidates(jobs);
+            var hired = _analyticsService.GetHiredCandidates(jobs);
 
             ViewBag.JobViews = jobViews;
             ViewBag.JobApplies = jobApplies;
             ViewBag.ReviewedCandidates = reviewedCandidates;
             ViewBag.SelectedCandidates = selectedCandidates;
+            ViewBag.Rejected = rejected;
+            ViewBag.Withdrawn = withdrawn;
+            ViewBag.Interviewed = interviewed;
+            ViewBag.Hired = hired;
 
             return View(jobs.ToPagedList(page ?? 1, 3));
 
@@ -492,24 +500,34 @@ namespace Job_Search_Application.Controllers
         }
 
 
-
-        public ActionResult All_Requests()
+        public ActionResult All_Requests(string jobApplication)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var profile = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == true).FirstOrDefault();
+            var profile = _context.Employer.FirstOrDefault(e => e.Employer_Id == userId && e.IsApproved == true);
             if (profile == null)
             {
                 return RedirectToAction("Create", "Employer");
             }
 
-            var requests = _context.Job_Request
-                                    .Include(e => e.Job)
-                                    .Include(e => e.Employee)
-                                    .Where(e => e.Employer.Employer_Id == userId && e.Request_Status == "pending" || e.Request_Status == "accepted" || e.Request_Status == "rejected")
-                                    .ToList();
+            var publishedJobs = _context.Jobs.Where(j => j.IsPublished && j.IsActive).ToList();
+            ViewBag.PublishedJobs = publishedJobs;
 
-            return View(requests);
+            var requests = _context.Job_Request
+                .Include(e => e.Job)
+                .Include(e => e.Employee)
+                .Where(e => e.Employer.Employer_Id == userId &&
+                            (e.Request_Status == "pending" || e.Request_Status == "accepted" || e.Request_Status == "rejected"));
+
+            if (!string.IsNullOrEmpty(jobApplication))
+            {
+                requests = requests.Where(e => e.Job.Title == jobApplication);
+            }
+
+            var filteredRequests = requests.ToList();
+
+            return View(filteredRequests);
         }
+
 
         public ActionResult SelectedCandidates()
         {

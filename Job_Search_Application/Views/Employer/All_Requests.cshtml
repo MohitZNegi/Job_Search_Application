@@ -4,29 +4,78 @@
     ViewBag.Title = "AllRequests";
 }
 
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+    <button type="button" class="btn btn-primary">Primary</button>
+    <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        
+                @foreach (var job in ViewBag.PublishedJobs)
+                {
+                    <a class="dropdown-item job-application" data-job="@job.Title" href="/Employer/All_Requests?jobApplication=@job.Title">@job.Title</a>
+                }
+
+            
+        </div>
+    </div>
+</div>
+
 <div class="allRequests">
     @if (Model.Count() == 0)
     {
         <div class="container mt-5">
-            <div class="alert alert-info">there is no requests for job.</div>
+            <div class="alert alert-info">There are no requests for jobs.</div>
         </div>
     }
-
-    <div class="container">
-        <br />
-        <div class="requests-count">
-            There Are <strong>@Model.Count()</strong> Requests.
-        </div>
-
-        @foreach (var item in Model)
-        {
-            <div class="card m-3" style="width: 18rem; float:left;">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Employee.First_name @item.Employee.Last_name</h5>
-                    <p class="card-text">apply for <strong>@item.Job.Title</strong> job</p>
-                    @Html.ActionLink("View Profile", "GetEmployee_Profile", "Employer", new { id = item.EmployeeId, requestID = item.JobRequest_Id }, new { @class = "btn btn-primary" })
-                </div>
+    else
+    {
+        <div class="container">
+            <br />
+            <div class="requests-count">
+                There are <strong>@Model.Count()</strong> requests.
             </div>
-        }
-    </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Applied Job</th>
+                        <th>View Profile</th>
+                    </tr>
+                </thead>
+                <tbody id="jobRequestTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="job-request-row" data-job="@item.Job.Title">
+                            <td>@item.Employee.First_name @item.Employee.Last_name</td>
+                            <td>@item.Job.Title</td>
+                            <td>
+                                @Html.ActionLink("View Profile", "GetEmployee_Profile", "Employer",
+                        new { id = item.EmployeeId, requestID = item.JobRequest_Id },
+                        new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.job-application').on('click', function () {
+            var selectedJob = $(this).data('job');
+            filterJobRequests(selectedJob);
+        });
+    });
+
+    function filterJobRequests(selectedJob) {
+        if (selectedJob) {
+            $('.job-request-row').hide();
+            $('.job-request-row[data-job="' + selectedJob + '"]').show();
+        } else {
+            $('.job-request-row').show();
+        }
+    }
+</script>
