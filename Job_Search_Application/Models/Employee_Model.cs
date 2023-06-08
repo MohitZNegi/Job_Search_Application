@@ -52,7 +52,5 @@ namespace Job_Search_Application.Models
 
         [Display(Name = "Profession")]
         public string Profession { get; set; }
-
-
     }
 }
