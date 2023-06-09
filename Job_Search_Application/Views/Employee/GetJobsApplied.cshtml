@@ -8,30 +8,85 @@
     ViewData["Title"] = "Published Job";
 }
 
+<h2>@Model.Job.Title</h2>
+<button class="btn btn-primary" onclick="goBack()">Back</button>
 
-<div class="row d-flex justify-content-center">
-    <div class="col-md-10 shadow" style="background-color: aliceblue; border-radius: 20px;">
-        <br />
-        <div class="card-header">
 
-            <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
-            <p style="display:none;">@Html.DisplayFor(modelItem => modelItem.Job.PublisherId)</p>
-            <h5>@Html.DisplayFor(modelItem => modelItem.Job.Title)</h5>
-            <h6 class="text-capitalize fw-bold">@Html.DisplayFor(modelItem => modelItem.Employer.Company_Name)</h6>
-        </div>
-        <div class="card-body">
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job.Job_Location)</p>
-            <p class="text-capitalize d-inline">@Html.DisplayFor(modelItem => modelItem.Job.Job_Schedule)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job.Job_Type)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job.Classification)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job.Salary)</p>
-        </div>
+<div class="card mb-4 border-light shadow" style="max-width: 900px">
+    <div class="card-body border-bottom">
+        <div class="row">
+            <div class="col">
+                <img src="@Model.Employer.Company_Logo" alt="" class="rounded-circle float-start" style="height: 50px; width: 50px; margin-right: 10px; border: solid; border-color: paleturquoise; border-width: 0.9px" />
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title text-capitalize">@Model.Employer.Company_Name</h5>
+                        <p class="card-text text-dark">@Model.Employer.User.Email, @Model.Employer.Location</p>
 
-        <div class="card-footer">
-            <p>@Html.DisplayFor(modelItem => modelItem.Job.Job_Details)</p>
+
+
+                    </div>
+                    @if (Model.Request_Status == "pending")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:150px; min-height:40px;  padding: 10px;">Status: Awaiting Review</div>
+
+                    }
+                    @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "pending")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(179, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Accepted</div>
+
+                    }
+                    @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "accepted")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:150px; min-height:40px;  padding: 10px;">Status: Interview Pending</div>
+
+                    }
+                    @if (Model.Request_Status == "rejected")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Rejected</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "declined")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Withdrawn</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "canceled")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Declined</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "interviewed")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Interviewed</div>
+
+                    }
+                    @if (Model.InterviewRequest_Status == "hired")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(179, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Hired</div>
+
+                    }
+                </div>
+
+
+
+
+                <p class="card-text">@Model.Employer.Company_Industry</p>
+                <p class="card-text">@Model.Employer.Company_CEO</p>
+
+
+            </div>
         </div>
-        <br />
-        @if(Model.InterviewRequest_Status == "pending")
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <p class="card-text"><h4>Company Description</h4> @Model.Employer.Company_Description</p>
+            </div>
+                            <a href="@Model.Employer.Company_URL">@Model.Employer.Company_URL</a>
+        </div>
+    </div>
+    <div class="card-footer">
+        @if (Model.InterviewRequest_Status == "pending")
         {
             <button data-request-id="@Model.JobRequest_Id" class="btn btn-info js-acceptrequest-btn">Accept</button>
             <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-decline-btn">Decline</button>
@@ -44,7 +99,7 @@
                 <div class="alert alert-danger">@TempData["DeclineMessage"]</div>
             }
         }
-        @if (Model.InterviewRequest_Status == "accepted") 
+        @if (Model.InterviewRequest_Status == "accepted")
         {
             TempData["AcceptRequestMessage"] = "You have accepted the interview request";
             @if (TempData.ContainsKey("AcceptRequestMessage"))
@@ -59,14 +114,6 @@
             @if (TempData.ContainsKey("CancelMessage"))
             {
                 <div class="alert alert-danger">@TempData["CancelMessage"]</div>
-            }
-        }
-        @if (Model.InterviewRequest_Status == "accepted")
-        {
-            TempData["AcceptRequestMessage"] = "You have accepted the interview request";
-            @if (TempData.ContainsKey("AcceptRequestMessage"))
-            {
-                <div class="alert alert-success">@TempData["AcceptRequestMessage"]</div>
             }
         }
         @if (Model.InterviewRequest_Status == "interviewed")
@@ -85,10 +132,12 @@
                 <div class="alert alert-success">@TempData["hireMessage"]</div>
             }
         }
-       
-     
+
     </div>
+
 </div>
+
+
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -96,6 +145,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
 
     <script>
+        function goBack() {
+            window.history.back();
+        }
         $(document).ready(function () {
             $('.js-decline-btn').click(function (e) {
                 var declineButton = $(this);

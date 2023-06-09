@@ -20,7 +20,7 @@
 
 <body style="background-color:rgb(230, 255, 255)">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top  shadow-lg" style="background-color:rgb(0, 122, 204); box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Job" asp-action="JobsFeed" >
                     <img src="~/resources/websitefiles/logojs.png" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; width:30px; height:30px; border-radius:10px;" />
@@ -35,13 +35,13 @@
                         @if (!SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                         }
                           @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Job" asp-action="JobsFeed">Jobs Feed</a>
+                                <a class="nav-link " asp-area="" asp-controller="Job" asp-action="JobsFeed">Jobs Feed</a>
                             </li>
                         }
 

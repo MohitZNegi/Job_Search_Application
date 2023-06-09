@@ -38,7 +38,7 @@ namespace Job_Search_Application.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
             ViewBag.CurrentUser = userId;
             var currentDate = DateTime.Now;
-            var jobs = _context.Jobs.Include(j => j.Employer).Where(j => j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
+            var jobs = _context.Jobs.Include(j => j.Employer).ToList();
 
             if (!string.IsNullOrWhiteSpace(searchTerm1))
             {
@@ -46,7 +46,7 @@ namespace Job_Search_Application.Controllers
                     .Where(j => (j.Title.Contains(searchTerm1) || j.Job_Location.Contains(searchTerm1)
                         || j.Job_Type.Contains(searchTerm1) || j.Job_Schedule.Contains(searchTerm1)
                         || j.Classification.Contains(searchTerm1) || j.Employer.Company_Name.Contains(searchTerm1))
-                        && j.IsPublished == true && j.DeactivationDate > currentDate && j.IsActive == true)
+                       )
                     .Include(j => j.Employer)
                     .ToList();
             }
@@ -63,12 +63,12 @@ namespace Job_Search_Application.Controllers
 
             if (!string.IsNullOrWhiteSpace(searchTerm4))
             {
-                jobs = _context.Jobs.Where(j => j.Job_Schedule.Contains(searchTerm4) && j.IsPublished == true && j.DeactivationDate > currentDate).Include(j => j.Employer).ToList();
+                jobs = _context.Jobs.Where(j => j.Job_Schedule.Contains(searchTerm4)).Include(j => j.Employer).ToList();
             }
 
             if (!string.IsNullOrWhiteSpace(searchTerm5))
             {
-                jobs = _context.Jobs.Where(j => j.Classification.Contains(searchTerm5) && j.IsPublished == true && j.DeactivationDate > currentDate).Include(j => j.Employer).ToList();
+                jobs = _context.Jobs.Where(j => j.Classification.Contains(searchTerm5)).Include(j => j.Employer).ToList();
             }
 
             if (!string.IsNullOrWhiteSpace(searchTerm6))
@@ -99,7 +99,7 @@ namespace Job_Search_Application.Controllers
                     int.TryParse(j.Salary, out var jobSalary) &&
                     jobSalary >= searchMinSalary &&
                     jobSalary <= searchMaxSalary
-                && j.IsPublished == true && j.DeactivationDate > currentDate).ToList();
+                   ).ToList();
             }
             else
             {

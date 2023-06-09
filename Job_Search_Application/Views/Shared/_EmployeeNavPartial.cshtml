@@ -1,5 +1,6 @@
 ﻿
-<div class="dropdown-menu dropdown-menu-end flex-fill" style="background-color:aliceblue">
+<div class="dropdown-menu dropdown-menu-end flex-fill" style="background-color:aliceblue;
+        z-index: 200;">
     <ul style="padding-left: 0;">
         <li  style="white-space: normal; padding: 10px; display: flex; align-items: center;">
             <div class="d-flex justify-content-center" style="overflow: hidden; text-overflow: ellipsis;">
@@ -29,6 +30,18 @@
             <a asp-controller="Employee" asp-action="Update" class="nav-link text-dark">
                 <i class="bi bi-pencil-square"></i>
                 Edit Profile
+            </a>
+        </li>
+
+
+        <li role="separator" class="dropdown-divider"></li>
+
+        <li class="dropdown-item">
+
+
+            <a  asp-controller="Employee" asp-action="GetRequests_Status" class="nav-link text-dark">
+                <i class="bi bi-person-workspace"></i>
+                Your Dashboard
             </a>
         </li>
 

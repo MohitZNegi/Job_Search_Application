@@ -1,0 +1,32 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-lg rounded-2"; style="z-index:100">
+    <a class="navbar-brand" href="#">Employee Dashboard</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "GetRequests_Status" ? "active" : "")">
+                <a class="nav-link " href="/Employee/GetRequests_Status">Applied Jobs</a>
+            </li>
+            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "SavedJobs" ? "active" : "")">
+                <a class="nav-link" href="/Employee/SavedJobs">Saved Jobs</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<style>
+    .navbar-nav .nav-link {
+        border-bottom: 4px solid transparent; /* Initial state - transparent border */
+        transition: border-color 0.7s; /* Transition for smooth animation */
+    }
+
+        .navbar-nav .nav-link:hover {
+            border-color: lightblue; /* Border color on hover */
+        }
+
+    .navbar-nav .nav-item.active .nav-link {
+        border-bottom: 4px solid lightblue;
+    }
+
+</style>

@@ -217,7 +217,7 @@ namespace Job_Search_Application.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetRequestsStatus()
+        public ActionResult GetRequests_Status()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
@@ -237,6 +237,8 @@ namespace Job_Search_Application.Controllers
             var jobRequest = _context.Job_Request
                 .Where(e => e.JobRequest_Id == requestID)
                 .Include(e => e.Job)
+                .Include(e => e.Employer)
+                .ThenInclude(e => e.User)
                 .FirstOrDefault();
 
             if (jobRequest == null)

@@ -161,6 +161,7 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.InterviewRequest_Status = "canceled";
+            request.Request_Status = "rejected";
             _context.SaveChanges();
 
             // Increment the reviewed and selected count for the selected job
