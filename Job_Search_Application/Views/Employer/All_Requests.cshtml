@@ -3,23 +3,22 @@
 @{
     ViewBag.Title = "AllRequests";
 }
-
+@{
+    Html.RenderPartial("_EmployerNavPartial2");
+} 
+<br />
+<h3>Applicants</h3>
 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-    <button type="button" class="btn btn-primary">Primary</button>
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-        
-                @foreach (var job in ViewBag.PublishedJobs)
-                {
-                    <a class="dropdown-item job-application" data-job="@job.Title" href="/Employer/All_Requests?jobApplication=@job.Title">@job.Title</a>
-                }
-
-            
-        </div>
-    </div>
+    <select id="selectJob" class="form-select" aria-label="Select job">
+        <option selected disabled>Select a job</option>
+        @foreach (var job in ViewBag.PublishedJobs)
+        {
+            <option value="/Employer/All_Requests?jobApplication=@job.Title">@job.Title</option>
+        }
+    </select>
 </div>
 
+<br />
 <div class="allRequests">
     @if (Model.Count() == 0)
     {
@@ -35,7 +34,7 @@
                 There are <strong>@Model.Count()</strong> requests.
             </div>
 
-            <table class="table" style="text-align:center">
+            <table class ="table table-striped table-borderless shadow-lg rounded-3" style="text-align:center; background-color:rgb(128, 204, 255);">
                 <thead>
                     <tr>
                         <th>Employee Name</th>
@@ -58,9 +57,33 @@
                                     {
                                         status = "Awaiting Review";
                                     }
-                                    else if (item.Request_Status == "accepted")
+                                    else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "pending")
                                     {
                                         status = "Reviewed Accepted";
+                                    }
+                                     else if (item.Request_Status == "rejected")
+                                    {
+                                        status = "Reviewed Rejected";
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "accepted")
+                                    {
+                                        status = "Reviewed interview pending";
+                                    }
+                                     else if (item.Request_Status == "accepted" && item.Request_Status == "accepted" && item.InterviewRequest_Status == "canceled")
+                                    {
+                                        status = "Reviewed Declined";
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "declined")
+                                    {
+                                        status = "Reviewed Withdrawn";
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "interviewed")
+                                    {
+                                        status = "Interviewed";
+                                    }
+                                        else if (item.InterviewRequest_Status == "hired")
+                                    {
+                                        status = "Reviewed Hired";
                                     }
                                 }
                                 @status <br />
@@ -96,4 +119,17 @@
             $('.job-request-row').show();
         }
     }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#selectJob').on('change', function () {
+            var selectedValue = $(this).val();
+            if (selectedValue) {
+                window.location.href = selectedValue;
+            }
+        });
+
+    });
+
 </script>

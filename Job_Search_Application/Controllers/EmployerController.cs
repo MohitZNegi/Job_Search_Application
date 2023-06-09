@@ -341,10 +341,11 @@ namespace Job_Search_Application.Controllers
 
         }
 
-        public ActionResult GetPublishedJobs(string searchTerm, int? page)
+        public ActionResult GetPublishedJobs(string searchTerm, string sortOrder, int? page)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             ViewBag.CurrentUser = userId;
+            var currentDate = DateTime.Now;
             var jobs = _context.Jobs.Include(j => j.Employer).Where(j => j.PublisherId == userId).ToList();
 
 
@@ -354,11 +355,27 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            var publishedjobs = _context.Jobs.Where(e => e.PublisherId == userId).FirstOrDefault();
 
-            if (publishedjobs == null)
+
+            // Apply sorting based on the sortOrder parameter
+            switch (sortOrder)
             {
-                return RedirectToAction("Publish_Job", "Employer");
+                case "title_asc":
+                    jobs = jobs.OrderBy(j => j.Title).ToList();
+                    break;
+                case "title_desc":
+                    jobs = jobs.OrderByDescending(j => j.Title).ToList();
+                    break;
+                case "date_asc":
+                    jobs = jobs.OrderBy(j => j.PublishDate).ToList();
+                    break;
+                case "closedate_asc":
+                    jobs = jobs.OrderByDescending(j => j.DeactivationDate).ToList();
+                    break;
+                default:
+                    // Default sorting by descending published date
+                    jobs = jobs.OrderByDescending(j => j.PublishDate).ToList();
+                    break;
             }
 
             if (!String.IsNullOrWhiteSpace(searchTerm))
@@ -374,8 +391,16 @@ namespace Job_Search_Application.Controllers
             }
             else
             {
-                // Exclude draft jobs
-                jobs = jobs.Where(j => j.IsPublished).Where(j => j.IsActive || j.IsActive == false).ToList();
+                // Exclude draft deactivated jobs
+                jobs = jobs.Where(j => j.IsPublished && j.DeactivationDate > currentDate).Where(j => j.IsActive || j.IsActive == false).ToList();
+                foreach (var job in jobs)
+                {
+                    if (job.DeactivationDate <= currentDate)
+                    {
+                        job.IsActive = false;
+                    }
+                }
+                _context.SaveChanges();
             }
             var jobViews = _analyticsService.GetJobViews(jobs);
             var jobApplies = _analyticsService.GetJobApplies(jobs);
@@ -394,7 +419,8 @@ namespace Job_Search_Application.Controllers
             ViewBag.Withdrawn = withdrawn;
             ViewBag.Interviewed = interviewed;
             ViewBag.Hired = hired;
-
+            // Pass the sortOrder to the view
+            ViewBag.CurrentSort = sortOrder;
             return View(jobs.ToPagedList(page ?? 1, 3));
 
         }
@@ -503,7 +529,7 @@ namespace Job_Search_Application.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetPublishedJobs", "Employer");
         }
 
 
@@ -516,7 +542,7 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            var publishedJobs = _context.Jobs.Where(j => j.IsPublished && j.IsActive).ToList();
+            var publishedJobs = _context.Jobs.Where(j => j.IsPublished).ToList();
             ViewBag.PublishedJobs = publishedJobs;
 
             var requests = _context.Job_Request

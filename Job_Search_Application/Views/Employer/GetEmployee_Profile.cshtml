@@ -171,7 +171,7 @@
                 var requestId = acceptButton.data("request-id");
 
                 bootbox.confirm({
-                    message: "Are you sure you want to accept this request?",
+                    message: "Are you sure you want to accept this request and send an interview request to the applicant?",
                     buttons: {
                         cancel: {
                             label: 'No',
@@ -189,7 +189,7 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You accepted the request successfully");
+                                    bootbox.alert("You accepted the request successfully, and an interview request has been sent to the applicant");
                                     acceptButton.hide(); // Hide the accept button
                                     rejectButton.hide(); // Hide the reject button
                                 })
