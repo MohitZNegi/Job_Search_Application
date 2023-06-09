@@ -1,10 +1,13 @@
 ﻿@model List<EmployerReviewRequest_Model>
-
+<br />
+@{
+    Html.RenderPartial("_AdminNavPartial2");
+}
 <h2>Review Requests</h2>
 
 @if (Model.Count > 0)
 {
-    <div class="card-deck">
+    <div class="card-deck" >
         <form method="post" action="@Url.Action("ApproveReviewRequests", "Admin")">
             @foreach (var request in Model)
             {
@@ -12,6 +15,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Request ID: @request.JobReviewRequest_Id</h5>
                         <h6 class="card-subtitle mb-2 text-muted">User ID: @request.EmployerId</h6>
+                        <p class="card-text">User Email: @request.Employer.User.Email</p>
                         <p class="card-text">Request Date: @request.Request_Date</p>
                         <p class="card-text">Status:@(request.Employer.IsApproved ? "Approved" : "Not Approved")</p>
                         <div class="form-check">
@@ -20,10 +24,12 @@
                                 Approve
                             </label>
                         </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
+               
             }
-            <button type="submit" class="btn btn-primary">Submit</button>
+           
         </form>
     </div>
 }

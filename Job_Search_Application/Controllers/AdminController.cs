@@ -65,7 +65,7 @@ namespace Job_Search_Application.Controllers
         public IActionResult ReviewRequests()
         {
             List<EmployerReviewRequest_Model> reviewRequests = _context.EmployerReviewRequest
-                .Include(r => r.Employer)
+                .Include(r => r.Employer).ThenInclude(r => r.User)
                 .Where(r => !r.Employer.IsApproved)
                 .ToList();
 
@@ -86,6 +86,7 @@ namespace Job_Search_Application.Controllers
 
                     if (reviewRequest != null)
                     {
+                        reviewRequest.IsReviewed = true;
                         reviewRequest.Employer.IsApproved = true;
                     }
                 }

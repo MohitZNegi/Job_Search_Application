@@ -152,13 +152,15 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
-    function handleSortingChange(select) {
-        var selectedOption = select.options[select.selectedIndex];
-        window.location.href = selectedOption.value;
+    function handleActionSelect(selectElement) {
+        var selectedValue = selectElement.value;
+        if (selectedValue) {
+            window.location.href = selectedValue;
+        }
     }
 </script>
+
 <script>
 
     $(document).ready(function () {

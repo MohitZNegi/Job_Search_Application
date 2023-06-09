@@ -22,6 +22,14 @@
                 <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle float-start" style="height: 30px; width: 30px; float: left; margin-right: 0px;" />
             </a>
             @* <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> @User.Identity?.Name</a>*@
+            @if (this.User.IsInRole("Admin"))
+            {
+
+
+
+
+                <partial name="_AdminNavPartial" />
+            }
 
 
             @if (this.User.IsInRole("Employee"))

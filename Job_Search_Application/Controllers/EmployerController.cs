@@ -95,7 +95,7 @@ namespace Job_Search_Application.Controllers
             var CheckIfUserIsEmployer = _context.UserRoles.Where(u => u.UserId == userId && u.RoleId == "f1b1a323-474a-4b5a-844b-b2831d9fe48c").FirstOrDefault();
             var CheckIfEmployerHasProfile = _context.Employer.Where(e => e.Employer_Id == userId).FirstOrDefault();
             var CheckIfEmployerIsReviewed = _context.Employer.Where(e => e.Employer_Id == userId && e.IsApproved == false).FirstOrDefault();
-
+          
 
             if (CheckIfEmployerHasProfile == null && CheckIfUserIsEmployer != null)
             {
@@ -108,7 +108,8 @@ namespace Job_Search_Application.Controllers
 
             if (CheckIfEmployerHasProfile != null && CheckIfUserIsEmployer != null && CheckIfEmployerIsReviewed != null)
             {
-                TempData["ProfileMessage"] = "Your profile has been created. It is currently being reviewed.";
+                TempData["ProfileMessage"] = "Your profile has been created. It is currently being reviewed." +
+                    " You will be contacted through your email, so do check your email. Here is your request ID";
                 return RedirectToAction("ProfileMessage");
             }
 
@@ -118,7 +119,9 @@ namespace Job_Search_Application.Controllers
 
         public IActionResult ProfileMessage()
         {
-            return View();
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var request_ID = _context.EmployerReviewRequest.Where(e => e.Employer.Employer_Id == userId).FirstOrDefault();
+            return View(request_ID);
         }
 
         [HttpPost]
@@ -151,8 +154,20 @@ namespace Job_Search_Application.Controllers
 
                 await _context.Employer.AddAsync(employer);
                 await _context.SaveChangesAsync();
+                // Create a review request
+                var reviewRequest = new EmployerReviewRequest_Model
+                {
+                    EmployerId = userId,
+                    Request_Date = DateTime.Now,
+                    IsReviewed = false,
+                };
 
-                return RedirectToAction("Index", "Home");
+                // Save the review request in the database
+                _context.EmployerReviewRequest.Add(reviewRequest);
+                _context.SaveChanges();
+
+            
+            return RedirectToAction("JobsFeed", "Job");
 
             }
 

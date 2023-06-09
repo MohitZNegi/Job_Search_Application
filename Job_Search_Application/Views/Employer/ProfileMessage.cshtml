@@ -1,6 +1,8 @@
-﻿@if (TempData["ProfileMessage"] != null)
+﻿@model EmployerReviewRequest_Model;
+<br />
+@if (TempData["ProfileMessage"] != null)
 {
     <div class="alert alert-info" role="alert">
-        @TempData["ProfileMessage"]
+        @TempData["ProfileMessage"]  @Model.JobReviewRequest_Id
     </div>
 }

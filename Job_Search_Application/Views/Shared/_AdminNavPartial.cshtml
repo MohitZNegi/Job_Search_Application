@@ -1,0 +1,54 @@
+﻿
+<div class="dropdown-menu dropdown-menu-end flex-fill" style="background-color:aliceblue;
+        z-index: 200;">
+    <ul style="padding-left: 0;">
+        <li  style="white-space: normal; padding: 10px; display: flex; align-items: center;">
+            <div class="d-flex justify-content-center" style="overflow: hidden; text-overflow: ellipsis;">
+                <div class="d-flex justify-content-center">
+                    <a class="img-link">
+                        <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle d-flex justify-content-center" style=" text-align:center; height: 68px; width: 68px; margin-right: 10px;" />
+                    </a>
+                    <p>Admin</p>
+                </div>
+            </div>
+        </li>
+
+
+        <li role="separator" class="dropdown-divider"></li>
+
+        <li class="dropdown-item">
+
+
+            <a  asp-controller="Admin" asp-action="AlLUsers" class="nav-link text-dark">
+                <i class="bi bi-person-workspace"></i>
+                Your Dashboard
+            </a>
+        </li>
+
+
+        <li role="separator" class="dropdown-divider"></li>
+
+
+        <li class="dropdown-item">
+
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                <i class="bi bi-gear-fill"></i>
+                Account Settings
+            </a>
+
+
+        </li>
+        <li role="separator" class="dropdown-divider"></li>
+        <li class="dropdown-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+
+                   <button  type="submit" class="nav-link btn btn-link text-dark"><i class="bi bi-box-arrow-left"></i> Logout</button>  
+                
+            </form>
+        </li>
+
+    </ul>
+</div>
+
+
+
