@@ -28,7 +28,7 @@
         </div>
 
         <div class="card-footer">
-            <p>@Html.DisplayFor(modelItem => modelItem.Job_Details)</p>
+            @Html.Raw(Model.Job_Details)
         </div>
         <br />
 
@@ -92,7 +92,34 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
-   
+
+
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontfamily@0.2.3/dist/fontfamily-plugin.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            // Get the HTML content of the editor
+            var htmlContent = $('#jobDetailsText').data('job-details');
+
+            // Set the HTML content in the editor
+            $('#jobDetailsText').summernote({
+                toolbar: false,
+                readOnly: true,
+                airMode: false,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                disableDragAndDrop: true,
+                callbacks: {
+                    onInit: function () {
+                        // Set the HTML content in the editor
+                        $('#jobDetailsText').summernote('code', htmlContent);
+                    }
+                }
+            });
+        });
+    </script>
+
 
  
     <script>

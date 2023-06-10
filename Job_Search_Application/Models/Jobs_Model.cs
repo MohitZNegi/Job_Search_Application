@@ -24,6 +24,7 @@ namespace Job_Search_Application.Models
         public string Title { get; set; }
 
         [StringLength(1500)]
+       
         [Display(Name = "Job Details")]
         public string Job_Details { get; set; }
 
