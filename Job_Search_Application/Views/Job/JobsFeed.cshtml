@@ -26,17 +26,27 @@
 
             <select class="form-control me-sm-2" name="searchTerm3" id="jobTypeSelect">
                 <option value="">All Job Types</option>
-                <option value="Full-Time">Full-Time</option>
                 <option value="Part-Time">Part-Time</option>
-                <option value="Contract">Contract</option>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Permanent Full-Time">Permanent Full-Time</option>
+                <option value="Permanent Part-Time">Permanent Part-Time</option>
+                <option value="Temporary Part-Time">Temporary Part-Time</option>
+                <option value="Temporary Full-Time">Temporary Full-Time</option>
+                <option value="Casual">Casual</option>
             </select>
             <select class="form-control me-sm-2" name="searchTerm4" id="scheduleSelect">
                 <option value="">All Schedules</option>
                 <option value="Morning Shift">Morning Shift</option>
+                <option value="Night Shift">Night Shift</option>
                 <option value="Afternoon Shift">Afternoon Shift</option>
                 <option value="Evening Shift">Evening Shift</option>
                 <option value="Flexible Schedule">Flexible Schedule</option>
-                <!-- Add more schedule options here -->
+                <option value="Weekends Shifts">Weekends Shifts</option>
+                <option value="9-5 shift">9-5 shift</option>
+                <option value="20 hrs per week">20 hrs per week</option>
+                <option value="40 hrs per week">40 hrs per week</option>
+                <option value="Custom Range">Custom Range</option>
+
             </select>
 
             <select class="form-control me-sm-2" name="searchTerm5" id="classificationSelect">
@@ -114,7 +124,205 @@
 <script>
     $(function () {
         var cities = [
-            "Auckland", "Wellington", "Christchurch" // Add more city options here
+            "Auckland", "Wellington", "Christchurch",
+            "Hamilton", "Tauranga", "Napier", "Dunedin",
+            "Palmerston North", "Nelson", "Rotorua", "New Plymouth", 
+            "Whangarei", "Invercargill", "Whanganui", "Gisborne", "Porirua",
+            "Upper Hutt", "Lower Hutt", "Timaru", "Hastings", "Masterton", 
+            "Cambridge", "Levin", "Pukekohe", "Taupo", "Whakatane", "Ashburton", 
+            "Paraparaumu", "Blenheim", "Feilding", 
+
+            "Ponsonby, Auckland", "Newmarket, Auckland",
+            "Parnell, Auckland", "Grey Lynn, Auckland",
+            "Mount Eden, Auckland", "Remuera, Auckland", "Devonport, Auckland", 
+            "Takapuna, Auckland", "Orakei, Auckland", "Epsom, Auckland", "Mission Bay, Auckland", 
+            "Henderson, Auckland", "North Shore, Auckland", "One Tree Hill, Auckland", 
+            "Glen Innes, Auckland", "Kingsland, Auckland", "Morningside, Auckland",
+            "Avondale, Auckland", "Panmure, Auckland", "Mt Roskill, Auckland", "Sandringham, Auckland",
+            "Blockhouse Bay, Auckland", "Birkenhead, Auckland", "Westmere, Auckland", "St Heliers, Auckland", 
+            "Kohimarama, Auckland", "Herne Bay, Auckland", "Albany, Auckland", "Glenfield, Auckland",
+            "Hobsonville, Auckland", "Orewa, Auckland", "Torbay, Auckland", "Red Beach, Auckland",
+            "Long Bay, Auckland", "Hillsborough, Auckland", "Te Atatu Peninsula, Auckland",
+            "Titirangi, Auckland", "Waterview, Auckland", "Whenuapai, Auckland", "Pakuranga, Auckland",
+            "Botany Downs, Auckland", "Meadowbank, Auckland", "Sylvia Park, Auckland", "Otahuhu, Auckland", 
+            "Papatoetoe, Auckland", "Manukau, Auckland", "East Tamaki, Auckland", "Mangere, Auckland", "Airport Oaks, Auckland",
+
+                "Wellington Central, Wellington",
+            "Lower Hutt, Wellington",
+            "Upper Hutt, Wellington",
+            "Porirua, Wellington",
+            "Paraparaumu, Wellington",
+            "Masterton, Wellington",
+            "Otaki, Wellington",
+            "Petone, Wellington",
+            "Island Bay, Wellington",
+            "Miramar, Wellington",
+            "Johnsonville, Wellington",
+            "Karori, Wellington",
+            "Eastbourne, Wellington",
+            "Seatoun, Wellington",
+            "Tawa, Wellington",
+            "Kapiti, Wellington",
+            "Wairarapa, Wellington",
+            "Carterton, Wellington",
+            "Greytown, Wellington",
+            "Martinborough, Wellington",
+
+
+                "Christchurch Central, Christchurch",
+            "Riccarton, Christchurch",
+            "New Brighton, Christchurch",
+            "Papanui, Christchurch",
+            "St Albans, Christchurch",
+            "Cashmere, Christchurch",
+            "Halswell, Christchurch",
+            "Merivale, Christchurch",
+            "Avonhead, Christchurch",
+            "Burwood, Christchurch",
+            "Wigram, Christchurch",
+            "Ilam, Christchurch",
+            "Sumner, Christchurch",
+            "Fendalton, Christchurch",
+            "Linwood, Christchurch",
+            "Sydenham, Christchurch",
+            "Redcliffs, Christchurch",
+            "Bishopdale, Christchurch",
+            "Hornby, Christchurch",
+            "Strowan, Christchurch",
+
+
+            "Hamilton Central, Hamilton",
+            "Frankton, Hamilton",
+            "Dinsdale, Hamilton",
+            "Hillcrest, Hamilton",
+            "Melville, Hamilton",
+            "Fairfield, Hamilton",
+            "Chartwell, Hamilton",
+            "Rototuna, Hamilton",
+            "Te Rapa, Hamilton",
+            "Glenview, Hamilton",
+            "Pukete, Hamilton",
+            "Flagstaff, Hamilton",
+            "Hamilton East, Hamilton",
+            "Silverdale, Hamilton",
+            "Deanwell, Hamilton",
+            "Claudelands, Hamilton",
+            "Nawton, Hamilton",
+            "Beerescourt, Hamilton",
+            "Chedworth, Hamilton",
+            "Ruakura, Hamilton",
+
+            "Tauranga Central, Tauranga",
+            "Mount Maunganui, Tauranga",
+            "Papamoa, Tauranga",
+            "Greerton, Tauranga",
+            "Welcome Bay, Tauranga",
+            "Bethlehem, Tauranga",
+            "Otumoetai, Tauranga",
+            "Pyes Pa, Tauranga",
+            "Brookfield, Tauranga",
+            "Tauriko, Tauranga",
+            "Judea, Tauranga",
+            "Maungatapu, Tauranga",
+            "The Lakes, Tauranga",
+            "Ohauiti, Tauranga",
+            "Hairini, Tauranga",
+            "Parkvale, Tauranga",
+            "Matua, Tauranga",
+            "Te Puna, Tauranga",
+            "Arataki, Tauranga",
+            "Tauranga South, Tauranga",
+
+            "Napier Central, Napier",
+            "Taradale, Napier",
+            "Onekawa, Napier",
+            "Greenmeadows, Napier",
+            "Ahuriri, Napier",
+            "Pandora, Napier",
+            "Tamatea, Napier",
+            "Westshore, Napier",
+            "Marewa, Napier",
+            "Pirimai, Napier",
+            "Nelson Park, Napier",
+            "Meeanee, Napier",
+            "Bay View, Napier",
+            "Jervoistown, Napier",
+            "Hospital Hill, Napier",
+            "Bluff Hill, Napier",
+            "Napier South, Napier",
+            "Awatoto, Napier",
+            "Eskdale, Napier",
+            "Clive, Napier",
+
+            "Dunedin Central, Dunedin",
+            "Roslyn, Dunedin",
+            "Mornington, Dunedin",
+            "North Dunedin, Dunedin",
+            "St Kilda, Dunedin",
+            "South Dunedin, Dunedin",
+            "Caversham, Dunedin",
+            "Maori Hill, Dunedin",
+            "Belleknowes, Dunedin",
+            "The Glen, Dunedin",
+            "Wakari, Dunedin",
+            "Andersons Bay, Dunedin",
+            "Glenross, Dunedin",
+            "Halfway Bush, Dunedin",
+            "Bathgate Park, Dunedin",
+            "Concord, Dunedin",
+            "Bradford, Dunedin",
+            "Pine Hill, Dunedin",
+            "Fairfield, Dunedin",
+            "Caversham Valley, Dunedin",
+
+
+            "Nelson Central, Nelson",
+            "Stoke, Nelson",
+            "Richmond, Nelson",
+            "Tahunanui, Nelson",
+            "Annesbrook, Nelson",
+            "The Wood, Nelson",
+            "Washington Valley, Nelson",
+            "Nelson South, Nelson",
+            "Bishopdale, Nelson",
+            "Atawhai, Nelson",
+            "Toi Toi, Nelson",
+            "Enner Glynn, Nelson",
+            "Tahuna Hills, Nelson",
+            "Stepneyville, Nelson",
+            "Montgomery Square, Nelson",
+            "Nelson East, Nelson",
+            "Nelson North, Nelson",
+            "Victory Square, Nelson",
+            "Port Nelson, Nelson",
+            "The Brook, Nelson",
+            "Nelson, Nelson",
+            
+            "Rotorua Central, Rotorua",
+            "Fenton Park, Rotorua",
+            "Glenholme, Rotorua",
+            "Ngongotaha, Rotorua",
+            "Holdens Bay, Rotorua",
+            "Owhata, Rotorua",
+            "Tihiotonga, Rotorua",
+            "Westbrook, Rotorua",
+            "Mangakakahi, Rotorua",
+            "Pukehangi, Rotorua",
+            "Fairy Springs, Rotorua",
+            "Lynmore, Rotorua",
+            "Springfield, Rotorua",
+            "Hillcrest, Rotorua",
+            "Hannahs Bay, Rotorua",
+            "Sunnybrook, Rotorua",
+            "Victoria, Rotorua",
+            "Koutu, Rotorua",
+            "Fordlands, Rotorua",
+            "Mourea, Rotorua",
+            "Rotorua, Rotorua"
+
+
+
+
         ];
 
         $("#locationSearch").on("input", function () {

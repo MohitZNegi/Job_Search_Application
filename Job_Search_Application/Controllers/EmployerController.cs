@@ -11,6 +11,12 @@ using Job_Search_Application.Interfaces;
 using Job_Search_Application.Services;
 using X.PagedList;
 using Job_Search_Application.Controllers.API;
+using Newtonsoft.Json;
+using System.Net;
+using Microsoft.Extensions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+
 
 namespace Job_Search_Application.Controllers
 {
@@ -176,6 +182,7 @@ namespace Job_Search_Application.Controllers
 
         public ActionResult Update(string id)
         {
+          
             var userId = _userManager.GetUserId(HttpContext.User);
 
 
@@ -204,6 +211,9 @@ namespace Job_Search_Application.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAsync(EmployerProfileViewModel viewModel)
         {
+
+
+
             var userId = _userManager.GetUserId(HttpContext.User);
             var result = await _photoService.AddPhotoAsync(viewModel.Company_Logo);
             var bannerresult = await _photoService.AddPhotoAsync(viewModel.Company_Banner);
@@ -224,6 +234,7 @@ namespace Job_Search_Application.Controllers
 
 
         }
+       
         public ActionResult Publish_Job()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
