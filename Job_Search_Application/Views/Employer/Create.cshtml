@@ -2,122 +2,103 @@
 @{
     ViewData["Title"] = "Create";
 }
-<style>
-    body {
-        background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
-    }
-
-    .registration-form {
-        padding: 50px 0;
-    }
-
-        .registration-form form {
-            background-color: #fff;
-            max-width: 600px;
-            margin: auto;
-            padding: 50px 70px;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-        }
-</style>
 
 <br />
-<br />
-<div class="container shadow" style="background: linear-gradient(to bottom, #007bff, white); border-radius:20px; max-width:800px;">
+<div class="container shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10">
-            <h1 style="text-align:center; color:aliceblue">Complete your profile</h1>
-            <h5 style="text-align:center; color:aliceblue">Your journey starts here!</h5>
+            <br />
+            <div class="shadow-lg rounded-2" style="background-color:rgb(102, 153, 255)">
+
+
+                <h1 style="text-align: center; color: aliceblue"><img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:50px;" />  Complete your profile</h1>
+                <h5 style="text-align: center; color: aliceblue">Your journey starts here!</h5>
+                <br />
+            </div>
             <hr />
             <form asp-action="Create" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row">
-            <div class="col">
-            <div class="form-group">
-            <label asp-for="Company_Name" class="control-label"></label>
-            <input asp-for="Company_Name" class="form-control" />
-            <span asp-validation-for="Company_Name" class="text-danger"></span>
-            </div>
-            </div>
-            <div class="col">
-            <div class="form-group">
-            <label asp-for="Company_CEO" class="control-label"></label>
-            <input asp-for="Company_CEO" class="form-control" />
-            <span asp-validation-for="Company_CEO" class="text-danger"></span>
-            </div>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label asp-for="Company_Industry" class="control-label"></label>
-                    <input asp-for="Company_Industry" class="form-control" />
-                    <span asp-validation-for="Company_Industry" class="text-danger"></span>
-                </div>
-            </div>
-         
-                <div class="col">
-            <div class="form-group">
-            <label asp-for="Company_Description" class="control-label"></label>
-            <input asp-for="Company_Description" class="form-control" />
-            <span asp-validation-for="Company_Description" class="text-danger"></span>
-            </div>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label asp-for="Location" class="control-label"></label>
-                    <input asp-for="Location" class="form-control" />
-                    <span asp-validation-for="Location" class="text-danger"></span>
-                </div>
-          
-            </div>
-            
-                <div class="col">
-                <div class="form-group">
-                    <label asp-for="Company_URL" class="control-label"></label>
-                    <input type="url" asp-for="Company_URL" class="form-control" />
-                    <span asp-validation-for="Company_URL" class="text-danger"></span>
-                </div>
-           
-            </div>
-            </div>
-            <div class="row">
-            <div class="col">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-3">
                         <div class="form-group">
-                            <label for="formFile" asp-for="Company_Logo" class="control-label"></label>
-                            <input type="file" id="formFile" asp-for="Company_Logo" class="form-control" />
-                            <span asp-validation-for="Company_Logo" class="text-danger"></span>
+                            <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle d-flex justify-content-center" style="text-align: center; max-height: 200px; width: 200px; margin-right: 10px;" />
+                            <label asp-for="Company_Logo">Profile Image</label>
+                            <input asp-for="Company_Logo" type="file" class="form-control" placeholder="Insert Image" accept=".png" required>
+                            <span asp-validation-for="Company_Name" class="text-danger"></span>
                         </div>
-      
-            </div>
-              
-                <div class="col">
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col">
                         <div class="form-group">
-                            <label for="formFile" asp-for="Company_Banner" class="control-label"></label>
-                            <input type="file" id="formFile" asp-for="Company_Banner" class="form-control" />
-                            <span asp-validation-for="Company_Banner" class="text-danger"></span>
+
+                            <label asp-for="Company_Name" class="control-label">First Name:</label>
+
+                            <input asp-for="Company_Name" class="form-control" />
+                            <span asp-validation-for="Company_Name" class="text-danger"></span>
                         </div>
-            </div>
-            </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Company_CEO" class="control-label">Last Name:</label>
+                            <input type="text" asp-for="Company_CEO" class="form-control" />
+                            <span asp-validation-for="Company_CEO" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Company_Industry" class="control-label">Date of Birth:</label>
+                            <input type="text" asp-for="Company_Industry" class="form-control" />
+                            <span asp-validation-for="Company_Industry" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Location" class="control-label">Address:</label>
+                            <input asp-for="Location" class="form-control" />
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Company_Description" class="control-label">Personal Summary:</label>
+                    <textarea asp-for="Company_Description" class="form-control" id="exampleTextarea" rows="2" spellcheck="false"></textarea>
+                    <span asp-validation-for="Company_Description" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Company_URL" class="control-label"></label>
+                            <input type="url" asp-for="Company_URL" class="form-control" />
+                            <span asp-validation-for="Company_URL" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div>
+                <div class="form-group">
+                    <label asp-for="Company_Banner">Resume:</label>
+                    <input type="file" id="formFile" asp-for="Company_Banner" class="form-control" accept=".png" required />
+                    <span asp-validation-for="Company_Banner" class="text-danger"></span>
+                    <span class="text-danger" data-valmsg-for="Resume" data-valmsg-replace="true"></span>
+                </div>
+                    </div>
+                </div>
                 <br />
                 <div class="d-flex justify-content-center">
                     <div class="col-md-8">
                         <fieldset>
-                            <button type="submit" value="Create" class="w-100 btn btn-lg btn-success shadow  " style="background-color:#3C9AFF; color:white" id="save">Submit</button>
+                            <button type="submit" value="Create" class="w-100 btn btn-lg btn-success shadow" style="background-color: #3C9AFF; color: white" id="save">Submit</button>
                         </fieldset>
                     </div>
                 </div>
                 <br />
-                
-
-        </form>
+            </form>
             <br />
-
+        </div>
     </div>
-</div>
 </div>
 
 @section Scripts {
