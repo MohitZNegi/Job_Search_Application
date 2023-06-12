@@ -51,24 +51,81 @@
 
             <select class="form-control me-sm-2" name="searchTerm5" id="classificationSelect">
                 <option value="">All Classifications</option>
-                <option value="Entry-Level">Entry-Level</option>
-                <option value="Mid-Level">Mid-Level</option>
-                <option value="Senior-Level">Senior-Level</option>
+                <option value="Software Developer">Software Developer</option>
+                <option value="Registered Nurse">Registered Nurse</option>
+                <option value="Sales Representative">Sales Representative</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Marketing Manager">Marketing Manager</option>
+                <option value="Graphic Designer">Graphic Designer</option>
+                <option value="Financial Analyst">Financial Analyst</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Human Resources Manager">Human Resources Manager</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Business Analyst">Business Analyst</option>
+                <option value="Operations Manager">Operations Manager</option>
+                <option value="Product Manager">Product Manager</option>
+                <option value="Web Developer">Web Developer</option>
+                <option value="UX/UI Designer">UX/UI Designer</option>
+                <option value="Electrical Engineer">Electrical Engineer</option>
+                <option value="Mechanical Engineer">Mechanical Engineer</option>
+                <option value="Civil Engineer">Civil Engineer</option>
+                <option value="Chemical Engineer">Chemical Engineer</option>
+                <option value="IT Manager">IT Manager</option>
+                <option value="Network Administrator">Network Administrator</option>
+                <option value="Systems Analyst">Systems Analyst</option>
+                <option value="Database Administrator">Database Administrator</option>
+                <option value="Quality Assurance Analyst">Quality Assurance Analyst</option>
+                <option value="Technical Writer">Technical Writer</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Lawyer">Lawyer</option>
+                <option value="Doctor">Doctor</option>
+                <option value="Pharmacist">Pharmacist</option>
+                <option value="Dentist">Dentist</option>
+                <option value="Veterinarian">Veterinarian</option>
+                <option value="Chef">Chef</option>
+                <option value="Waiter/Waitress">Waiter/Waitress</option>
+                <option value="Bartender">Bartender</option>
+                <option value="Cashier">Cashier</option>
+                <option value="Customer Service Representative">Customer Service Representative</option>
+                <option value="Retail Sales Associate">Retail Sales Associate</option>
+                <option value="Marketing Assistant">Marketing Assistant</option>
+                <option value="Administrative Assistant">Administrative Assistant</option>
+                <option value="Receptionist">Receptionist</option>
+                <option value="Data Entry Clerk">Data Entry Clerk</option>
+                <option value="Delivery Driver">Delivery Driver</option>
+                <option value="Truck Driver">Truck Driver</option>
+                <option value="Security Guard">Security Guard</option>
+                <option value="Janitor">Janitor</option>
+                <option value="Painter">Painter</option>
+                <option value="Plumber">Plumber</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Carpenter">Carpenter</option>
+                <option value="Mason">Mason</option>
             </select>
                 <select class="form-control me-sm-2 custom-select" name="searchTerm6" id="salarySelect">
                     <option value="">All Salaries</option>
-                    <optgroup label="Hourly">
-                        <option value="Below $20 per hour">Below $20 per hour</option>
-                        <option value="$20 - $30 per hour">$20 - $30 per hour</option>
-                        <option value="$30 - $40 per hour">$30 - $40 per hour</option>
-                        <!-- Add more hourly options here -->
-                    </optgroup>
-                    <optgroup label="Annually">
-                        <option value="Below $50000">Below $50,000</option>
-                        <option value="$50000 - $100000">$50,000 - $100,000</option>
-                        <option value="$100000 - $150000">$100,000 - $150,000</option>
-                        <!-- Add more annual options here -->
-                    </optgroup>
+                <optgroup label="Hourly Salary">
+                    <option value="Less than $10 per hour">Less than $10 per hour</option>
+                    <option value="$10 - $20 per hour">$10 - $20 per hour</option>
+                    <option value="$20 - $30 per hour">$20 - $30 per hour</option>
+                    <option value="$30 - $40 per hour">$30 - $40 per hour</option>
+                    <option value="$40 - $50 per hour">$40 - $50 per hour</option>
+                    <option value="$50 - $60 per hour">$50 - $60 per hour</option>
+                    <option value="More than $60 per hour">More than $60 per hour</option>
+                </optgroup>
+                <optgroup label="Annual Salary">
+                    <option value="Less than $30,000 per year">Less than $30,000 per year</option>
+                    <option value="$30,000 - $40,000 per year">$30,000 - $40,000 per year</option>
+                    <option value="$40,000 - $50,000 per year">$40,000 - $50,000 per year</option>
+                    <option value="$50,000 - $60,000 per year">$50,000 - $60,000 per year</option>
+                    <option value="$60,000 - $70,000 per year">$60,000 - $70,000 per year</option>
+                    <option value="$70,000 - $80,000 per year">$70,000 - $80,000 per year</option>
+                    <option value="$80,000 - $90,000 per year">$80,000 - $90,000 per year</option>
+                    <option value="$90,000 - $100,000 per year">$90,000 - $100,000 per year</option>
+                    <option value="$100,000 - $150,000 per year">$100,000 - $150,000 per year</option>
+                    <option value="More than $150,000 per year">More than $150,000 per year</option>
+                </optgroup>
+    
                 </select>
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -341,7 +398,7 @@
                         dropdown.append(listItem);
                     });
                 } else {
-                    var listItem = $("<li>").text("No matching cities").addClass("disabled");
+                    var listItem = $("<li>").text("No matching location").addClass("disabled");
                     dropdown.append(listItem);
 
                 }

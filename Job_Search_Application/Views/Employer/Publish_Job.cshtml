@@ -340,11 +340,34 @@
                     <div class="col">
                         <div class="form-group">
                             <label asp-for="Salary" class="control-label"></label>
-                            <input asp-for="Salary" class="form-control" />
+                            <select asp-for="Salary" class="form-control">
+                                <option value="">Select Salary</option>
+                                <optgroup label="Hourly Salary">
+                                    <option value="Less than $10 per hour">Less than $10 per hour</option>
+                                    <option value="$10 - $20 per hour">$10 - $20 per hour</option>
+                                    <option value="$20 - $30 per hour">$20 - $30 per hour</option>
+                                    <option value="$30 - $40 per hour">$30 - $40 per hour</option>
+                                    <option value="$40 - $50 per hour">$40 - $50 per hour</option>
+                                    <option value="$50 - $60 per hour">$50 - $60 per hour</option>
+                                    <option value="More than $60 per hour">More than $60 per hour</option>
+                                </optgroup>
+                                <optgroup label="Annual Salary">
+                                    <option value="Less than $30,000 per year">Less than $30,000 per year</option>
+                                    <option value="$30,000 - $40,000 per year">$30,000 - $40,000 per year</option>
+                                    <option value="$40,000 - $50,000 per year">$40,000 - $50,000 per year</option>
+                                    <option value="$50,000 - $60,000 per year">$50,000 - $60,000 per year</option>
+                                    <option value="$60,000 - $70,000 per year">$60,000 - $70,000 per year</option>
+                                    <option value="$70,000 - $80,000 per year">$70,000 - $80,000 per year</option>
+                                     <option value="$80,000 - $90,000 per year">$80,000 - $90,000 per year</option>
+                                      <option value="$90,000 - $100,000 per year">$90,000 - $100,000 per year</option>
+                                    <option value="$100,000 - $150,000 per year">$100,000 - $150,000 per year</option>
+                                    <option value="More than $150,000 per year">More than $150,000 per year</option>
+                                </optgroup>
+                            </select>
                             <span asp-validation-for="Salary" class="text-danger"></span>
                         </div>
-
                     </div>
+
 
                     <div class="col">
                         <div class="form-group">
