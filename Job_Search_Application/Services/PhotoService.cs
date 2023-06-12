@@ -2,6 +2,7 @@
 using CloudinaryDotNet.Actions;
 using Job_Search_Application.Helpers;
 using Job_Search_Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Job_Search_Application.Services
@@ -42,5 +43,7 @@ namespace Job_Search_Application.Services
 
             return result;
         }
+
+      
     }
 }

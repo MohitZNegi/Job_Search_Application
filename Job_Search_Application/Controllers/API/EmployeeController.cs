@@ -59,6 +59,7 @@ namespace Job_Search_Application.Controllers.API
         public IActionResult ApplyForJob(string id)
             {
             var userId = _userManager.GetUserId(HttpContext.User);
+           
 
             if (userId == null)
             {

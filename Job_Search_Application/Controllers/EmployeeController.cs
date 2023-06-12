@@ -221,6 +221,13 @@ namespace Job_Search_Application.Controllers
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
+            var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+
             var applyRequests = _context.Job_Request
                                         .Include(r => r.Job)
                                         .Include(r => r.Employer)
@@ -233,6 +240,13 @@ namespace Job_Search_Application.Controllers
         [AllowAnonymous]
         public ActionResult GetJobsApplied(string requestID)
         {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
 
             var jobRequest = _context.Job_Request
                 .Where(e => e.JobRequest_Id == requestID)
@@ -252,7 +266,12 @@ namespace Job_Search_Application.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
 
             var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+            var profile1 = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
+            if (profile1 == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
             // Retrieve the saved jobs for the user
             var savedJobs = _context.SavedJobs
                 .Where(sj => sj.EmployeeId == userId)

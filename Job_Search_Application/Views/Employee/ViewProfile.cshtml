@@ -1,113 +1,93 @@
 ﻿@model Employee_Model;
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Create";
 }
 
-<style>
-    body {
-        background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
-    }
-
-    .registration-form {
-        padding: 50px 0;
-    }
-
-        .registration-form form {
-            background-color: #fff;
-            max-width: 600px;
-            margin: auto;
-            padding: 50px 70px;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-        }
-</style>
 <br />
-<br />
-<div class="container shadow" style="background: linear-gradient(to bottom, #007bff, white); border-radius:20px; max-width:800px;">
+<div class="container shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
     <div class="row d-flex justify-content-center">
-        <h1 style="text-align: center; color:aliceblue;">Your Profile</h1>
-
-      
-        <div class="col-md-4">
-            <hr />
-            <div class="col " style="border-radius:30px;">
-                <br />
-                <img class="img-fluid" src="@Model.ProfileImage" alt="lol">
-                <br />
-            </div>
-               
-        </div>
-
-    
-    <div class="col-md-4">
-            <hr />
-            <div class="row d-flex justify-content-center">
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.First_name): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.First_name) </p>
-                    <br />
-                </div>
-
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.Last_name): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Last_name) </p>
-                    <br />
-                </div>
-                </div>
-
-            <div class="row d-flex justify-content-center">
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.birthDate): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.birthDate) </p>
-                    <br />
-                </div>
-
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.Gender): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Gender) </p>
-                    <br />
-                </div>
-            </div>
-
-            <div class="row d-flex justify-content-center">
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.Address): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Address) </p>
-                    <br />
-                </div>
-                <div class="col " style="border-radius:30px;">
-                    <br />
-                    <h5>  @Html.DisplayNameFor(model => model.Profession): </h5>
-                    <p> @Html.DisplayFor(modelItem => modelItem.Profession) </p>
-                    <br />
-                </div>
-                <div class="row d-flex justify-content-center">
-                    <div class="col " style="border-radius:30px;">
-                        <br />
-                        <h5>  @Html.DisplayNameFor(model => model.Personal_Summary): </h5>
-                        <p> @Html.DisplayFor(modelItem => modelItem.Personal_Summary) </p>
-                        <br />
-                    </div>
-                </div>
-
-                <a href="@Model.Resume" data-lightbox="@Model.Resume" data-title="My caption">Preview CV</a>
-            </div>
-            <fieldset>
-                <a asp-controller="Employee" asp-action="Update" class="w-100 btn btn-lg btn-success shadow  " style="background-color:#3C9AFF; color:white" id="save">Edit Profile</a>
-            </fieldset>
+        <div class="col-md-10">
             <br />
-           </div>
-   
+            <div class="shadow-lg rounded-2" style="background-color:rgb(102, 153, 255)">
+                <h1 style="text-align: center; color: aliceblue">
+                    <img src="~/resources/websitefiles/WorkWize__Logo2.png" style="max-width:50px;" /> Your profile
+                </h1>
+                <h5 style="text-align: center; color: aliceblue">Your journey starts here!</h5>
+                <br />
+            </div>
+            <hr />
+    
        
-</div>
-</div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-4" style="border-radius:30px;">
+                    <br />
+                    <h3>@Html.DisplayNameFor(model => model.Personal_Summary):</h3>
+                    <figure ">
+                        <blockquote class="blockquote">
+                            <p class="mb-0">@Html.DisplayFor(modelItem => modelItem.Personal_Summary)</p>
 
+                        </blockquote>
+                  
+                   </figure>
+                  
+                    <br />
+                </div>
+
+                <div class="col-4 d-flex justify-content-between align-content-center " style="border-radius:30px; ">
+                    <br />
+                    <p> <br />   <br />   <img class="rounded-circle" style="max-height:200px; width:200px; margin-right:10px;" src="@Model.ProfileImage" alt="Profile Image"></p>
+               
+                    <br />
+                </div>
+                <div class="col-4" style="border-radius: 30px;">
+                    <br />
+                    <h3>Details:</h3>
+                    <div class="row">
+                        <div class="col">
+                            <h5>Name:</h5>
+                            <p>@Html.DisplayFor(modelItem => modelItem.First_name) @Html.DisplayFor(modelItem => modelItem.Last_name)</p>
+                        </div>
+                        <div class="col">
+                            <h5>@Html.DisplayNameFor(model => model.birthDate):</h5>
+                            <p>@Html.DisplayFor(modelItem => modelItem.birthDate)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h5>@Html.DisplayNameFor(model => model.Gender):</h5>
+                            <p>@Html.DisplayFor(modelItem => modelItem.Gender)</p>
+                        </div>
+                        <div class="col">
+                            <h5>@Html.DisplayNameFor(model => model.Address):</h5>
+                            <p>@Html.DisplayFor(modelItem => modelItem.Address)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h5>@Html.DisplayNameFor(model => model.Profession):</h5>
+                            <p>@Html.DisplayFor(modelItem => modelItem.Profession)</p>
+                        </div>
+                        <div class="col">
+                            <h5>@Html.DisplayNameFor(model => model.Resume):</h5>
+                            <a href="@Model.Resume" data-lightbox="@Model.Resume" data-title="My caption" style="color: aliceblue">Preview CV</a>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+
+         
+            <br />
+        </div>
+            <div class="d-flex justify-content-center">
+                <div class="col-md-5">
+                    <fieldset>
+                        <a asp-controller="Employee" asp-action="Update" class="w-100 btn btn-lg btn-success shadow" style="background-color:#3C9AFF; color:white" id="save">Edit Profile</a>
+                    </fieldset>
+                </div>
+            </div>
+            <br />
+    </div>
+</div>
 
 @section Scripts {
     @{
