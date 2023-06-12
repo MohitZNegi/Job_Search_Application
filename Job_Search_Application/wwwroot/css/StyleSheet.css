@@ -1,11 +1,17 @@
 ﻿body {
-    font-family: 'Dosis', sans-serif;
+    background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
 }
 
-.banner {
-    background-image: linear-gradient(rgba(0,0,0,0.75), rbga(0,0,0,0.75)), url("https://cdn.decoist.com/wp-content/uploads/2020/08/Charming-tropical-style-home-office-in-black-with-custom-wooden-decor-98299-870x520.jpg");
-    background-size: cover;
-    background-position: center;
+h1 {
+    font-family: 'Rubik', sans-serif;
+}
+
+h2 {
+    font-family: 'Rubik', sans-serif;
+}
+
+h3 {
+    font-family: 'Rubik', sans-serif;
 }
 
 .navbar-nav .nav-link {
