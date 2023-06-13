@@ -343,10 +343,7 @@ namespace Job_Search_Application.Controllers
 
             var publishedjobs = _context.Jobs.Where(e => e.PublisherId == userId).FirstOrDefault();
 
-            if (publishedjobs == null)
-            {
-                return RedirectToAction("Publish_Job", "Employer");
-            }
+          
 
             if (!String.IsNullOrWhiteSpace(searchTerm))
             {

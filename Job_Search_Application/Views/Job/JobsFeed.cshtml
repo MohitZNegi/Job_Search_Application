@@ -310,7 +310,9 @@
             <br />
         }
         <div class="pagination">
-            @Html.PagedListPager(Model, page => Url.Action("JobsFeed", new { page }), new PagedListRenderOptions
+            @Html.PagedListPager(Model,
+        page => Url.Action("JobsFeed", new { page }),
+        new PagedListRenderOptions
         {
         LiElementClasses = new[] { "pagedList" },
         UlElementClasses = new[] { "pagination" },
@@ -325,6 +327,7 @@
         MaximumPageNumbersToDisplay = 5
         })
         </div>
+
     }
     else
     {

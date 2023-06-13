@@ -19,10 +19,10 @@
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
 
 
-    <br />
+<br />
 
-    <h3>Your listings</h3>
-    <br />
+<h3>Your listings</h3>
+<br />
 <div>
     <div class="col-md-9">
         <form class="d-flex">
@@ -30,127 +30,144 @@
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
- 
-    </div>
-    <br />
 
-    @{
-        Html.RenderPartial("_EmployerJobNavPartial");
-    }
+</div>
+<br />
 
-    @if (Model.Any())
-    {
-        <table class="table table-striped table-borderless shadow-lg rounded-3" style="text-align:center; background-color:rgb(128, 204, 255);">
-            <thead>
+@{
+    Html.RenderPartial("_EmployerJobNavPartial");
+}
+
+@if (Model.Any())
+{
+    <table class="table table-striped table-borderless shadow-lg rounded-3" style="text-align:center; background-color:rgb(128, 204, 255);">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Interactions</th>
+                <th style="min-width:150px">Candidates</th>
+                <th>Job Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                // Access the views for the current job
+                var jobViews = ViewBag.JobViews as Dictionary<string, int>;
+                // Get the views count for the current job
+                int viewsCount = jobViews != null && jobViews.ContainsKey(item.Jobs_Id) ? jobViews[item.Jobs_Id] : 0;
+                // Access the applies for the current job
+                var jobApplies = ViewBag.JobApplies as Dictionary<string, int>;
+                // Get the applies count for the current job
+                int appliesCount = jobApplies != null && jobApplies.ContainsKey(item.Jobs_Id) ? jobApplies[item.Jobs_Id] : 0;
+                // Access the Reviewed Candidates for the current job
+                var reviewedCandidates = ViewBag.ReviewedCandidates as Dictionary<string, int>;
+                // Get the Reviewed candidates count for the current job
+                int reviewedCandidatesCount = reviewedCandidates != null && reviewedCandidates.ContainsKey(item.Jobs_Id) ? reviewedCandidates[item.Jobs_Id] : 0;
+                // Access the Selected candidates for the current job
+                var selectedCandidates = ViewBag.SelectedCandidates as Dictionary<string, int>;
+                // Get the selected candidates count for the current job
+                int selectedCandidatesCount = selectedCandidates != null && selectedCandidates.ContainsKey(item.Jobs_Id) ? selectedCandidates[item.Jobs_Id] : 0;
+                // Access the rejected for the current job
+                var rejected = ViewBag.Rejected as Dictionary<string, int>;
+                // Get the rejected count for the current job
+                int rejectedCount = rejected != null && rejected.ContainsKey(item.Jobs_Id) ? rejected[item.Jobs_Id] : 0;
+                // Access the withdrawn for the current job
+                var withdrawn = ViewBag.Withdrawn as Dictionary<string, int>;
+                // Get the withdrawn count for the current job
+                int withdrawnCount = withdrawn != null && withdrawn.ContainsKey(item.Jobs_Id) ? withdrawn[item.Jobs_Id] : 0;
+                // Access the interviewed Candidates for the current job
+                var interviewedCandidates = ViewBag.Interviewed as Dictionary<string, int>;
+                // Get the Interviewed candidates count for the current job
+                int interviewedCandidatesCount = interviewedCandidates != null && interviewedCandidates.ContainsKey(item.Jobs_Id) ? interviewedCandidates[item.Jobs_Id] : 0;
+                // Access the hired candidates for the current job
+                var hiredCandidates = ViewBag.Hired as Dictionary<string, int>;
+                // Get the Hired candidates count for the current job
+                int hiredCandidatesCount = hiredCandidates != null && hiredCandidates.ContainsKey(item.Jobs_Id) ? hiredCandidates[item.Jobs_Id] : 0;
+                int activeCandidatedsCount = appliesCount - (rejectedCount + withdrawnCount + hiredCandidatesCount);
+                int awaitingReviewCount = activeCandidatedsCount - (reviewedCandidatesCount - (rejectedCount + withdrawnCount + hiredCandidatesCount));
                 <tr>
-                    <th>Job Title</th>
-                    <th>Views</th>
-                    <th>Applies</th>
-                    <th style="min-width:150px">Candidates</th>
-                    <th>Job Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    // Access the views for the current job
-                    var jobViews = ViewBag.JobViews as Dictionary<string, int>;
-                    // Get the views count for the current job
-                    int viewsCount = jobViews != null && jobViews.ContainsKey(item.Jobs_Id) ? jobViews[item.Jobs_Id] : 0;
-                    // Access the applies for the current job
-                    var jobApplies = ViewBag.JobApplies as Dictionary<string, int>;
-                    // Get the applies count for the current job
-                    int appliesCount = jobApplies != null && jobApplies.ContainsKey(item.Jobs_Id) ? jobApplies[item.Jobs_Id] : 0;
-                    // Access the Reviewed Candidates for the current job
-                    var reviewedCandidates = ViewBag.ReviewedCandidates as Dictionary<string, int>;
-                    // Get the Reviewed candidates count for the current job
-                    int reviewedCandidatesCount = reviewedCandidates != null && reviewedCandidates.ContainsKey(item.Jobs_Id) ? reviewedCandidates[item.Jobs_Id] : 0;
-                    // Access the Selected candidates for the current job
-                    var selectedCandidates = ViewBag.SelectedCandidates as Dictionary<string, int>;
-                    // Get the selected candidates count for the current job
-                    int selectedCandidatesCount = selectedCandidates != null && selectedCandidates.ContainsKey(item.Jobs_Id) ? selectedCandidates[item.Jobs_Id] : 0;
-                    // Access the rejected for the current job
-                    var rejected = ViewBag.Rejected as Dictionary<string, int>;
-                    // Get the rejected count for the current job
-                    int rejectedCount = rejected != null && rejected.ContainsKey(item.Jobs_Id) ? rejected[item.Jobs_Id] : 0;
-                    // Access the withdrawn for the current job
-                    var withdrawn = ViewBag.Withdrawn as Dictionary<string, int>;
-                    // Get the withdrawn count for the current job
-                    int withdrawnCount = withdrawn != null && withdrawn.ContainsKey(item.Jobs_Id) ? withdrawn[item.Jobs_Id] : 0;
-                    // Access the interviewed Candidates for the current job
-                    var interviewedCandidates = ViewBag.Interviewed as Dictionary<string, int>;
-                    // Get the Interviewed candidates count for the current job
-                    int interviewedCandidatesCount = interviewedCandidates != null && interviewedCandidates.ContainsKey(item.Jobs_Id) ? interviewedCandidates[item.Jobs_Id] : 0;
-                    // Access the hired candidates for the current job
-                    var hiredCandidates = ViewBag.Hired as Dictionary<string, int>;
-                    // Get the Hired candidates count for the current job
-                    int hiredCandidatesCount = hiredCandidates != null && hiredCandidates.ContainsKey(item.Jobs_Id) ? hiredCandidates[item.Jobs_Id] : 0;
-                    int activeCandidatedsCount = appliesCount - (rejectedCount + withdrawnCount + hiredCandidatesCount);
-                    int awaitingReviewCount = activeCandidatedsCount - (reviewedCandidatesCount - (rejectedCount + withdrawnCount + hiredCandidatesCount));
-                    <tr>
-                        <td>
-                            <a style="color:aliceblue" class=" job-application" data-job="@item.Title" href="/Employer/All_Requests?jobApplication=@item.Title">@item.Title</a>
-                            <br /><p class="text-muted">@item.Job_Location</p>
-                            <p class="text-muted">@item.PublishDate.Value.ToShortDateString() - @item.DeactivationDate.Value.ToShortDateString()</p>
+                    <td>
+                        <a style="color:aliceblue" class=" job-application" data-job="@item.Title" href="/Employer/All_Requests?jobApplication=@item.Title">@item.Title</a>
+                        <br /><p class="text-muted">@item.Job_Location</p>
+                        <p class="text-muted">@item.PublishDate.Value.ToShortDateString() - @item.DeactivationDate.Value.ToShortDateString()</p>
 
-                        </td>
-                        <td>@viewsCount</td>
-                        <td>@appliesCount</td>
+                    </td>
+                    <td>
+                        <span class="multiple-values">
+                            <span>@viewsCount <br /> Total Views</span>
+                            <span>@appliesCount   <br />Total Applies</span>
 
-                        <td>
-                            <span class="multiple-values">
-                                <span>@activeCandidatedsCount <br /> Active</span>
-                                <span>@awaitingReviewCount   <br />Awaiting Review</span>
-                                <span>@reviewedCandidatesCount  <br /> Reviewed</span>
-                                <span>@interviewedCandidatesCount  <br /> Interviewed</span>
-                                <span>@hiredCandidatesCount   <br />Hired</span>
+                        </span>
+                    </td>
 
-                            </span>
-                        </td>
+                    <td>
+                        <span class="multiple-values">
+                            <span>@activeCandidatedsCount <br /> Active</span>
+                            <span>@awaitingReviewCount   <br />Awaiting Review</span>
+                            <span>@reviewedCandidatesCount  <br /> Reviewed</span>
+                            <span>@interviewedCandidatesCount  <br /> Interviewed</span>
+                            <span>@hiredCandidatesCount   <br />Hired</span>
 
-                        <td>
-                            <select class="form-control js-update-status-select" data-job-id="@item.Jobs_Id" data-is-active="@item.IsActive">
-                                <option value="true">Active</option>
-                                <option value="false">Inactive</option>
-                            </select>
-                        </td>
+                        </span>
+                    </td>
+
+                    <td>
+                        <select class="form-control js-update-status-select" data-job-id="@item.Jobs_Id" data-is-active="@item.IsActive">
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </td>
 
 
 
 
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                <div class="btn-group" role="group">
-                                    <select class="form-select" aria-label="Select action" onchange="handleActionSelect(this)">
-                                        <option selected disabled>Action</option>
-                                        <option value="@Url.Action("EditJobs", new { id = item.Jobs_Id })">Edit</option>
-                                        <option value="/Job/JobsApplication/@item.Jobs_Id">View</option>
-                                    </select>
-                                </div>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <div class="btn-group" role="group">
+                                <select class="form-select" aria-label="Select action" onchange="handleActionSelect(this)">
+                                    <option selected disabled>Action</option>
+                                    <option value="@Url.Action("EditJobs", new { id = item.Jobs_Id })">Edit</option>
+                                    <option value="/Job/JobsApplication/@item.Jobs_Id">View</option>
+                                </select>
                             </div>
-                        </td>
+                        </div>
+                    </td>
 
 
-                    </tr>
-                }
-            </tbody>
-        </table>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <ul class="pagination">
+            <li class="page-item active">
+                @Html.PagedListPager(Model, page => Url.Action("GetPublishedJobs", new { page }))
+            </li>
+     
+    </ul>
+    </div>
+    
     }
     else
     {
-        <p>No active jobs Available</p>
-        <p>Publish a job</p>
-        <button type="button" class="btn btn-primary" asp-controller="Employer" asp-action="Publish_Jobs">Create Job</button>
+    <div class="card" style="background-color:rgb(128, 204, 255)">
+        <div class="card-body">
+            <p>No active jobs available</p>
+            <p>Publish a job</p>
+            <button type="button" class="btn btn-primary" asp-controller="Employer" asp-action="Publish_Jobs">Create Job</button>
+        </div>
+    </div>
+
     }
 
     <br />
     <br />
 
 
-<div class="pagination">
-    @Html.PagedListPager(Model, page => Url.Action("GetPublishedJobs", new { page }))
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

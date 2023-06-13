@@ -50,8 +50,8 @@
 
                     <tr>
                         <td>
-                            <a style="color:aliceblue" class=" job-application" data-job="@item.Title" href="/Employer/All_Requests?jobApplication=@item.Title">@item.Title</a>
-                            <br /><p class="text-muted">@item.Job_Location</p>
+                            <p style="color:aliceblue" class=" job-application" data-job="@item.Title" href="/Employer/All_Requests?jobApplication=@item.Title">@item.Title</p>
+                           <p class="text-muted">@item.Job_Location</p>
 
                         </td>
                         <td>
@@ -73,19 +73,25 @@
                 }
             </tbody>
     </table>
+    <div class="pagination">
+        @Html.PagedListPager(Model, page => Url.Action("GetDraftJobs", new { page }))
+    </div>
     }
     else
     {
+         <div class="card" style="background-color:rgb(128, 204, 255)">
+    <div class="card-body">
         <p>Nothing in Drafts.</p>
+    </div>
+    </div>
+      
     }
 
     <br />
     <br />
 
 
-<div class="pagination">
-    @Html.PagedListPager(Model, page => Url.Action("GetDraftJobs", new { page }))
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

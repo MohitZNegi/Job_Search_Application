@@ -75,19 +75,23 @@
                 }
             </tbody>
         </table>
+    <div class="pagination">
+        @Html.PagedListPager(Model, page => Url.Action("GetDeactivatedJobs", new { page }))
+    </div>
     }
     else
-    {
+    {  <div class="card" style="background-color:rgb(128, 204, 255)">
+    <div class="card-body">
         <p>No deactivated jobs present.</p>
+        </div>
+        </div>
     }
 
     <br />
     <br />
 
 
-<div class="pagination">
-    @Html.PagedListPager(Model, page => Url.Action("GetDraftJobs", new { page }))
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
