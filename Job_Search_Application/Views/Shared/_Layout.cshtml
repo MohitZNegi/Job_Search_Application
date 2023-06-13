@@ -37,13 +37,13 @@
                         @if (!SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                         }
                           @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Job" asp-action="JobsFeed">Jobs Feed</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Job" asp-action="JobsFeed">Jobs Feed</a>
                             </li>
 
                         }

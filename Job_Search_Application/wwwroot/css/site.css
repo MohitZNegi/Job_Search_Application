@@ -64,6 +64,7 @@ h3 {
 .navbar-nav .nav-link {
     position: relative;
     transition: color 0.3s;
+    
 }
 
     .navbar-nav .nav-link::after {
