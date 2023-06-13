@@ -1,4 +1,4 @@
-﻿@model Job_Search_Application.ViewModels.EmployeeProfileViewModel;
+﻿@model Job_Search_Application.Models.Employee_Model;
 @{
     ViewData["Title"] = "Create";
 }
@@ -21,10 +21,11 @@
                 <div class="row d-flex justify-content-center">
                     <div class="col-3">
                         <div class="form-group">
-                            <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle d-flex justify-content-center" style="text-align: center; max-height: 200px; width: 200px; margin-right: 10px;" />
+                            <img id="photoPreview" src="@Model.ProfileImage" alt=" " class="rounded-circle d-flex justify-content-center" style="width: 200px; height: 200px; text-align: center; max-height: 200px; max-width: 200px; margin-right: 10px;">
                             <label asp-for="ProfileImage">Profile Image</label>
-                            <input asp-for="ProfileImage" type="file" class="form-control" placeholder="Insert Image">
+                            <input asp-for="ProfileImage" type="file" class="form-control shadow" onchange="previewImage(event)" placeholder="Insert Image" accept=".png, .jpg, .jpeg">
                             <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                            <input type="hidden" asp-for="ProfileImage" value="@Model.ProfileImage" />
                         </div>
                     </div>
                 </div>
@@ -35,14 +36,14 @@
 
                             <label asp-for="First_name" class="control-label">First Name:</label>
 
-                            <input asp-for="First_name" class="form-control" />
+                            <input asp-for="First_name" class="form-control shadow" />
                             <span asp-validation-for="First_name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label asp-for="Last_name" class="control-label">Last Name:</label>
-                            <input asp-for="Last_name" class="form-control" />
+                            <input asp-for="Last_name" class="form-control shadow" />
                             <span asp-validation-for="Last_name" class="text-danger"></span>
                         </div>
                     </div>
@@ -96,7 +97,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Resume">Resume:</label>
-                    <input type="file" id="formFile" asp-for="Resume" class="form-control" accept=".pdf" required />
+                    <input type="file" id="formFile" asp-for="Resume" class="form-control" accept=".pdf" required value="@Model.Resume"/>
                     <span asp-validation-for="Resume" class="text-danger"></span>
                     <span class="text-danger" data-valmsg-for="Resume" data-valmsg-replace="true"></span>
                 </div>
@@ -120,3 +121,24 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<script>
+    function previewImage(event) {
+        var fileInput = event.target;
+        var photoPreview = document.getElementById('photoPreview');
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                photoPreview.src = e.target.result;
+                photoPreview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        } else {
+            photoPreview.src = '';
+            photoPreview.style.display = 'none';
+        }
+    }
+</script>

@@ -21,9 +21,10 @@
                 <div class="row d-flex justify-content-center">
                     <div class="col-3">
                         <div class="form-group">
-                            <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle d-flex justify-content-center" style="text-align: center; max-height: 200px; width: 200px; margin-right: 10px;" />
+
+                            <img id="photoPreview" src="~/resources/websitefiles/profile_default.png" alt=" " class="rounded-circle d-flex justify-content-center" style="width: 200px; height: 200px; text-align: center; max-height: 200px; max-width: 200px; margin-right: 10px;">
                             <label asp-for="ProfileImage">Profile Image</label>
-                            <input asp-for="ProfileImage" type="file" class="form-control" placeholder="Insert Image">
+                            <input asp-for="ProfileImage" type="file" class="form-control" onchange="previewImage(event)" placeholder="Insert Image" accept=".png, .jpg, .jpeg">
                             <span asp-validation-for="ProfileImage" class="text-danger"></span>
                         </div>
                     </div>
@@ -120,3 +121,25 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+
+        <script>
+            function previewImage(event) {
+                var fileInput = event.target;
+                var photoPreview = document.getElementById('photoPreview');
+
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        photoPreview.src = e.target.result;
+                        photoPreview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    photoPreview.src = '';
+                    photoPreview.style.display = 'none';
+                }
+            }
+        </script>

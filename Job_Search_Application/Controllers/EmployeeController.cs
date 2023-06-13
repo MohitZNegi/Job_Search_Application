@@ -175,7 +175,7 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employee");
             }
 
-            var viewModel = new EmployeeProfileViewModel
+            var viewModel = new Employee_Model
             {
 
                 First_name = profile.First_name,
@@ -184,7 +184,11 @@ namespace Job_Search_Application.Controllers
                 birthDate = profile.birthDate,
                 Gender = profile.Gender,
                 Personal_Summary = profile.Personal_Summary,
-                Profession = profile.Profession
+                Profession = profile.Profession,
+                ProfileImage = profile.ProfileImage,
+                Resume = profile.Resume,
+
+                
 
             };
 
