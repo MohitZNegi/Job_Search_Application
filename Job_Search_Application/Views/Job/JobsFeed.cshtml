@@ -3,27 +3,111 @@
 @using X.PagedList.Mvc.Core;
 @using System.Linq;
 @using System.Web;
+@using X.PagedList.Web.Common;
 
 @model IPagedList<Job_Search_Application.Models.Jobs_Model>;
 @{
     ViewData["Title"] = "Published Job";
 }
+<style>
+    body {
+        background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
 
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+        .pagination .pagedList {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+            .pagination .pagedList li {
+                margin-right: 5px;
+            }
+
+                .pagination .pagedList li a,
+                .pagination .pagedList li span {
+                    color: #007bff;
+                    text-decoration: none;
+                    padding: 5px 10px;
+                    border: 1px solid #007bff;
+                    border-radius: 5px;
+                }
+
+                    .pagination .pagedList li a:hover {
+                        background-color: #007bff;
+                        color: #fff;
+                    }
+
+            .pagination .pagedList .active a {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            .pagination .pagedList .disabled a {
+                pointer-events: none;
+                opacity: 0.6;
+            }
+
+            .JobDetails {
+                line-height: 21px;
+                height: calc(3 * 21px);
+                overflow: hidden;
+                position: relative;
+            }
+
+            .JobDetails::after{
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right:0;
+                height:21px;
+                width: 75%;
+
+                background: linear-gradient(90deg, transparent, white);
+            }
+</style>
 <br />
 <br />
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
-<div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
+<div class="banner shadow-lg" style="  background: linear-gradient(90deg, #4F6BC7, #223B90);
+        padding: 30px;
+        display: flex;
+        justify-content: center;">
+    <div class="form-control" style="background-color:transparent; border:none">
     <br />
+   
 
-    <div class="col-md-12">
-        <form class="d-flex" method="get" id="jobSearchForm">
-            <input class="form-control me-sm-2" type="search" name="searchTerm1" id="jobTitleInput" placeholder="Job title">
-              <div class="search-dropdown" name="searchTerm2">
+        <form class="d-flex justify-content-center" method="get" id="jobSearchForm">
+            <div>
+            <div class="row">
+                <div class="col-6">
+            <input class="form-control me-sm-8" type="search" name="searchTerm1" id="jobTitleInput" placeholder="Job title">
+                    </div>
+                    <div class="col">
+            <div class="search-dropdown col-12" name="searchTerm2">
                 <ul id="locationDropdown"></ul>
+                            <input class="form-control me-sm-12" type="search" id="locationSearch" name="searchTerm2" placeholder="Location">
             </div>
-            <input class="form-control me-sm-2" type="search" id="locationSearch" name="searchTerm2" placeholder="Location">
-          
-
+                     
+            </div>
+            
+         
+              <div class="col">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
             <select class="form-control me-sm-2" name="searchTerm3" id="jobTypeSelect">
                 <option value="">All Job Types</option>
                 <option value="Part-Time">Part-Time</option>
@@ -34,6 +118,8 @@
                 <option value="Temporary Full-Time">Temporary Full-Time</option>
                 <option value="Casual">Casual</option>
             </select>
+            </div>
+                    <div class="col">
             <select class="form-control me-sm-2" name="searchTerm4" id="scheduleSelect">
                 <option value="">All Schedules</option>
                 <option value="Morning Shift">Morning Shift</option>
@@ -48,6 +134,8 @@
                 <option value="Custom Range">Custom Range</option>
 
             </select>
+            </div>
+                <div class="col">
 
             <select class="form-control me-sm-2" name="searchTerm5" id="classificationSelect">
                 <option value="">All Classifications</option>
@@ -102,8 +190,10 @@
                 <option value="Carpenter">Carpenter</option>
                 <option value="Mason">Mason</option>
             </select>
-                <select class="form-control me-sm-2 custom-select" name="searchTerm6" id="salarySelect">
-                    <option value="">All Salaries</option>
+            </div>
+                <div class="col">
+            <select class="form-control me-sm-2 custom-select" name="searchTerm6" id="salarySelect">
+                <option value="">All Salaries</option>
                 <optgroup label="Hourly Salary">
                     <option value="Less than $10 per hour">Less than $10 per hour</option>
                     <option value="$10 - $20 per hour">$10 - $20 per hour</option>
@@ -125,44 +215,116 @@
                     <option value="$100,000 - $150,000 per year">$100,000 - $150,000 per year</option>
                     <option value="More than $150,000 per year">More than $150,000 per year</option>
                 </optgroup>
-    
-                </select>
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+
+            </select>
+            </div>
+            </div>
+          
+            </div>
         </form>
-    </div>
+        </div>
+        </div>
+    <br />
+    <h3>Jobs Feed</h3>
+    <br />
 
-    <br />
-    <h3>Your listings</h3>
-    <br />
-    <br />
-
+<div class="container">
     @if (Model.Any())
     {
         @foreach (var item in Model)
         {
             <div class="row d-flex justify-content-center">
-                <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
+                <div class="col-md-10 shadow-lg rounded-3" style="background-color:White;">
                     <br />
                     <div class="card-header">
-                        <p>Posted @CalculateDaysAgo(item.PublishDate) ago</p>
-                        <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
+
+                        <h5> <a style="color:royalblue" href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
                         <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                        <p class="text-capitalize"><i class="bi bi-geo-alt-fill"></i>@item.Job_Location</p>
                     </div>
                     <div class="card-body">
-                        <p class="text-capitalize">@item.Job_Location</p>
-                        <p class="text-capitalize d-inline">@item.Job_Schedule</p>
-                        <p class="text-capitalize">@item.Job_Type</p>
-                        <p class="text-capitalize"> @item.Classification</p>
-                        <p class="text-capitalize">@item.Salary</p>
+
+                        <div class="d-inline-flex row">
+                            @if (item.Job_Schedule != null)
+                            {
+                                <div class="col">
+                                    <div class="rounded-1 justify-content-center align-middle " style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px; min-height:40px;  padding: 10px;">
+                                        <p class="text-capitalize d-inline"> <i class="bi bi-calendar-check-fill"></i> @item.Job_Schedule</p>
+                                    </div>
+                                </div>
+                            }
+                            @if (item.Job_Type != null)
+                            {
+                                <div class="col">
+                                    <div class="rounded-1 justify-content-center align-middle " style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px;  min-height:40px;  padding: 10px;">
+                                        <p class="text-capitalize"><i class="bi bi-briefcase-fill"></i> @item.Job_Type</p>
+                                    </div>
+                                </div>
+                            }
+                            @if (item.Classification != null)
+                            {
+                                <div class="col">
+                                    <div class="rounded-1 justify-content-center align-middle " style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255);  min-width:200px;  min-height:40px;  padding: 10px;">
+                                        <p class="text-capitalize"><i class="bi bi-person-workspace"></i> @item.Classification</p>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col">
+                                <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255);  min-width:200px;  min-height:40px;  padding: 10px;">
+                                <p class="text-capitalize"><i class="bi bi-cash-coin"></i> @item.Salary</p>
+                            </div>
+                              
+                               
+                                  
+                            </div>
+                        </div>
+
+
+
+                       
+                       
+                       
+                     
                     </div>
                     <div class="card-footer">
-                        <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;">@item.Job_Details</p>
+                    
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+
+                                <p class="text-muted JobDetails" id="jobDetailsText">
+                                    @Html.Raw(item.Job_Details)
+                                </p>
+                                <p class="text-muted" style="font-size:smaller">Posted @CalculateDaysAgo(item.PublishDate) ago</p>
+
+
+                            </div>
+
+
+                            <img src="@item.Employer.Company_Logo" alt="" class=" rounded-2 float-start border-2 border-info border" style="height: 80px; width: 80px; margin-right: 10px;" />
+
+                        </div>
                     </div>
                     <br />
                 </div>
             </div>
             <br />
         }
+        <div class="pagination">
+            @Html.PagedListPager(Model, page => Url.Action("JobsFeed", new { page }), new PagedListRenderOptions
+        {
+        LiElementClasses = new[] { "pagedList" },
+        UlElementClasses = new[] { "pagination" },
+        LinkToPreviousPageFormat = "<li class=\"pagedList\">{0}</li>",
+        LinkToNextPageFormat = "<li class=\"pagedList\">{0}</li>",
+        LinkToFirstPageFormat = "<li class=\"pagedList\">{0}</li>",
+        LinkToLastPageFormat = "<li class=\"pagedList\">{0}</li>",
+        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
+        DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
+        MaximumPageNumbersToDisplay = 5
+        })
+        </div>
     }
     else
     {
@@ -173,9 +335,45 @@
     <br />
 </div>
 
-<div class="pagination" style="display: flex; justify-content: center; margin-top: 20px;">
-    @Html.PagedListPager(Model, page => Url.Action("JobsFeed", new { page }))
-</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontfamily@0.2.3/dist/fontfamily-plugin.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        // Get the HTML content of the editor
+        var htmlContent = $('#jobDetailsText').data('job-details');
+
+        // Initialize the Summernote editor
+        $('#jobDetailsText').summernote({
+            toolbar: false,
+            readOnly: true,
+            airMode: false,
+            codeviewFilter: false,
+            codeviewIframeFilter: true,
+            disableDragAndDrop: true,
+            callbacks: {
+                onInit: function () {
+                    // Set the HTML content in the editor
+                    $('#jobDetailsText').summernote('code', htmlContent);
+
+                    // Get the plain text content from the editor
+                    var plainText = $('#jobDetailsText').summernote('getText');
+
+                    // Set the plain text content in the paragraph element
+                    $('#jobDetailsText').text(plainText);
+                }
+            }
+        });
+    });
+</script>
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -460,7 +658,7 @@
         adjustDropdownWidth();
     });
 </script>
-</div>
+
 @functions {
     public string CalculateDaysAgo(DateTime? publishDate)
     {

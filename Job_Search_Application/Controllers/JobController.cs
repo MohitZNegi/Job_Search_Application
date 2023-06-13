@@ -133,10 +133,10 @@ namespace Job_Search_Application.Controllers
 
             ViewBag.RequestStatus = jobRequestStatus;
 
-            var job = _context.Jobs.Where(j => j.Jobs_Id == id).FirstOrDefault();
+            var job = _context.Jobs.Include(j => j.Employer).Where(j => j.Jobs_Id == id).FirstOrDefault();
 
             // Increment view count for the selected job
-            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == job.Jobs_Id);
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == id);
             if (jobAnalytics == null)
             {
                 jobAnalytics = new JobAnalytics_Model

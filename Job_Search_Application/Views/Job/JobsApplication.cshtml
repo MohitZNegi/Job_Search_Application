@@ -8,84 +8,148 @@
     ViewData["Title"] = "Published Job";
 }
 
-
-<div class="row d-flex justify-content-center">
-    <div class="col-md-10 shadow" style="background-color: aliceblue; border-radius: 20px;">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
         <br />
-        <div class="card-header">
-           
+        <div class="card-header border-bottom border-3 border-info"  >
+           <img class="rounded-2 shadow" src="@Model.Employer.Company_Banner" style="min-width:100px; min-height:100px; width:1100px; height:200px;" />
             <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
             <p style="display:none;">@Html.DisplayFor(modelItem => modelItem.PublisherId)</p>
-            <h5>@Html.DisplayFor(modelItem => modelItem.Title)</h5>
-            <h6 class="text-capitalize fw-bold">@Html.DisplayFor(modelItem => modelItem.Employer.Company_Name)</h6>
-        </div>
-        <div class="card-body">
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Location)</p>
-            <p class="text-capitalize d-inline">@Html.DisplayFor(modelItem => modelItem.Job_Schedule)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Type)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Classification)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Salary)</p>
-        </div>
+                <br />
+                <br />
+            <h2>@Html.DisplayFor(modelItem => modelItem.Title)</h2>
+            <h5 class="text-capitalize fw-bold">@Html.DisplayFor(modelItem => modelItem.Employer.Company_Name)</h5>
+                <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Employer.Location)</p>
 
+                @if (((IEnumerable<string>)ViewBag.ApplyedJobs).Contains(Model.Jobs_Id))
+                {
+                    var jobRequestStatus = (Dictionary<string, string>)ViewBag.RequestStatus;
+                    var requestStatus = jobRequestStatus.ContainsKey(Model.Jobs_Id) ? jobRequestStatus[Model.Jobs_Id] : null;
+
+                    if (requestStatus == "pending")
+                    {
+                        <button data-job-id="@Model.Jobs_Id" class="btn btn-primary disabled apply-btn js-apply-request">
+                            Applied
+                        </button>
+
+                        <button data-job-id="@Model.Jobs_Id" class="btn btn-danger js-withdraw-request">
+                            Withdraw
+                        </button>
+
+
+
+                    }
+                    else if (requestStatus == "withdrawn")
+                    {
+                        TempData["WithdrawnMessage"] = "You have withdrawn the application.";
+                        @if (TempData.ContainsKey("WithdrawnMessage"))
+                        {
+                            <div class="alert alert-danger">@TempData["WithdrawnMessage"]</div>
+                        }
+                    }
+
+                }
+                else if (SignInManager.IsSignedIn(User))
+                {
+                    var user = await UserManager.GetUserAsync(User);
+                    var roles = await UserManager.GetRolesAsync(user);
+                    if (roles.Contains("Employer") || roles.Contains("Admin"))
+                    {
+                        <button disabled class="btn btn-primary apply-btn" style="display:none">
+                            Apply Now
+                        </button>
+                    }
+                    else
+                    {
+                        <button data-job-id="@Model.Jobs_Id" class="btn btn-primary apply-btn js-apply-request">
+                            Apply Now
+                        </button>
+                        <button id="saveButton" class="btn btn-primary" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" class="btn btn-primary" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
+                    }
+                }
+                else
+                {
+                    <button onclick="redirectToLogin()" class="btn btn-primary apply-btn">
+                        Apply Now
+                    </button>
+                }
+                 <br />
+                <br />
+        </div>
+        <br/>
+            <h2>Job Details</h2>
+            <div class="card-body">
+                <div class="container shadow-lg rounded-2" style="background-color:rgb(204, 235, 255)">
+
+                <br/>
+ 
+           <div class="row">
+               <div class="col">
+           <h5><i class="bi bi-geo-alt-fill"></i> Job Location:</h5>
+             <p class="text-capitalize d-inline">  @Html.DisplayFor(modelItem => modelItem.Job_Location)</p>
+             </div>
+                    @if (Model.Classification != null)
+                    {
+                        <div class="col">
+                            <h5><i class="bi bi-person-workspace"></i> Job Classification:</h5>
+                            <p class="text-capitalize">  @Html.DisplayFor(modelItem => modelItem.Classification)</p>
+                        </div>
+                    }
+                    </div>
+                <div class="row">
+               @if (Model.Job_Schedule != null)
+                    {
+                        <div class="col">
+                    <h5><i class="bi bi-calendar-check-fill"></i> Job Schedule:</h5>
+                    <p class="text-capitalize d-inline">  @Html.DisplayFor(modelItem => modelItem.Job_Schedule)</p>
+                    </div>
+                }
+
+                @if (Model.Job_Type != null)
+                    {
+                        <div class="col">
+                <h5> <i class="bi bi-briefcase-fill"></i>  Job Type:</h5>
+            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Type)</p>
+            </div>
+                }
+                </div>
+                <div class="row">
+                     <div class="col">
+                <h5> <i class="bi bi-calendar"></i> Posted Date:</h5>
+                <p class="text-capitalize">@Model.PublishDate.Value.ToShortDateString()</p>
+                </div>
+            <div class="col">
+                <h5> <i class="bi bi-calendar"></i> Closing Date:</h5>
+                <p class="text-capitalize">@Model.DeactivationDate.Value.ToShortDateString()</p>
+                </div>
+                 
+                </div>
+                      <div class="col">
+                <h5> <i class="bi bi-cash-coin"></i> Salary:</h5>
+                <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Salary)</p>
+                </div>
+                    <br />
+        </div>
+            </div>
+         <br/>
+            <h2>Job Description</h2>
         <div class="card-footer">
+           
+                <div class="container shadow-lg rounded-2" style="background-color:rgb(204, 235, 255)">
+                    <br />
+                    
+            
             @Html.Raw(Model.Job_Details)
+                    <br />
+                    <br />
+            </div>
         </div>
         <br />
 
-        @if (((IEnumerable<string>)ViewBag.ApplyedJobs).Contains(Model.Jobs_Id))
-        {
-            var jobRequestStatus = (Dictionary<string, string>)ViewBag.RequestStatus;
-            var requestStatus = jobRequestStatus.ContainsKey(Model.Jobs_Id) ? jobRequestStatus[Model.Jobs_Id] : null;
-
-            if (requestStatus == "pending")
-            {
-                  <button data-job-id="@Model.Jobs_Id" class="btn btn-primary disabled apply-btn js-apply-request">
-                    Applied
-                </button>
-
-                <button data-job-id="@Model.Jobs_Id" class="btn btn-danger js-withdraw-request">
-                    Withdraw
-                </button>
-
-
-
-            }
-            else if (requestStatus == "withdrawn")
-            {
-                TempData["WithdrawnMessage"] = "You have withdrawn the application.";
-                @if (TempData.ContainsKey("WithdrawnMessage"))
-                {
-                    <div class="alert alert-danger">@TempData["WithdrawnMessage"]</div>
-                }
-            }
-
-        }
-        else if (SignInManager.IsSignedIn(User))
-        {
-            var user = await UserManager.GetUserAsync(User);
-            var roles = await UserManager.GetRolesAsync(user);
-            if (roles.Contains("Employer") || roles.Contains("Admin") )
-            {
-                <button disabled class="btn btn-primary apply-btn" style="display:none">
-                    Apply Now
-                </button>
-            }
-            else
-            {
-                <button data-job-id="@Model.Jobs_Id" class="btn btn-primary apply-btn js-apply-request">
-                    Apply Now
-                </button>
-                <button id="saveButton" class="btn btn-primary" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
-                <button id="unsaveButton" class="btn btn-primary" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
-            }
-        }
-        else
-        {
-            <button onclick="redirectToLogin()" class="btn btn-primary apply-btn">
-                Apply Now
-            </button>
-        }
     </div>
+</div>
 </div>
 
 @section Scripts {
