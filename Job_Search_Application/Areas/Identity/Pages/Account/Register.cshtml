@@ -3,36 +3,26 @@
 @{
     ViewData["Title"] = "Register";
 }
-
 <style>
     body {
         background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
 }
-
-.registration-form {
-    padding: 50px 0;
-}
-
-
-    .registration-form .form-icon {
-        width: 70px;
-        height: 70px;
-        font-size: 30px;
-        line-height: 70px;
-    }
-}
-
 </style>
 <br />
 <br />
-<div class="container shadow" style="background: linear-gradient(to bottom, #007bff, white); border-radius:20px; max-width:600px;">
-<div class="row  d-flex justify-content-center">
+<div class="container col-8 shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <br />
+            <div class="shadow-lg rounded-2" style="background-color:rgb(102, 153, 255)">
 
-    <div class="col-md-8 ">
-        <form class="form-group " id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <h1 style="text-align:center; color:aliceblue">Sign Up</h1>
-                <h5 style="text-align:center; color:aliceblue">Get Employed Today!</h5>
+
+                <h1 style="text-align: center; color: aliceblue"><img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:50px;" />Sign Up</h1>
+                <h5 style="text-align: center; color: aliceblue">Sign up and start your journey!</h5>
+                <br />
+            </div>
             <hr />
+        <form class="form-group " id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <fieldset>
 
                     <div class="form-icon">
@@ -74,6 +64,11 @@
             </div>
                 </div>
                 <br />
+                <div style="text-align:center">
+                <p> Already have an account?
+                    <a id="login" asp-page="./Login" style="color:aliceblue">Login</a>
+                </p>
+                </div>
         </form>
             <br />
     </div>

@@ -4,25 +4,37 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<br />
-<br />
+<style>
+    body {
+        background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
+    }
+</style>
 @if (TempData["ConfirmEmailMessage"] != null)
 {
-    <div class="alert alert-success">
+    <br />
+    <br />
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         @TempData["ConfirmEmailMessage"]
     </div>
 }
 
 <br />
 <br />
-<div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px; max-width:600px;">
-<div class="row d-flex justify-content-center">
-    <div class="col-md-8">
+<div class="container col-6 shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <br />
+            <div class="shadow-lg rounded-2" style="background-color:rgb(102, 153, 255)">
+
+
+                <h1 style="text-align: center; color: aliceblue"><img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:50px;" />Login</h1>
+                <h5 style="text-align: center; color: aliceblue">Login and continue your journey!</h5>
+                <br />
+            </div>
+            <hr />
         <section>
             <form id="account" method="post">
-                <h1 style="text-align:center; color:aliceblue">Login</h1>
-                <h5 style="text-align:center; color:aliceblue">Login and continue your journey!</h5>
-                <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
                     <input id="floatingInput" placeholder="enter email" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -49,16 +61,17 @@
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-success shadow" style="background-color:powderblue; color:black">Log in</button>
                 </div>
                     <br />
-                <div class="d-flex justify-content-center">
-                    <div class="col-md-8">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword" style="color:aliceblue">Forgot your password?</a>
-                    </p>
+                <div class=" row d-flex justify-content-center">
+                    <div class="col " style="text-align:center">
+                        
+                  
 
                     <p>
                             <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="color:aliceblue">Create an account</a>
                     </p>
-
+                            <p>
+                                <a id="forgot-password" asp-page="./ForgotPassword" style="color:aliceblue">Forgot your password?</a>
+                            </p>
                     <p>
                             <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" style="color:aliceblue">Resend email confirmation</a>
                     </p>

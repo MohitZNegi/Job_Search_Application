@@ -13,7 +13,7 @@
 @{
     Html.RenderPartial("_EmployerNavPartial2");
 }
-
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
 <br />
 
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
@@ -142,12 +142,12 @@
     </table>
 
     <div class="row">
-        <ul class="pagination">
-            <li class="page-item active">
-                @Html.PagedListPager(Model, page => Url.Action("GetPublishedJobs", new { page }))
-            </li>
+        <div class="col-md-12">
+            
+                @Html.PagedListPager(Model, page => Url.Action("GetPublishedJobs", "Employer", new { page }))
+            
      
-    </ul>
+    </div>
     </div>
     
     }
