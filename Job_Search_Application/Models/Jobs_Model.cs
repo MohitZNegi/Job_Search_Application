@@ -23,7 +23,7 @@ namespace Job_Search_Application.Models
         [Display(Name = "Job Title")]
         public string Title { get; set; }
 
-        [StringLength(1500)]
+        [StringLength(5000000)]
        
         [Display(Name = "Job Details")]
         public string Job_Details { get; set; }
@@ -55,7 +55,7 @@ namespace Job_Search_Application.Models
         public bool IsActive { get; set; }
 
         [Display(Name = "Deactivation Date")]
-        public DateTime? DeactivationDate { get; set; }
+        public DateTime DeactivationDate { get; set; }
 
 
      /*   [Display(Name = "Reviewed Candidates")]

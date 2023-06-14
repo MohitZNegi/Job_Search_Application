@@ -91,7 +91,7 @@
                     <td>
                         <a style="color:aliceblue" class=" job-application" data-job="@item.Title" href="/Employer/All_Requests?jobApplication=@item.Title">@item.Title</a>
                         <br /><p class="text-muted">@item.Job_Location</p>
-                        <p class="text-muted">@item.PublishDate.Value.ToShortDateString() - @item.DeactivationDate.Value.ToShortDateString()</p>
+                        <p class="text-muted">@item.PublishDate.Value.ToShortDateString() - @item.DeactivationDate.ToShortDateString()</p>
 
                     </td>
                     <td>
