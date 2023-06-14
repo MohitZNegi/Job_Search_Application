@@ -13,7 +13,7 @@ namespace Job_Search_Application.ViewModels
         [Display(Name = "Job Title")]
         public string Title { get; set; }
 
-        [StringLength(1500)]
+        [StringLength(5000000)]
         [Display(Name = "Job Details")]
         public string Job_Details { get; set; }
 
