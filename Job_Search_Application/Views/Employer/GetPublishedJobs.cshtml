@@ -15,10 +15,10 @@
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
 <div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
        <br />
-<div class="col-md-9 ">
+<div class="col-md-10">
             <form class="d-flex">
                 <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-secondary my-2 my-sm-0 bi bi-search" type="submit">Search</button>
             </form>
   
 
@@ -34,26 +34,20 @@
 
         @foreach (var item in Model)
         {
-        // Access the views for the current job
-        var jobViews = ViewBag.JobViews as Dictionary<string, int>;
-        // Get the views count for the current job
-        int viewsCount = jobViews != null && jobViews.ContainsKey(item.Jobs_Id) ? jobViews[item.Jobs_Id] : 0;
 
-
-        <div class="row d-flex justify-content-center">
+                <div class="row d-flex justify-content-center">
                 <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
                 <br />
                         <div class="card-header">
-                    <h5> <a href="#">@item.Title</a></h5>
-                    <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                    <h5> <a href="# bi bi-cursor">@item.Title</a></h5>
+                    <h6 class="text-capitalize fw-bold bi bi-building">@item.Employer.Company_Name</h6>
                         </div>
                         <div class="card-body">
-                    <p class="text-capitalize">@item.Job_Location</p>
-                    <p class="text-capitalize d-inline">@item.Job_Schedule</p>
-                    <p class="text-capitalize">@item.Job_Type</p>
-                    <p class="text-capitalize"> @item.Classification</p>
-                    <p class="text-capitalize">@item.Salary</p>
-                    <p>Views: @viewsCount</p>
+                    <p class="text-capitalize bi bi-geo-alt">@item.Job_Location</p>
+                    <p class="text-capitalize d-inline bi bi-clock">@item.Job_Schedule</p>
+                    <p class="text-capitalize bi bi-pencil-square">@item.Job_Type</p>
+                    <p class="text-capitalize bi bi-box2"> @item.Classification</p>
+                    <p class="text-capitalize bi bi-cash">@item.Salary</p>
                         </div>
 
                         <div class="card-footer">
@@ -62,10 +56,6 @@
                                  
                         </div>
                 <br />
-
-                <div class="d-flex justify-content-end">
-                    <a href="@Url.Action("EditJobs", new { id = item.Jobs_Id })" class="btn btn-primary">Edit</a>
-                </div>
                         </div>
           
                         </div>
@@ -88,6 +78,7 @@
 </div>
 
 
+ 
 
    
 
