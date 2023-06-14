@@ -193,7 +193,7 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            var viewModel = new EmployerProfileViewModel
+            var viewModel = new Employer_Model
             {
 
                 Company_Name = profile.Company_Name,
@@ -202,6 +202,8 @@ namespace Job_Search_Application.Controllers
                 Company_Industry = profile.Company_Industry,
                 Company_URL = profile.Company_URL,
                 Location = profile.Location,
+                Company_Logo = profile.Company_Logo,
+                Company_Banner = profile.Company_Banner,
 
             };
 
@@ -604,6 +606,7 @@ namespace Job_Search_Application.Controllers
         {
             var jobRequest = _context.Job_Request
                 .Where(e => e.JobRequest_Id == requestID)
+                .Include(e => e.Employer)
                 .Include(e => e.Job)
                 .Include(e => e.Employee)
                 .ThenInclude(e => e.User)

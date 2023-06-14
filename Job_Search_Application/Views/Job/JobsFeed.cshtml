@@ -244,11 +244,11 @@
                     </div>
                     <div class="card-body">
 
-                        <div class="d-inline-flex row">
+                        <div class="container d-inline-flex row">
                             @if (item.Job_Schedule != null)
                             {
                                 <div class="col">
-                                    <div class="rounded-1 justify-content-center align-middle " style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px; min-height:40px;  padding: 10px;">
+                                    <div class="rounded-1 justify-content-center align-middle " style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px; max-height:40px; max-width:300px;   padding: 10px;">
                                         <p class="text-capitalize d-inline"> <i class="bi bi-calendar-check-fill"></i> @item.Job_Schedule</p>
                                     </div>
                                 </div>
@@ -256,7 +256,7 @@
                             @if (item.Job_Type != null)
                             {
                                 <div class="col">
-                                    <div class="rounded-1 justify-content-center align-middle " style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px;  min-height:40px;  padding: 10px;">
+                                    <div class="rounded-1 justify-content-center align-middle " style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px;  max-height:40px; max-width:300px;   padding: 10px;">
                                         <p class="text-capitalize"><i class="bi bi-briefcase-fill"></i> @item.Job_Type</p>
                                     </div>
                                 </div>
@@ -264,13 +264,13 @@
                             @if (item.Classification != null)
                             {
                                 <div class="col">
-                                    <div class="rounded-1 justify-content-center align-middle " style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255);  min-width:200px;  min-height:40px;  padding: 10px;">
+                                    <div class="rounded-1 justify-content-center align-middle " style="wh ite-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px; max-height:40px; max-width:300px; padding: 10px;">
                                         <p class="text-capitalize"><i class="bi bi-person-workspace"></i> @item.Classification</p>
                                     </div>
                                 </div>
                             }
                             <div class="col">
-                                <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255);  min-width:200px;  min-height:40px;  padding: 10px;">
+                                <div class="rounded-1 justify-content-center align-middle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255);  min-width:200px;  max-height:40px; max-width:300px;  padding: 10px;">
                                 <p class="text-capitalize"><i class="bi bi-cash-coin"></i> @item.Salary</p>
                             </div>
                               
@@ -290,6 +290,7 @@
                     
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
+                                <br/>
 
                                 <p class="text-muted JobDetails" id="jobDetailsText">
                                     @Html.Raw(item.Job_Details)

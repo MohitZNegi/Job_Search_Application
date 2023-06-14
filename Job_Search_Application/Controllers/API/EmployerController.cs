@@ -51,6 +51,7 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.Request_Status = "rejected";
+            request.InterviewRequest_Date = DateTime.Now;
             _context.SaveChanges();
 
 
@@ -90,6 +91,7 @@ namespace Job_Search_Application.Controllers.API
 
             request.Request_Status = "accepted";
             request.InterviewRequest_Status = "pending";
+            request.InterviewRequest_Date = DateTime.Now;
             _context.SaveChanges();
 
             // Increment the reviewed and selected count for the selected job
@@ -162,6 +164,9 @@ namespace Job_Search_Application.Controllers.API
 
             request.InterviewRequest_Status = "canceled";
             request.Request_Status = "rejected";
+            request.InterviewRequest_Date = DateTime.Now;
+
+
             _context.SaveChanges();
 
             // Increment the reviewed and selected count for the selected job
@@ -198,6 +203,7 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.InterviewRequest_Status = "hired";
+            request.InterviewRequest_Date = DateTime.Now;
             _context.SaveChanges();
             // Increment the reviewed and selected count for the selected job
             var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);

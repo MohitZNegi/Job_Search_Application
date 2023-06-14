@@ -60,6 +60,15 @@ namespace Job_Search_Application.Controllers
             return View((employers, employees));
         }
 
+        public IActionResult AllJobs()
+        {
+            List<Jobs_Model> Jobs = _context.Jobs.ToList();
+           
+
+            // Perform further processing or pass the employer and employee lists to the view
+            return View((Jobs));
+        }
+
 
 
         public IActionResult ReviewRequests()

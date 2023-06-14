@@ -2,16 +2,18 @@
 @{
     ViewData["Title"] = "GetProfile";
 }
-
+<br />
 <h2>@Model.Job.Title</h2>
+<div>
 <button class="btn btn-primary" onclick="goBack()">Back</button>
-
-
-            <div class="card mb-4 border-light shadow" style="max-width: 900px">
+</div>
+<br />
+<div class="container row">
+            <div class="col-9 card mb-6 border-light shadow-lg" style="max-width: 900px">
                 <div class="card-body border-bottom">
                     <div class="row">
                         <div class="col">
-                            <img src="@Model.Employee.ProfileImage" alt="" class="rounded-circle float-start" style="height: 50px; width: 50px; margin-right: 10px; border: solid; border-color: paleturquoise; border-width: 0.9px" />
+                            <img src="@Model.Employee.ProfileImage" alt="" class="rounded-circle float-start" style="height: 80px; width: 80px; margin-right: 10px; border: solid; border-color: royalblue; border-width: 3px" />
                 <div class="d-flex justify-content-between align-items-center">
                     <div> <h5 class="card-title text-capitalize">@Model.Employee.First_name @Model.Employee.Last_name</h5>
                         <p class="card-text text-dark">@Model.Employee.User.Email, @Model.Employee.Address</p>
@@ -29,27 +31,37 @@
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(179, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Accepted</div>
 
                     }
-                    @if (Model.Request_Status == "rejected")
+                        @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "pending")
                     {
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Rejected</div>
 
                     }
-                    @if (Model.InterviewRequest_Status == "declined")
+                        @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "declined")
                     {
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Withdrawn</div>
 
                     }
-                    @if (Model.InterviewRequest_Status == "canceled")
+                    @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "canceled")
                     {
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Declined</div>
 
                     }
-                    @if (Model.InterviewRequest_Status == "interviewed")
+                      @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "accepted")
+                    {
+                            <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:150px; min-height:40px;  padding: 10px;">Status: Interview pending</div>
+
+                    }
+                    @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "interviewed")
                     {
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Interviewed</div>
 
                     }
-                    @if (Model.InterviewRequest_Status == "hired")
+                          @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "interviewed")
+                    {
+                        <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Rejected</div>
+
+                    }
+                    @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "hired")
                     {
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(179, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Hired</div>
 
@@ -60,8 +72,8 @@
 
 
                 <p class="card-text">@Model.Employee.Profession</p>
-                <p class="card-text">@Model.Employee.birthDate.ToShortDateString()</p>
-                <p class="card-text">@Model.Employee.Gender</p>
+                <p class="card-text">DOB: @Model.Employee.birthDate.ToShortDateString()</p>
+                <p class="card-text">Gender: @Model.Employee.Gender</p>
 
 
             </div>
@@ -78,42 +90,310 @@
                 <div class="card-footer">
                     @if (Model.Request_Status == "pending")
                     {
-                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-reject-btn">Reject</button>
-                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-success js-accept-btn">Accept</button>
+                                    <div class="alert alert-dismissible alert-light">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong>Info!!</strong> by accepting this application you will be sending an interview request to the applicant..
+                                </div>
+                                 <button data-request-id="@Model.JobRequest_Id" role="button" class=" button-31 js-accept-btn">Accept</button>
+                        <button class="button-30 js-reject-btn" role="button" data-request-id="@Model.JobRequest_Id"  >Reject</button>
+                       
                     }
                     @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "pending")
-                    {
-                        TempData["AcceptMessage"] = "This application has been accepted";
-                        @if (TempData.ContainsKey("AcceptMessage"))
-                        {
-                            <div class="alert alert-success">@TempData["AcceptMessage"]</div>
-                        }
-
-                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-decline-btn">Decline</button>
+                    { 
+                      
+                                    <div class="alert alert-dismissible alert-light">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong>Info!!</strong> if you are no longer interested in this application, you can still decline the interview request...
+                                </div>
+                        <button data-request-id="@Model.JobRequest_Id" role="button" class="button-30  js-decline-btn">Decline</button>
                     }
-                    @if (Model.InterviewRequest_Status == "accepted")
+                    @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "pending")
                     {
-                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-info js-interviewed-btn">Mark as Interviewed</button>
-                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-decline-btn">Decline</button>
+                      <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                               This application has been rejected!!!
+                            </div>
+                    }
+                        @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "declined")
+                    {
+                             <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                              The applicant is no longer interested in this role!!
+                            </div>
+                    }
+                    @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "canceled")
+                    {
+                          <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                              The interview request has been canceled!!
+                            </div>
+                    }
+
+                          @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "interviewed")
+                    {
+                                <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                               This application has been rejected!!!
+                            </div>
+                    }
+                   
+                  @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "accepted")
+                    {
+                           <div class="alert alert-dismissible alert-light">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong>Info!!</strong> if the interview is completed click on "Mark as interviewed" button or you can still decline the interview request...
+                                </div>
+                        <button data-request-id="@Model.JobRequest_Id"  role="button" class="button-29 js-interviewed-btn">Mark as Interviewed</button>
+                        <button data-request-id="@Model.JobRequest_Id" role="button" class="button-30  js-decline-btn">Decline</button>
                     }
                     @if (Model.InterviewRequest_Status == "interviewed" && Model.Request_Status == "accepted")
                     {
-                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-info js-hire-btn">Hire</button>
-                        <button data-request-id="@Model.JobRequest_Id" class="btn btn-danger js-reject-btn">Reject</button>
+                           <div class="alert alert-dismissible alert-light">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong>Info!!</strong> you are left with the final action...
+                                </div>
+                        <button data-request-id="@Model.JobRequest_Id" role="button" class="button-29 js-hire-btn">Hire</button>
+                        <button data-request-id="@Model.JobRequest_Id"role="button" class="button-30 js-reject-btn">Reject</button>
                     }
-                    @if (Model.Request_Status == "rejected")
+                     @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "hired")
                     {
-                        TempData["RejectMessage"] = "This application has been rejected";
-                        @if (TempData.ContainsKey("RejectMessage"))
-                        {
-                            <div class="alert alert-danger">@TempData["RejectMessage"]</div>
-                        }
+                                <div class="alert alert-dismissible alert-success">
+                                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                 This application has been successfull!!
+                                </div>
                     }
+                   
                 </div>
            
             </div>
           
+<div class=" col-3" style="background-color:transparent" >
+    <br />
+     <br />
+      <br />
+       <br />
+        <br />
+    <div class="col">
+      
+        @if (Model.Request_Status == "pending")
+        {
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employee.First_name</strong>
+                        <small>@CalculateDaysAgo(Model.Request_Date) ago</small>
 
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(204, 230, 255)">
+                        Hey, <p class="text-capitalize d-inline">@Model.Employee.First_name</p> is waiting for your response on this request...
+                    </div>
+                </div>
+        }
+        @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "pending")
+        {
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employer.Company_Name</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(179, 255, 204);">
+                        You have accepted this application. 
+                </div>
+                </div>
+                <br/>
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">WorkWize</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 255, 179)">
+                        If  <p class="text-capitalize d-inline">@Model.Employee.First_name</p> does not respond to the interview request, you should contact them manually to let them know about the status of their job request, so they can let you know if they are still interested in this application...
+                    </div>
+                </div>
+        }
+            @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "pending")
+        {
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employer.Company_Name</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button> 
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 173, 153)">
+                      You have rejected this application.
+                    </div>
+                </div>
+        }
+        @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "declined")
+        {
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employee.First_name</strong>
+                        <small>@CalculateDaysAgo(Model.Request_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 173, 153)">
+                        <p class="text-capitalize d-inline">@Model.Employee.First_name</p> is no longer interested in this application.
+                    </div>
+                </div>
+        }
+            @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "canceled")
+            {
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employer.Company_Name</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 173, 153)">
+                        You have declined this application.
+                    </div>
+                </div>
+        }
+            @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "accepted")
+            {
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employee.First_name</strong>
+                        <small>@CalculateDaysAgo(Model.Request_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(204, 230, 255)">
+                        Hey, <p class="text-capitalize d-inline">@Model.Employee.First_name</p> has accepted your interview request and is waiting to be interviewed...
+                    </div>
+                </div>
+
+                <br />
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">WorkWize</strong>
+                        <small>@CalculateDaysAgo(Model.Request_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 255, 179)">
+                        Please, contact  <p class="text-capitalize d-inline">@Model.Employee.First_name</p> manually to schedule an interview.
+                    </div>
+                </div>
+
+                <br />
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">WorkWize</strong>
+                        <small>@CalculateDaysAgo(Model.Request_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 255, 179)">
+                        Once the interview is completed, we kindly request you to update the application status as "Interviewed." This will help you keep track of the hiring process and ensure accurate records of candidate progress.
+                    </div>
+                </div>
+            }
+        @if (Model.Request_Status == "accepted" && Model.InterviewRequest_Status == "interviewed")
+        {
+      <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employer.Company_Name</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style=" background-color:rgb(255, 255, 204);">
+                         <p class="text-capitalize d-inline">@Model.Employee.First_name</p> has been interviewed..
+                </div>
+                </div>
+                <br/>
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">WorkWize</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 255, 179)">
+                        Is <p class="text-capitalize d-inline">@Model.Employee.First_name</p> suitable for this role in your company?
+                    </div>
+                </div>
+        }
+              @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "interviewed")
+        {
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employer.Company_Name</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button> 
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 173, 153)">
+                      You have rejected this application.
+                    </div>
+                </div>
+        }
+        @if (Model.InterviewRequest_Status == "hired")
+        {
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">@Model.Employer.Company_Name</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button> 
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(179, 255, 204);">
+                         <p class="text-capitalize d-inline">@Model.Employee.First_name</p> has been hired..
+                    </div>
+                </div>
+                   <br/>
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
+                    <div class="toast-header">
+                        <strong class="me-auto text-capitalize">WorkWize</strong>
+                        <small>@CalculateDaysAgo(Model.InterviewRequest_Date) ago</small>
+
+                        <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="toast-body" style="background-color:rgb(255, 255, 179)">
+                       Congratulation on finding the suitable candidate for this role in your company.
+                    </div>
+                </div>
+        }
+        </div>
+        </div>
+</div>
 
 
 
@@ -312,4 +592,45 @@
        
     </script>
 
+}
+
+@functions {
+    public string CalculateDaysAgo(DateTime? requestdate)
+    {
+        if (requestdate.HasValue)
+        {
+            var currentDate = DateTime.Now;
+            var timeAgo = currentDate - requestdate.Value;
+            string result;
+
+            if (timeAgo.Days > 1)
+            {
+                result = $"{timeAgo.Days} days";
+            }
+            else if (timeAgo.Days == 1)
+            {
+                result = "1 day";
+            }
+            else if (timeAgo.Hours > 1)
+            {
+                result = $"{timeAgo.Hours} hours";
+            }
+            else if (timeAgo.Hours == 1)
+            {
+                result = "1 hour";
+            }
+            else if (timeAgo.Minutes > 1)
+            {
+                result = $"{timeAgo.Minutes} minutes";
+            }
+            else
+            {
+                result = "just now";
+            }
+
+            return result;
+        }
+
+        return string.Empty; // or any default value you prefer
+    }
 }

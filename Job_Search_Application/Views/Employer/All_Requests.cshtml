@@ -62,7 +62,7 @@
                                     {
                                         status = "Reviewed Accepted";
                                     }
-                                     else if (item.Request_Status == "rejected")
+                                    else if (item.Request_Status == "rejected" && item.InterviewRequest_Status == "pending")
                                     {
                                         status = "Reviewed Rejected";
                                     }
@@ -70,7 +70,7 @@
                                     {
                                         status = "Reviewed interview pending";
                                     }
-                                     else if (item.Request_Status == "accepted" && item.Request_Status == "accepted" && item.InterviewRequest_Status == "canceled")
+                                     else if (item.Request_Status == "rejected" && item.InterviewRequest_Status == "canceled")
                                     {
                                         status = "Reviewed Declined";
                                     }
@@ -82,9 +82,13 @@
                                     {
                                         status = "Interviewed";
                                     }
-                                        else if (item.InterviewRequest_Status == "hired")
+                                        else if (item.Request_Status == "rejected" && item.InterviewRequest_Status == "interviewed")
                                     {
-                                        status = "Reviewed Hired";
+                                        status = "Rejected";
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "hired")
+                                    {
+                                        status = "Hired";
                                     }
                                 }
                                 @status <br />

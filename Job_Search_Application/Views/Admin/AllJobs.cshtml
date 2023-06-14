@@ -1,0 +1,115 @@
+﻿@model List<Job_Search_Application.Models.Jobs_Model>
+<br />
+@{
+    Html.RenderPartial("_AdminNavPartial2");
+}
+@{
+    var index = 0;
+}
+<h2>All Jobs</h2>
+
+<div class="container">
+    <ul class="nav nav-tabs" id="jobsTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="jobs-tab" data-toggle="tab" href="#jobs" role="tab" aria-controls="jobs" aria-selected="true">Jobs</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="jobsTabContent">
+        <div class="tab-pane fade show active" id="jobs" role="tabpanel" aria-labelledby="jobs-tab">
+            <h3>Jobs</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-borderless shadow-lg rounded-3" style="text-align:center; background-color:rgb(128, 204, 255);">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Job Title</th>
+                            <th>Job Details</th>
+                            <th>Job Location</th>
+                            <th>Salary</th>
+                            <th>Job Type</th>
+                            <th>Schedule</th>
+                            <th>Classification</th>
+                            <th>Publish Date</th>
+                            <th>Is Published</th>
+                            <th>Deactivated</th>
+                            <th>Deactivation Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var job in Model)
+                        {
+                            <tr>
+                                <td>@job.Jobs_Id</td>
+                                <td>
+                                    <a style="color:aliceblue" class=" job-application" data-job="@job.Title" href="/Job/JobsApplication/@job.Jobs_Id">@job.Title</a>
+                                </td>
+                           
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 15rem;">
+                                    <p id="jobDetailsText_@index" class="job-details-text">@Html.Raw(job.Job_Details)</p>
+                                </td>
+                        
+                           
+
+                           
+
+                                <td>@job.Job_Location</td>
+                                <td>@job.Salary</td>
+                                <td>@job.Job_Type</td>
+                                <td>@job.Job_Schedule</td>
+                                <td>@job.Classification</td>
+                                <td>@job.PublishDate</td>
+                                <td>@job.IsPublished</td>
+                                <td>@job.IsActive</td>
+                                <td>@job.DeactivationDate</td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontfamily@0.2.3/dist/fontfamily-plugin.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        // Get the job models
+        var jobs = @Html.Raw(Json.Serialize(Model));
+
+        // Iterate over each job and set the plain text content in the corresponding Summernote editor
+        $.each(jobs, function (index, job) {
+            var jobDetailsId = 'jobDetailsText_' + index;
+
+            // Set the plain text content in the editor with the specified style
+            var formattedContent = '<pre style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 15rem;">' + job.Job_Details + '</pre>';
+            $('#' + jobDetailsId).summernote({
+                toolbar: false,
+                airMode: false,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                disableDragAndDrop: true,
+                callbacks: {
+                    onInit: function () {
+                        $('#' + jobDetailsId).summernote('code', formattedContent);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#usersTab a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            })
+        });
+    </script>
+}
