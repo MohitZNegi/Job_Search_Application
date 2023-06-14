@@ -22,7 +22,7 @@
                     <div class="col-3">
                         <div class="form-group">
                             <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle d-flex justify-content-center" style="text-align: center; max-height: 200px; width: 200px; margin-right: 10px;" />
-                            <label asp-for="Company_Logo">Profile Image</label>
+                            <label asp-for="Company_Logo">Company Logo</label>
                             <input asp-for="Company_Logo" type="file" class="form-control" placeholder="Insert Image" accept=".png, .jpg, .jpeg" required>
                             <span asp-validation-for="Company_Name" class="text-danger"></span>
                         </div>
@@ -33,7 +33,7 @@
                     <div class="col">
                         <div class="form-group">
 
-                            <label asp-for="Company_Name" class="control-label">First Name:</label>
+                            <label asp-for="Company_Name" class="control-label">Company Name:</label>
 
                             <input asp-for="Company_Name" class="form-control" />
                             <span asp-validation-for="Company_Name" class="text-danger"></span>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label asp-for="Company_CEO" class="control-label">Last Name:</label>
+                            <label asp-for="Company_CEO" class="control-label">Company CEO:</label>
                             <input type="text" asp-for="Company_CEO" class="form-control" />
                             <span asp-validation-for="Company_CEO" class="text-danger"></span>
                         </div>
@@ -50,21 +50,21 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label asp-for="Company_Industry" class="control-label">Date of Birth:</label>
+                            <label asp-for="Company_Industry" class="control-label">Company Industry:</label>
                             <input type="text" asp-for="Company_Industry" class="form-control" />
                             <span asp-validation-for="Company_Industry" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label asp-for="Location" class="control-label">Address:</label>
+                            <label asp-for="Location" class="control-label">Location:</label>
                             <input asp-for="Location" class="form-control" />
                             <span asp-validation-for="Location" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Company_Description" class="control-label">Personal Summary:</label>
+                    <label asp-for="Company_Description" class="control-label">Company Description:</label>
                     <textarea asp-for="Company_Description" class="form-control" id="exampleTextarea" rows="2" spellcheck="false"></textarea>
                     <span asp-validation-for="Company_Description" class="text-danger"></span>
                 </div>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label asp-for="Company_Banner">Resume:</label>
+                            <label asp-for="Company_Banner">Company Banner:</label>
                             <input type="file" id="formFile" asp-for="Company_Banner" class="form-control" accept=".png, .jpg, .jpeg" required />
                             <span asp-validation-for="Company_Banner" class="text-danger"></span>
                             <span class="text-danger" data-valmsg-for="Resume" data-valmsg-replace="true"></span>

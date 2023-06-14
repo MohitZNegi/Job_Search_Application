@@ -16,12 +16,25 @@
 
 
     <ul class="navbar-nav">
+        @if (this.User.IsInRole("Employer"))
+        {
+           
+        <li class="nav-item" style="padding-right:15px">
+              
+                <a class="button-29" role="button" asp-controller="Employer" asp-action="Publish_Job">Upload Job</a>
+               
 
+        </li>
+          
+
+        }
+        
             <li id="nav-link" class=" dropdown ">
             <a id="nav-link" class=" dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle float-start" style="height: 30px; width: 30px; float: left; margin-right: 0px;" />
+                <img src="~/resources/websitefiles/profile_default.png" class="rounded-circle float-start" style="height: 40px; width: 40px; float: left; margin-right: 0px;" />
             </a>
             @* <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> @User.Identity?.Name</a>*@
+
             @if (this.User.IsInRole("Admin"))
             {
 
@@ -43,12 +56,14 @@
 
             @if (this.User.IsInRole("Employer"))
                 {
+               
                         <partial name="_EmployerNavPartial" />
   
                 }
                
 
             </li>
+         
            </ul>
        
    

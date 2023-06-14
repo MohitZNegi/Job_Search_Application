@@ -430,16 +430,15 @@
                     </div>
 
                 </div>
-                
 
-                    <div class="col">
-                        <div class="form-group">
-                            <label asp-for="DeactivationDate" class="control-label"></label>
-                            <input type="datetime-local" asp-for="DeactivationDate" class="form-control" />
-                            <span asp-validation-for="DeactivationDate" class="text-danger"></span>
-                        </div>
 
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="DeactivationDate" class="control-label"></label>
+                        <input type="datetime-local" asp-for="DeactivationDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                        <span asp-validation-for="DeactivationDate" class="text-danger"></span>
                     </div>
+                </div>
 
 
 
