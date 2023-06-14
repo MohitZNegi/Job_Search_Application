@@ -54,7 +54,7 @@ namespace Job_Search_Application.Models
         public bool IsActive { get; set; }
 
         [Display(Name = "Deactivation Date")]
-        public DateTime? DeactivationDate { get; set; }
+        public DateTime DeactivationDate { get; set; }
 
 
      /*   [Display(Name = "Reviewed Candidates")]

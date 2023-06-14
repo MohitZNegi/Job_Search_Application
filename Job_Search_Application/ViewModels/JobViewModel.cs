@@ -43,6 +43,6 @@ namespace Job_Search_Application.ViewModels
         public bool IsActive { get; set; }
 
         [Display(Name = "Deactivation Date")]
-        public DateTime? DeactivationDate { get; set; }
+        public DateTime DeactivationDate { get; set; }
     }
 }
