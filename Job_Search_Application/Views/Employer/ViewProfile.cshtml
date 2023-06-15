@@ -79,14 +79,15 @@
                 <br />
             </div>
             <div class="d-flex justify-content-center">
-                <div class="col-md-5">
+                <div class="col-md-5 d-flex justify-content-center">
                     <fieldset>
-                        <a asp-controller="Employee" asp-action="Update" class="w-100 btn btn-lg btn-success shadow" style="background-color:#3C9AFF; color:white" id="save">Edit Profile</a>
+                    @Html.ActionLink("Edit Profile", "Update", "Employer", null, new { @class = "button-29", @id = "save" })
                     </fieldset>
                 </div>
             </div>
             <br />
         </div>
+    </div>
     </div>
 
                     @section Scripts {

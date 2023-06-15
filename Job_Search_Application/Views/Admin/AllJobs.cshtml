@@ -23,7 +23,6 @@
                         <tr>
                             <th>Job ID</th>
                             <th>Job Title</th>
-                            <th>Job Details</th>
                             <th>Job Location</th>
                             <th>Salary</th>
                             <th>Job Type</th>
@@ -44,9 +43,7 @@
                                     <a style="color:aliceblue" class=" job-application" data-job="@job.Title" href="/Job/JobsApplication/@job.Jobs_Id">@job.Title</a>
                                 </td>
                            
-                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 15rem;">
-                                    <p id="jobDetailsText_@index" class="job-details-text">@Html.Raw(job.Job_Details)</p>
-                                </td>
+
                         
                            
 
@@ -70,36 +67,8 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontfamily@0.2.3/dist/fontfamily-plugin.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
 
-<script>
-    $(document).ready(function () {
-        // Get the job models
-        var jobs = @Html.Raw(Json.Serialize(Model));
 
-        // Iterate over each job and set the plain text content in the corresponding Summernote editor
-        $.each(jobs, function (index, job) {
-            var jobDetailsId = 'jobDetailsText_' + index;
-
-            // Set the plain text content in the editor with the specified style
-            var formattedContent = '<pre style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 15rem;">' + job.Job_Details + '</pre>';
-            $('#' + jobDetailsId).summernote({
-                toolbar: false,
-                airMode: false,
-                codeviewFilter: false,
-                codeviewIframeFilter: true,
-                disableDragAndDrop: true,
-                callbacks: {
-                    onInit: function () {
-                        $('#' + jobDetailsId).summernote('code', formattedContent);
-                    }
-                }
-            });
-        });
-    });
-</script>
 
 
 

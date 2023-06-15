@@ -70,37 +70,13 @@ namespace Job_Search_Application.Controllers
             {
                 jobs = _context.Jobs.Where(j => j.Classification.Contains(searchTerm5)).Include(j => j.Employer).ToList();
             }
-
             if (!string.IsNullOrWhiteSpace(searchTerm6))
             {
-                // Parse the search term to numeric values
-                var searchMinSalary = 0;
-                var searchMaxSalary = int.MaxValue;
 
-                if (searchTerm6 == "Below $50,000")
-                {
-                    searchMaxSalary = 50000;
-                }
-                else if (searchTerm6 == "$50,000 - $100,000")
-                {
-                    searchMinSalary = 50000;
-                    searchMaxSalary = 100000;
-                }
-                else if (searchTerm6 == "$100,000 - $150,000")
-                {
-                    searchMinSalary = 100000;
-                    searchMaxSalary = 150000;
-                }
-                // Add more salary ranges as needed
+                jobs = _context.Jobs.Where(j => j.Salary.Contains(searchTerm6)).Include(j => j.Employer).ToList();
 
-                // Filter jobs within the salary range
-                jobs = jobs.Where(j =>
-                    !string.IsNullOrWhiteSpace(j.Salary) &&
-                    int.TryParse(j.Salary, out var jobSalary) &&
-                    jobSalary >= searchMinSalary &&
-                    jobSalary <= searchMaxSalary
-                   ).ToList();
             }
+
             else
             {
                 // Exclude draft jobs, jobs that have passed deactivation date, and set IsActive to false

@@ -29,16 +29,24 @@
 
                     if (requestStatus == "pending")
                     {
-                        <button data-job-id="@Model.Jobs_Id" class="btn btn-primary disabled apply-btn js-apply-request">
+                        <button data-job-id="@Model.Jobs_Id"  class="button-29 disabled">
                             Applied
                         </button>
 
                         <button data-job-id="@Model.Jobs_Id" role="button" class="button-30 js-withdraw-request">
                             Withdraw
                         </button>
+                        <button id="saveButton" role="button" class="button-32" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" role="button" class="button-30" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
 
 
 
+                    }
+                    else if (requestStatus == "accepted" || requestStatus == "rejected")
+                    {
+                        <button data-job-id="@Model.Jobs_Id" class="button-29 disabled">
+                            Applied
+                        </button>
                     }
                     else if (requestStatus == "withdrawn")
                     {
@@ -46,9 +54,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             You have withdrawn the application...
                         </div>
-                         <button id="saveButton" class="btn btn-primary" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
-                        <button id="unsaveButton" class="btn btn-primary" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
-                      
+                        <button id="saveButton" role="button" class="button-32" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" role="button" class="button-30" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
                     }
 
                 }
@@ -67,13 +74,13 @@
                         <button data-job-id="@Model.Jobs_Id" role="button" class="button-29 apply-btn js-apply-request">
                             Apply Now
                         </button>
-                        <button id="saveButton" class="btn btn-primary" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
-                        <button id="unsaveButton" class="btn btn-primary" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
+                        <button id="saveButton" role="button" class="button-32" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" role="button" class="button-30" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
                     }
                 }
                 else
                 {
-                    <button onclick="redirectToLogin()" class="btn btn-primary apply-btn">
+                    <button onclick="redirectToLogin()" role="button" class="button-29 apply-btn">
                         Apply Now
                     </button>
                 }
@@ -213,8 +220,10 @@
                                 method: "POST",
                             })
                                 .done(function () {
-                                    bootbox.alert("You applied successfully");
-                                    $(e.target).show().addClass("btn-primary disabled").text("Applied");
+                                    bootbox.alert("You applied successfully", function () {
+                                        location.reload();
+                                    });
+                                    $(e.target).show().addClass("button-29 disabled").text("Applied");
                                 })
                                 .fail(function (jqXHR, textStatus, errorThrown) {
                                     bootbox.alert("An error occurred: " + errorThrown);
@@ -253,8 +262,11 @@
                             })
                                 .done(function () {
                                     withdrawButton.hide();
-                                    bootbox.alert("You have withdrawn your application successfully");
+                                    bootbox.alert("You have withdrawn your application successfully", function () {
+                                        location.reload();
+                                    });
                                 })
+
                                 .fail(function (jqXHR, textStatus, errorThrown) {
                                     bootbox.alert("An error occurred: " + errorThrown);
                                 });
