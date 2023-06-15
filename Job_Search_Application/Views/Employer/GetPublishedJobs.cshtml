@@ -118,11 +118,16 @@
                     </td>
 
                     <td>
-                        <select class="form-control js-update-status-select" data-job-id="@item.Jobs_Id" data-is-active="@item.IsActive">
-                            <option value="true">Active</option>
-                            <option value="false">Inactive</option>
-                        </select>
+                        @if(item.IsActive == true)
+                        {
+                            <p>Active</p>
+                        }
+                        @if (item.IsActive == false)
+                        {
+                            <p>InActive</p>
+                        }
                     </td>
+
 
 
 
@@ -182,6 +187,7 @@
         }
     }
 </script>
+
 
 <script>
 

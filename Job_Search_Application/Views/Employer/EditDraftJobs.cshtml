@@ -1,0 +1,573 @@
+﻿@model Job_Search_Application.Models.Jobs_Model;
+@{
+    ViewData["Title"] = "Publish Job";
+}
+
+<br />
+<br />
+<div class="container shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <br />
+            <div class="shadow-lg rounded-2" style="background-color:rgb(102, 153, 255)">
+
+                <br />
+                <h1 style="text-align: center; color: aliceblue"><img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:50px;" /> Edit Draft Job</h1>
+
+                <br />
+            </div>
+            <hr />
+            <form asp-action="EditJobs" asp-route-id="@Model.Jobs_Id" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="Job_Location" class="control-label"></label>
+                                <select asp-for="Job_Location" class="form-control">
+                                    <option value="" class="disabled">Select location</option>
+                                    <!-- New Zealand Cities -->
+                                    <option value="Auckland">Auckland</option>
+                                    <option value="Wellington">Wellington</option>
+                                    <option value="Christchurch">Christchurch</option>
+                                    <option value="Hamilton">Hamilton</option>
+                                    <option value="Tauranga">Tauranga</option>
+                                    <option value="Napier">Napier</option>
+                                    <option value="Dunedin">Dunedin</option>
+                                    <option value="Palmerston North">Palmerston North</option>
+                                    <option value="Nelson">Nelson</option>
+                                    <option value="Rotorua">Rotorua</option>
+                                    <option value="New Plymouth">New Plymouth</option>
+                                    <option value="Whangarei">Whangarei</option>
+                                    <option value="Invercargill">Invercargill</option>
+                                    <option value="Whanganui">Whanganui</option>
+                                    <option value="Gisborne">Gisborne</option>
+                                    <option value="Porirua">Porirua</option>
+                                    <option value="Upper Hutt">Upper Hutt</option>
+                                    <option value="Lower Hutt">Lower Hutt</option>
+                                    <option value="Timaru">Timaru</option>
+                                    <option value="Hastings">Hastings</option>
+                                    <option value="Masterton">Masterton</option>
+                                    <option value="Cambridge">Cambridge</option>
+                                    <option value="Levin">Levin</option>
+                                    <option value="Pukekohe">Pukekohe</option>
+                                    <option value="Taupo">Taupo</option>
+                                    <option value="Whakatane">Whakatane</option>
+                                    <option value="Ashburton">Ashburton</option>
+                                    <option value="Paraparaumu">Paraparaumu</option>
+                                    <option value="Blenheim">Blenheim</option>
+                                    <option value="Feilding">Feilding</option>
+                                    <!-- Auckland Places -->
+                                    <option value="Ponsonby, Auckland">Ponsonby, Auckland</option>
+                                    <option value="Newmarket, Auckland">Newmarket, Auckland</option>
+                                    <option value="Parnell, Auckland">Parnell, Auckland</option>
+                                    <option value="Grey Lynn, Auckland">Grey Lynn, Auckland</option>
+                                    <option value="Mount Eden, Auckland">Mount Eden, Auckland</option>
+                                    <option value="Remuera, Auckland">Remuera, Auckland</option>
+                                    <option value="Devonport, Auckland">Devonport, Auckland</option>
+                                    <option value="Takapuna, Auckland">Takapuna, Auckland</option>
+                                    <option value="Orakei, Auckland">Orakei, Auckland</option>
+                                    <option value="Epsom, Auckland">Epsom, Auckland</option>
+                                    <option value="Mission Bay, Auckland">Mission Bay, Auckland</option>
+                                    <option value="Henderson, Auckland">Henderson, Auckland</option>
+                                    <option value="North Shore, Auckland">North Shore, Auckland</option>
+                                    <option value="One Tree Hill, Auckland">One Tree Hill, Auckland</option>
+                                    <option value="Glen Innes, Auckland">Glen Innes, Auckland</option>
+                                    <option value="Kingsland, Auckland">Kingsland, Auckland</option>
+                                    <option value="Morningside, Auckland">Morningside, Auckland</option>
+                                    <option value="Avondale, Auckland">Avondale, Auckland</option>
+                                    <option value="Panmure, Auckland">Panmure, Auckland</option>
+                                    <option value="Mt Roskill, Auckland">Mt Roskill, Auckland</option>
+                                    <option value="Sandringham, Auckland">Sandringham, Auckland</option>
+                                    <option value="Blockhouse Bay, Auckland">Blockhouse Bay, Auckland</option>
+                                    <option value="Birkenhead, Auckland">Birkenhead, Auckland</option>
+                                    <option value="Westmere, Auckland">Westmere, Auckland</option>
+                                    <option value="St Heliers, Auckland">St Heliers, Auckland</option>
+                                    <option value="Kohimarama, Auckland">Kohimarama, Auckland</option>
+                                    <option value="Herne Bay, Auckland">Herne Bay, Auckland</option>
+                                    <option value="Albany, Auckland">Albany, Auckland</option>
+                                    <option value="Glenfield, Auckland">Glenfield, Auckland</option>
+                                    <option value="Hobsonville, Auckland">Hobsonville, Auckland</option>
+                                    <option value="Orewa, Auckland">Orewa, Auckland</option>
+                                    <option value="Torbay, Auckland">Torbay, Auckland</option>
+                                    <option value="Red Beach, Auckland">Red Beach, Auckland</option>
+                                    <option value="Long Bay, Auckland">Long Bay, Auckland</option>
+                                    <option value="Hillsborough, Auckland">Hillsborough, Auckland</option>
+                                    <option value="Te Atatu Peninsula, Auckland">Te Atatu Peninsula, Auckland</option>
+                                    <option value="Titirangi, Auckland">Titirangi, Auckland</option>
+                                    <option value="Waterview, Auckland">Waterview, Auckland</option>
+                                    <option value="Whenuapai, Auckland">Whenuapai, Auckland</option>
+                                    <option value="Pakuranga, Auckland">Pakuranga, Auckland</option>
+                                    <option value="Botany Downs, Auckland">Botany Downs, Auckland</option>
+                                    <option value="Meadowbank, Auckland">Meadowbank, Auckland</option>
+                                    <option value="Sylvia Park, Auckland">Sylvia Park, Auckland</option>
+                                    <option value="Otahuhu, Auckland">Otahuhu, Auckland</option>
+                                    <option value="Papatoetoe, Auckland">Papatoetoe, Auckland</option>
+                                    <option value="Manukau, Auckland">Manukau, Auckland</option>
+                                    <option value="East Tamaki, Auckland">East Tamaki, Auckland</option>
+                                    <option value="Mangere, Auckland">Mangere, Auckland</option>
+                                    <option value="Airport Oaks, Auckland">Airport Oaks, Auckland</option>
+
+                                    <!-- Wellington Places -->
+                                    <option value="Wellington Central, Wellington">Wellington Central, Wellington</option>
+                                    <option value="Lower Hutt, Wellington">Lower Hutt, Wellington</option>
+                                    <option value="Upper Hutt, Wellington">Upper Hutt, Wellington</option>
+                                    <option value="Porirua, Wellington">Porirua, Wellington</option>
+                                    <option value="Paraparaumu, Wellington">Paraparaumu, Wellington</option>
+                                    <option value="Masterton, Wellington">Masterton, Wellington</option>
+                                    <option value="Otaki, Wellington">Otaki, Wellington</option>
+                                    <option value="Petone, Wellington">Petone, Wellington</option>
+                                    <option value="Island Bay, Wellington">Island Bay, Wellington</option>
+                                    <option value="Miramar, Wellington">Miramar, Wellington</option>
+                                    <option value="Johnsonville, Wellington">Johnsonville, Wellington</option>
+                                    <option value="Karori, Wellington">Karori, Wellington</option>
+                                    <option value="Eastbourne, Wellington">Eastbourne, Wellington</option>
+                                    <option value="Seatoun, Wellington">Seatoun, Wellington</option>
+                                    <option value="Tawa, Wellington">Tawa, Wellington</option>
+                                    <option value="Kapiti, Wellington">Kapiti, Wellington</option>
+                                    <option value="Wairarapa, Wellington">Wairarapa, Wellington</option>
+                                    <option value="Carterton, Wellington">Carterton, Wellington</option>
+                                    <option value="Greytown, Wellington">Greytown, Wellington</option>
+                                    <option value="Martinborough, Wellington">Martinborough, Wellington</option>
+
+
+                                    <!-- Christchurch Places -->
+                                    <option value="Christchurch Central, Christchurch">Christchurch Central, Christchurch</option>
+                                    <option value="Riccarton, Christchurch">Riccarton, Christchurch</option>
+                                    <option value="New Brighton, Christchurch">New Brighton, Christchurch</option>
+                                    <option value="Papanui, Christchurch">Papanui, Christchurch</option>
+                                    <option value="St Albans, Christchurch">St Albans, Christchurch</option>
+                                    <option value="Cashmere, Christchurch">Cashmere, Christchurch</option>
+                                    <option value="Halswell, Christchurch">Halswell, Christchurch</option>
+                                    <option value="Merivale, Christchurch">Merivale, Christchurch</option>
+                                    <option value="Avonhead, Christchurch">Avonhead, Christchurch</option>
+                                    <option value="Burwood, Christchurch">Burwood, Christchurch</option>
+                                    <option value="Wigram, Christchurch">Wigram, Christchurch</option>
+                                    <option value="Ilam, Christchurch">Ilam, Christchurch</option>
+                                    <option value="Sumner, Christchurch">Sumner, Christchurch</option>
+                                    <option value="Fendalton, Christchurch">Fendalton, Christchurch</option>
+                                    <option value="Linwood, Christchurch">Linwood, Christchurch</option>
+                                    <option value="Sydenham, Christchurch">Sydenham, Christchurch</option>
+                                    <option value="Redcliffs, Christchurch">Redcliffs, Christchurch</option>
+                                    <option value="Bishopdale, Christchurch">Bishopdale, Christchurch</option>
+                                    <option value="Hornby, Christchurch">Hornby, Christchurch</option>
+                                    <option value="Strowan, Christchurch">Strowan, Christchurch</option>
+
+
+
+                                    <!-- Hamilton Places -->
+                                    <option value="Hamilton Central, Hamilton">Hamilton Central, Hamilton</option>
+                                    <option value="Frankton, Hamilton">Frankton, Hamilton</option>
+                                    <option value="Dinsdale, Hamilton">Dinsdale, Hamilton</option>
+                                    <option value="Hillcrest, Hamilton">Hillcrest, Hamilton</option>
+                                    <option value="Melville, Hamilton">Melville, Hamilton</option>
+                                    <option value="Fairfield, Hamilton">Fairfield, Hamilton</option>
+                                    <option value="Chartwell, Hamilton">Chartwell, Hamilton</option>
+                                    <option value="Rototuna, Hamilton">Rototuna, Hamilton</option>
+                                    <option value="Te Rapa, Hamilton">Te Rapa, Hamilton</option>
+                                    <option value="Glenview, Hamilton">Glenview, Hamilton</option>
+                                    <option value="Pukete, Hamilton">Pukete, Hamilton</option>
+                                    <option value="Flagstaff, Hamilton">Flagstaff, Hamilton</option>
+                                    <option value="Hamilton East, Hamilton">Hamilton East, Hamilton</option>
+                                    <option value="Silverdale, Hamilton">Silverdale, Hamilton</option>
+                                    <option value="Deanwell, Hamilton">Deanwell, Hamilton</option>
+                                    <option value="Claudelands, Hamilton">Claudelands, Hamilton</option>
+                                    <option value="Nawton, Hamilton">Nawton, Hamilton</option>
+                                    <option value="Beerescourt, Hamilton">Beerescourt, Hamilton</option>
+                                    <option value="Chedworth, Hamilton">Chedworth, Hamilton</option>
+                                    <option value="Ruakura, Hamilton">Ruakura, Hamilton</option>
+
+
+                                    <!-- Tauranga Places -->
+                                    <option value="Tauranga Central, Tauranga">Tauranga Central, Tauranga</option>
+                                    <option value="Mount Maunganui, Tauranga">Mount Maunganui, Tauranga</option>
+                                    <option value="Papamoa, Tauranga">Papamoa, Tauranga</option>
+                                    <option value="Greerton, Tauranga">Greerton, Tauranga</option>
+                                    <option value="Welcome Bay, Tauranga">Welcome Bay, Tauranga</option>
+                                    <option value="Bethlehem, Tauranga">Bethlehem, Tauranga</option>
+                                    <option value="Otumoetai, Tauranga">Otumoetai, Tauranga</option>
+                                    <option value="Pyes Pa, Tauranga">Pyes Pa, Tauranga</option>
+                                    <option value="Brookfield, Tauranga">Brookfield, Tauranga</option>
+                                    <option value="Tauriko, Tauranga">Tauriko, Tauranga</option>
+                                    <option value="Judea, Tauranga">Judea, Tauranga</option>
+                                    <option value="Maungatapu, Tauranga">Maungatapu, Tauranga</option>
+                                    <option value="The Lakes, Tauranga">The Lakes, Tauranga</option>
+                                    <option value="Ohauiti, Tauranga">Ohauiti, Tauranga</option>
+                                    <option value="Hairini, Tauranga">Hairini, Tauranga</option>
+                                    <option value="Parkvale, Tauranga">Parkvale, Tauranga</option>
+                                    <option value="Matua, Tauranga">Matua, Tauranga</option>
+                                    <option value="Te Puna, Tauranga">Te Puna, Tauranga</option>
+                                    <option value="Arataki, Tauranga">Arataki, Tauranga</option>
+                                    <option value="Tauranga South, Tauranga">Tauranga South, Tauranga</option>
+
+                                    <!-- Napier Places -->
+                                    <option value="Napier Central, Napier">Napier Central, Napier</option>
+                                    <option value="Taradale, Napier">Taradale, Napier</option>
+                                    <option value="Onekawa, Napier">Onekawa, Napier</option>
+                                    <option value="Greenmeadows, Napier">Greenmeadows, Napier</option>
+                                    <option value="Ahuriri, Napier">Ahuriri, Napier</option>
+                                    <option value="Pandora, Napier">Pandora, Napier</option>
+                                    <option value="Tamatea, Napier">Tamatea, Napier</option>
+                                    <option value="Westshore, Napier">Westshore, Napier</option>
+                                    <option value="Marewa, Napier">Marewa, Napier</option>
+                                    <option value="Pirimai, Napier">Pirimai, Napier</option>
+                                    <option value="Nelson Park, Napier">Nelson Park, Napier</option>
+                                    <option value="Meeanee, Napier">Meeanee, Napier</option>
+                                    <option value="Bay View, Napier">Bay View, Napier</option>
+                                    <option value="Jervoistown, Napier">Jervoistown, Napier</option>
+                                    <option value="Hospital Hill, Napier">Hospital Hill, Napier</option>
+                                    <option value="Bluff Hill, Napier">Bluff Hill, Napier</option>
+                                    <option value="Napier South, Napier">Napier South, Napier</option>
+                                    <option value="Awatoto, Napier">Awatoto, Napier</option>
+                                    <option value="Eskdale, Napier">Eskdale, Napier</option>
+                                    <option value="Clive, Napier">Clive, Napier</option>
+                                    <!-- Dunedin Places -->
+                                    <option value="Dunedin Central, Dunedin">Dunedin Central, Dunedin</option>
+                                    <option value="Roslyn, Dunedin">Roslyn, Dunedin</option>
+                                    <option value="Mornington, Dunedin">Mornington, Dunedin</option>
+                                    <option value="North Dunedin, Dunedin">North Dunedin, Dunedin</option>
+                                    <option value="St Kilda, Dunedin">St Kilda, Dunedin</option>
+                                    <option value="South Dunedin, Dunedin">South Dunedin, Dunedin</option>
+                                    <option value="Caversham, Dunedin">Caversham, Dunedin</option>
+                                    <option value="Maori Hill, Dunedin">Maori Hill, Dunedin</option>
+                                    <option value="Belleknowes, Dunedin">Belleknowes, Dunedin</option>
+                                    <option value="The Glen, Dunedin">The Glen, Dunedin</option>
+                                    <option value="Wakari, Dunedin">Wakari, Dunedin</option>
+                                    <option value="Andersons Bay, Dunedin">Andersons Bay, Dunedin</option>
+                                    <option value="Glenross, Dunedin">Glenross, Dunedin</option>
+                                    <option value="Halfway Bush, Dunedin">Halfway Bush, Dunedin</option>
+                                    <option value="Bathgate Park, Dunedin">Bathgate Park, Dunedin</option>
+                                    <option value="Concord, Dunedin">Concord, Dunedin</option>
+                                    <option value="Bradford, Dunedin">Bradford, Dunedin</option>
+                                    <option value="Pine Hill, Dunedin">Pine Hill, Dunedin</option>
+                                    <option value="Fairfield, Dunedin">Fairfield, Dunedin</option>
+                                    <option value="Caversham Valley, Dunedin">Caversham Valley, Dunedin</option>
+
+                                    <!-- Nelson Places -->
+                                    <option value="Nelson Central, Nelson">Nelson Central, Nelson</option>
+                                    <option value="Stoke, Nelson">Stoke, Nelson</option>
+                                    <option value="Richmond, Nelson">Richmond, Nelson</option>
+                                    <option value="Tahunanui, Nelson">Tahunanui, Nelson</option>
+                                    <option value="Annesbrook, Nelson">Annesbrook, Nelson</option>
+                                    <option value="The Wood, Nelson">The Wood, Nelson</option>
+                                    <option value="Washington Valley, Nelson">Washington Valley, Nelson</option>
+                                    <option value="Nelson South, Nelson">Nelson South, Nelson</option>
+                                    <option value="Bishopdale, Nelson">Bishopdale, Nelson</option>
+                                    <option value="Atawhai, Nelson">Atawhai, Nelson</option>
+                                    <option value="Toi Toi, Nelson">Toi Toi, Nelson</option>
+                                    <option value="Enner Glynn, Nelson">Enner Glynn, Nelson</option>
+                                    <option value="Tahuna Hills, Nelson">Tahuna Hills, Nelson</option>
+                                    <option value="Stepneyville, Nelson">Stepneyville, Nelson</option>
+                                    <option value="Montgomery Square, Nelson">Montgomery Square, Nelson</option>
+                                    <option value="Nelson East, Nelson">Nelson East, Nelson</option>
+                                    <option value="Nelson North, Nelson">Nelson North, Nelson</option>
+                                    <option value="Victory Square, Nelson">Victory Square, Nelson</option>
+                                    <option value="Port Nelson, Nelson">Port Nelson, Nelson</option>
+                                    <option value="The Brook, Nelson">The Brook, Nelson</option>
+                                    <option value="Nelson, Nelson">Nelson, Nelson</option>
+
+
+                                    <!-- Rotorua Places -->
+                                    <option value="Rotorua Central, Rotorua">Rotorua Central, Rotorua</option>
+                                    <option value="Fenton Park, Rotorua">Fenton Park, Rotorua</option>
+                                    <option value="Glenholme, Rotorua">Glenholme, Rotorua</option>
+                                    <option value="Ngongotaha, Rotorua">Ngongotaha, Rotorua</option>
+                                    <option value="Holdens Bay, Rotorua">Holdens Bay, Rotorua</option>
+                                    <option value="Owhata, Rotorua">Owhata, Rotorua</option>
+                                    <option value="Tihiotonga, Rotorua">Tihiotonga, Rotorua</option>
+                                    <option value="Westbrook, Rotorua">Westbrook, Rotorua</option>
+                                    <option value="Mangakakahi, Rotorua">Mangakakahi, Rotorua</option>
+                                    <option value="Pukehangi, Rotorua">Pukehangi, Rotorua</option>
+                                    <option value="Fairy Springs, Rotorua">Fairy Springs, Rotorua</option>
+                                    <option value="Lynmore, Rotorua">Lynmore, Rotorua</option>
+                                    <option value="Springfield, Rotorua">Springfield, Rotorua</option>
+                                    <option value="Hillcrest, Rotorua">Hillcrest, Rotorua</option>
+                                    <option value="Hannahs Bay, Rotorua">Hannahs Bay, Rotorua</option>
+                                    <option value="Sunnybrook, Rotorua">Sunnybrook, Rotorua</option>
+                                    <option value="Victoria, Rotorua">Victoria, Rotorua</option>
+                                    <option value="Koutu, Rotorua">Koutu, Rotorua</option>
+                                    <option value="Fordlands, Rotorua">Fordlands, Rotorua</option>
+                                    <option value="Mourea, Rotorua">Mourea, Rotorua</option>
+                                </select>
+                                <span asp-validation-for="Job_Location" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Job_Schedule" class="control-label"></label>
+                            <select asp-for="Job_Schedule" class="form-control">
+                                <option value="" class="disabled">Select Job Schedule</option>
+                                <option value="Morning Shift">Morning Shift</option>
+                                <option value="Night Shift">Night Shift</option>
+                                <option value="Afternoon Shift">Afternoon Shift</option>
+                                <option value="Evening Shift">Evening Shift</option>
+                                <option value="Flexible Schedule">Flexible Schedule</option>
+                                <option value="Weekends Shifts">Weekends Shifts</option>
+                                <option value="9-5 shift">9-5 shift</option>
+                                <option value="20 hrs per week">20 hrs per week</option>
+                                <option value="40 hrs per week">40 hrs per week</option>
+                                <option value="Custom Range">Custom Range</option>
+                            </select>
+                            <span asp-validation-for="Job_Schedule" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Job_Type" class="control-label"></label>
+                            <select asp-for="Job_Type" class="form-control">
+                                <option value="" class="disabled">Select Job Type</option>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Permanent Full-Time">Permanent Full-Time</option>
+                                <option value="Permanent Part-Time">Permanent Part-Time</option>
+                                <option value="Temporary Part-Time">Temporary Part-Time</option>
+                                <option value="Temporary Full-Time">Temporary Full-Time</option>
+                                <option value="Casual">Casual</option>
+
+                            </select>
+                            <span asp-validation-for="Job_Type" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Salary" class="control-label"></label>
+                            <select asp-for="Salary" class="form-control">
+                                <option value="">Select Salary</option>
+                                <optgroup label="Hourly Salary">
+                                    <option value="Less than $10 per hour">Less than $10 per hour</option>
+                                    <option value="$10 - $20 per hour">$10 - $20 per hour</option>
+                                    <option value="$20 - $30 per hour">$20 - $30 per hour</option>
+                                    <option value="$30 - $40 per hour">$30 - $40 per hour</option>
+                                    <option value="$40 - $50 per hour">$40 - $50 per hour</option>
+                                    <option value="$50 - $60 per hour">$50 - $60 per hour</option>
+                                    <option value="More than $60 per hour">More than $60 per hour</option>
+                                </optgroup>
+                                <optgroup label="Annual Salary">
+                                    <option value="Less than $30,000 per year">Less than $30,000 per year</option>
+                                    <option value="$30,000 - $40,000 per year">$30,000 - $40,000 per year</option>
+                                    <option value="$40,000 - $50,000 per year">$40,000 - $50,000 per year</option>
+                                    <option value="$50,000 - $60,000 per year">$50,000 - $60,000 per year</option>
+                                    <option value="$60,000 - $70,000 per year">$60,000 - $70,000 per year</option>
+                                    <option value="$70,000 - $80,000 per year">$70,000 - $80,000 per year</option>
+                                    <option value="$80,000 - $90,000 per year">$80,000 - $90,000 per year</option>
+                                    <option value="$90,000 - $100,000 per year">$90,000 - $100,000 per year</option>
+                                    <option value="$100,000 - $150,000 per year">$100,000 - $150,000 per year</option>
+                                    <option value="More than $150,000 per year">More than $150,000 per year</option>
+                                </optgroup>
+                            </select>
+                            <span asp-validation-for="Salary" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Classification" class="control-label"></label>
+                            <select asp-for="Classification" class="form-control">
+                                <option value="" class="disabled">Select Classification</option>
+                                <option value="Software Developer">Software Developer</option>
+                                <option value="Registered Nurse">Registered Nurse</option>
+                                <option value="Sales Representative">Sales Representative</option>
+                                <option value="Accountant">Accountant</option>
+                                <option value="Marketing Manager">Marketing Manager</option>
+                                <option value="Graphic Designer">Graphic Designer</option>
+                                <option value="Financial Analyst">Financial Analyst</option>
+                                <option value="Project Manager">Project Manager</option>
+                                <option value="Human Resources Manager">Human Resources Manager</option>
+                                <option value="Data Scientist">Data Scientist</option>
+                                <option value="Business Analyst">Business Analyst</option>
+                                <option value="Operations Manager">Operations Manager</option>
+                                <option value="Product Manager">Product Manager</option>
+                                <option value="Web Developer">Web Developer</option>
+                                <option value="UX/UI Designer">UX/UI Designer</option>
+                                <option value="Electrical Engineer">Electrical Engineer</option>
+                                <option value="Mechanical Engineer">Mechanical Engineer</option>
+                                <option value="Civil Engineer">Civil Engineer</option>
+                                <option value="Chemical Engineer">Chemical Engineer</option>
+                                <option value="IT Manager">IT Manager</option>
+                                <option value="Network Administrator">Network Administrator</option>
+                                <option value="Systems Analyst">Systems Analyst</option>
+                                <option value="Database Administrator">Database Administrator</option>
+                                <option value="Quality Assurance Analyst">Quality Assurance Analyst</option>
+                                <option value="Technical Writer">Technical Writer</option>
+                                <option value="Teacher">Teacher</option>
+                                <option value="Lawyer">Lawyer</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Pharmacist">Pharmacist</option>
+                                <option value="Dentist">Dentist</option>
+                                <option value="Veterinarian">Veterinarian</option>
+                                <option value="Chef">Chef</option>
+                                <option value="Waiter/Waitress">Waiter/Waitress</option>
+                                <option value="Bartender">Bartender</option>
+                                <option value="Cashier">Cashier</option>
+                                <option value="Customer Service Representative">Customer Service Representative</option>
+                                <option value="Retail Sales Associate">Retail Sales Associate</option>
+                                <option value="Marketing Assistant">Marketing Assistant</option>
+                                <option value="Administrative Assistant">Administrative Assistant</option>
+                                <option value="Receptionist">Receptionist</option>
+                                <option value="Data Entry Clerk">Data Entry Clerk</option>
+                                <option value="Delivery Driver">Delivery Driver</option>
+                                <option value="Truck Driver">Truck Driver</option>
+                                <option value="Security Guard">Security Guard</option>
+                                <option value="Janitor">Janitor</option>
+                                <option value="Painter">Painter</option>
+                                <option value="Plumber">Plumber</option>
+                                <option value="Electrician">Electrician</option>
+                                <option value="Carpenter">Carpenter</option>
+                                <option value="Mason">Mason</option>
+                            </select>
+                            <span asp-validation-for="Classification" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="DeactivationDate" class="control-label"></label>
+                            <input type="datetime-local" asp-for="DeactivationDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
+                            <span asp-validation-for="DeactivationDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                 
+
+
+
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Job_Details" class="control-label"></label>
+                        @Html.TextAreaFor(m => m.Job_Details, new { @class = "form-control", rows = 5, cols = 50, id = "myTextArea" })
+                        <span asp-validation-for="Job_Details" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <br />
+                <div class="d-flex justify-content-center">
+                    <div class="col-md-8 d-flex justify-content-center">
+                        <fieldset>
+
+
+                           <button type="submit" formaction="@Url.Action("Publish_Job")" formmethod="post" role="button" class="button-29" id="draft">Publish Job</button>
+                            <button type="submit" role="button" class="button-32" id="draft">Save as draft</button>
+
+
+
+                        </fieldset>
+
+                    </div>
+                </div>
+                <br />
+
+
+            </form>
+            <br />
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote-ext-fontstyle@0.1.2/dist/fontstyle-plugin.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontstyle@0.1.2/dist/fontstyle-plugin.min.js"></script>
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#myTextArea').summernote({
+                toolbar: [
+                    ['style', ['bold', 'italic', 'underline']],
+                    ['fontsize', ['fontsize']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol']],
+                    ['link', ['link']],
+                    ['highlight', ['highlight']],
+                ],
+                buttons: {
+                    fontname: function () {
+                        var ui = $.summernote.ui;
+                        var button = ui.button({
+                            className: 'dropdown-toggle',
+                            contents: '<i class="note-icon font"></i> <span class="caret"></span>',
+                            tooltip: 'Font Name',
+                            data: { toggle: 'dropdown' },
+                        });
+
+
+
+                        var $dropdown = ui.dropdown({
+                            className: 'dropdown-fontname',
+                            contents: '<ul class="dropdown-menu"></ul>',
+                            callback: function ($dropdown) {
+                                $dropdown.find('a').each(function () {
+                                    var $this = $(this);
+                                    var fontName = $this.data('value');
+                                    $this.css('font-family', fontName);
+                                });
+                                $dropdown.find('.dropdown-menu').on('mousedown', function (e) {
+                                    e.preventDefault();
+                                    return false;
+                                });
+                                $dropdown.find('a').click(function (e) {
+                                    e.preventDefault();
+                                    var fontName = $(this).data('value');
+                                    $('#editor').summernote('fontName', fontName);
+                                });
+                            },
+                        });
+
+
+
+                        button.render = function () {
+                            var $btn = ui.button.render.call(this);
+                            $btn.attr({
+                                'aria-label': 'Font Name',
+                                'data-toggle': 'dropdown',
+                                'data-placement': 'bottom',
+                            });
+                            $btn.addClass('dropdown-toggle');
+                            $btn.append($dropdown.render().css('min-width', '100px'));
+                            return $btn;
+                        };
+
+
+
+                        return button.render();
+                    }
+                }
+            });
+        });
+    </script>
+}

@@ -34,19 +34,16 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if (!SignInManager.IsSignedIn(User))
-                        {
+                    
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
-                        }
-                          @if (SignInManager.IsSignedIn(User))
-                        {
+                      
                             <li class="nav-item">
                                 <a class="nav-link text-light" asp-area="" asp-controller="Job" asp-action="JobsFeed">Jobs Feed</a>
                             </li>
 
-                        }
+                      
 
                     
                         
@@ -75,27 +72,21 @@
 
 
                 <div class="col-xs-6 col-md-3">
-                    <h6>Categories</h6>
+                    <h6>About WorkWize</h6>
                     <ul class="footer-links">
-                        <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
-                        <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
-                        <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
-                        <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
-                        <li><a href="http://scanfcode.com/category/android/">Android</a></li>
-                        <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+                        <li><a asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
+                        <li><a asp-controller="Home" asp-action="AboutUs">About Us</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy">Terms and Condition</a></li>
                     </ul>
                 </div>
 
 
 
                 <div class="col-xs-6 col-md-3">
-                    <h6>Quick Links</h6>
+                    <h6>Join Us</h6>
                     <ul class="footer-links">
-                        <li><a href="http://scanfcode.com/about/">About Us</a></li>
-                        <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
-                        <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
-                        <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
-                        <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+                        <li> <a asp-area="Identity" asp-page="/Account/Register">Register</a></li>
+                        <li><a  asp-area="Identity" asp-page="/Account/Login">Login</a></li>
                     </ul>
                 </div>
             </div>

@@ -172,8 +172,8 @@ namespace Job_Search_Application.Controllers
                 _context.EmployerReviewRequest.Add(reviewRequest);
                 _context.SaveChanges();
 
-            
-            return RedirectToAction("JobsFeed", "Job");
+
+                return RedirectToAction("GetPublishedJobs", "Employer");
 
             }
 
@@ -232,11 +232,30 @@ namespace Job_Search_Application.Controllers
           
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetPublishedJobs", "Employer");
 
 
         }
-       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteJob(string jobId)
+        {
+            // Find the job by its ID
+            var job = _context.Jobs.Find(jobId);
+
+            // Check if the job exists and if the current user is the publisher of the job
+            if (job == null || job.PublisherId != _userManager.GetUserId(HttpContext.User))
+            {
+                return NotFound();
+            }
+
+            // Remove the job from the context and save changes
+            _context.Jobs.Remove(job);
+            _context.SaveChanges();
+
+            return RedirectToAction("GetPublishedJobs", "Employer");
+        }
+
         public ActionResult Publish_Job()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
@@ -287,7 +306,32 @@ namespace Job_Search_Application.Controllers
             _context.Jobs.Add(job);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetPublishedJobs", "Employer");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PublishDraft_Job(string id)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var IsProfileCreated = _context.Employer.Any(e => e.Employer_Id == userId);
+
+            if (!IsProfileCreated)
+            {
+                return RedirectToAction("Create", "Employer");
+            }
+
+            var IfUserIsEmployer = _context.UserRoles.Where(u => u.UserId == userId && u.RoleId == "f1b1a323-474a-4b5a-844b-b2831d9fe48c").FirstOrDefault();
+
+            var draftjob = _context.Jobs.Find(id);
+
+            draftjob.IsPublished = true;
+            draftjob.PublishDate = DateTime.Now;
+            draftjob.IsActive = true;
+           
+            _context.SaveChanges();
+
+            return RedirectToAction("GetPublishedJobs", "Employer");
         }
 
         [HttpPost]
@@ -327,7 +371,7 @@ namespace Job_Search_Application.Controllers
             _context.Jobs.Add(job);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("GetPublishedJobs", "Employer");
         }
 
         public ActionResult GetDraftJobs(string searchTerm, int? page)
@@ -509,9 +553,9 @@ namespace Job_Search_Application.Controllers
                 return Forbid();
             }
 
-            var viewModel = new JobViewModel
+            var viewModel = new Jobs_Model
             {
-
+                Jobs_Id = id,
                 Title = job.Title,
                 Job_Details = job.Job_Details,
                 Job_Location = job.Job_Location,
@@ -519,7 +563,11 @@ namespace Job_Search_Application.Controllers
                 Job_Type = job.Job_Type,
                 Job_Schedule = job.Job_Schedule,
                 Classification = job.Classification,
-                DeactivationDate = job.DeactivationDate
+                DeactivationDate = job.DeactivationDate,
+                IsActive = job.IsActive,
+                IsPublished = job.IsPublished,
+               
+                
             };
 
             return View(viewModel);
@@ -551,8 +599,87 @@ namespace Job_Search_Application.Controllers
             job.Job_Schedule = viewModel.Job_Schedule;
             job.Classification = viewModel.Classification;
             job.DeactivationDate = viewModel.DeactivationDate;
+            job.IsPublished = true;
+            job.IsActive = job.IsActive;
+          
 
             _context.SaveChanges();
+
+       
+            return RedirectToAction("GetPublishedJobs", "Employer");
+        }
+
+
+        // GET: Job/Edit/5
+        public IActionResult EditDraftJobs(string? id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var job = _context.Jobs.Find(id);
+            if (job == null)
+            {
+                return NotFound();
+            }
+
+            // Check if the current user is the publisher of the job
+            var userId = _userManager.GetUserId(User);
+            if (job.PublisherId != userId)
+            {
+                return Forbid();
+            }
+
+            var viewModel = new Jobs_Model
+            {
+                Jobs_Id = id,
+                Title = job.Title,
+                Job_Details = job.Job_Details,
+                Job_Location = job.Job_Location,
+                Salary = job.Salary,
+                Job_Type = job.Job_Type,
+                Job_Schedule = job.Job_Schedule,
+                Classification = job.Classification,
+                DeactivationDate = job.DeactivationDate,
+                IsPublished = false,
+            
+
+
+            };
+
+            return View(viewModel);
+        }
+        // POST: Job/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDraftJobs(JobViewModel viewModel, string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            // Check if the current user is the publisher of the job
+            var userId = _userManager.GetUserId(User);
+            var job = _context.Jobs.Find(id);
+            if (job.PublisherId != userId)
+            {
+                return Forbid();
+            }
+
+            job.Title = viewModel.Title;
+            job.Job_Details = viewModel.Job_Details;
+            job.Job_Location = viewModel.Job_Location;
+            job.Salary = viewModel.Salary;
+            job.Job_Type = viewModel.Job_Type;
+            job.Job_Schedule = viewModel.Job_Schedule;
+            job.Classification = viewModel.Classification;
+            job.DeactivationDate = viewModel.DeactivationDate;
+            job.IsPublished = false;
+
+            _context.SaveChanges();
+
 
             return RedirectToAction("GetPublishedJobs", "Employer");
         }
