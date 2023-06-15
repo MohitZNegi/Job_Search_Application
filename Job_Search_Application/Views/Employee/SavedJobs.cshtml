@@ -42,19 +42,19 @@ else
                 <th>Job Title</th>
                 <th>Company Name</th>
                 <th>Location</th>
-                <th>Action</th>
+                <th>Closing Date</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><a style="color:aliceblue" href="/Job/JobsApplication/@item.JobId">@item.Job.Title</a></td>
+                    <td><a style="color:aliceblue" href="/Job/JobsApplication/@item.JobId">@item.Job.Title</a>
+                        <p class="text-muted">@item.Job.PublishDate.Value.ToShortDateString()</p>
+                    </td>
                     <td>@item.Employer.Company_Name</td>
                     <td>@item.Job.Job_Location</td>
-                    <td>
-                        <button class="btn btn-primary unsaveButton" data-jobid="@item.JobId">Unsave Job</button>
-                    </td>
+                    <td>@item.Job.DeactivationDate.ToShortDateString()</td>
                 </tr>
             }
         </tbody>

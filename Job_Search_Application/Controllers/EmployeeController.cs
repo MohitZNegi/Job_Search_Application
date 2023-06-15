@@ -234,6 +234,7 @@ namespace Job_Search_Application.Controllers
 
             var applyRequests = _context.Job_Request
                                         .Include(r => r.Job)
+                                        .Include(r => r.Employee)
                                         .Include(r => r.Employer)
                                         .Where(r => r.EmployeeId == userId)
                                         .ToList();
@@ -254,6 +255,7 @@ namespace Job_Search_Application.Controllers
 
             var jobRequest = _context.Job_Request
                 .Where(e => e.JobRequest_Id == requestID)
+                .Include(e => e.Employee)
                 .Include(e => e.Job)
                 .Include(e => e.Employer)
                 .ThenInclude(e => e.User)

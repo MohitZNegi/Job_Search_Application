@@ -80,6 +80,7 @@ namespace Job_Search_Application.Controllers.API
                 request.JobId = selectedJob.Jobs_Id;
                 request.EmployeeId = userId;
                 request.Request_Status = "pending";
+                request.Applied_Date = DateTime.Now;
                 request.Request_Date = DateTime.Now;
                 request.InterviewRequest_Status = "null";
 
@@ -128,6 +129,7 @@ namespace Job_Search_Application.Controllers.API
             }
 
             request.Request_Status = "withdrawn";
+            request.Request_Date = DateTime.Now;
             _context.SaveChanges();
 
             // Decrement the apply count for the selected job
@@ -164,6 +166,7 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.InterviewRequest_Status = "accepted";
+            request.Request_Date = DateTime.Now;
             _context.SaveChanges();
 
 
@@ -179,6 +182,7 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.InterviewRequest_Status = "declined";
+            request.Request_Date = DateTime.Now;
             _context.SaveChanges();
             // Increment the reviewed and selected count for the selected job
             var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);

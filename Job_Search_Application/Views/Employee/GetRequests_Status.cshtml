@@ -35,41 +35,50 @@
                         <td>@item.Employer.Company_Name</td>
                         <td>@item.Job.Job_Location</td>
                         <td>
-                            @if (item.Request_Status == "pending")
-                            {
-                                <span class="badge bg-primary">Pending</span>
-                            }
-                            else if (item.Request_Status == "rejected")
-                            {
-                                <span class="badge bg-danger">Rejected</span>
-                            }
-                            else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "pending")
-                            {
-                                <span class="badge bg-success">Accepted</span>
-                            }
-                            @if (item.InterviewRequest_Status == "accepted")
-                            {
-                                <span class="badge bg-primary">Pending interview</span>
-                            }
-                            else if (item.InterviewRequest_Status == "declined")
-                            {
-                                <span class="badge bg-danger">Withdrawn</span>
-                            }
-                            else if (item.InterviewRequest_Status == "canceled")
-                            {
-                                <span class="badge bg-danger">Declined</span>
-                            }
-                            else if (item.InterviewRequest_Status == "interviewed")
-                            {
-                                <span class="badge bg-warning">Interviewed</span>
-                            }
-                            else if (item.InterviewRequest_Status == "hired")
-                            {
-                                <span class="badge bg-success">Hired</span>
-                            }
+                                  @if (item.Request_Status == "pending")
+                                    {
+                                       <span class="badge bg-primary">Pending</span>
+                                    }
+                                    else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "pending")
+                                    {
+                                       <span class="badge bg-success">Accepted</span>
+                                    }
+                                    else if (item.Request_Status == "rejected" && item.InterviewRequest_Status == "pending")
+                                    {
+                                       <span class="badge bg-danger">Rejected</span>
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "accepted")
+                                    {
+                                       <span class="badge bg-primary">Pending interview</span>
+                                    }
+                                     else if (item.Request_Status == "rejected" && item.InterviewRequest_Status == "canceled")
+                                    {
+                                        <span class="badge bg-danger">Declined</span>
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "declined")
+                                    {
+                                        <span class="badge bg-danger">Withdrawn</span>
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "interviewed")
+                                    {
+                                       <span class="badge bg-warning">Interviewed</span>
+                                    }
+                                        else if (item.Request_Status == "rejected" && item.InterviewRequest_Status == "interviewed")
+                                    {
+                                       <span class="badge bg-danger">Rejected</span>
+                                    }
+                                        else if (item.Request_Status == "accepted" && item.InterviewRequest_Status == "hired")
+                                    {
+                                        <span class="badge bg-success">Hired</span>
+                                    }
+                                        else if (item.Request_Status == "withdrawn")
+                                    {
+                                        <span class="badge bg-danger">Withdrawn</span>
+                                    }
+                         
                         </td>
                         <td>
-                            @if (item.Request_Status == "accepted")
+                            @if (item.Request_Status == "accepted" || item.Request_Status == "rejected")
                             {
                                 @Html.ActionLink("View Request", "GetJobsApplied", "Employee", new { id = item.EmployerId, requestID = item.JobRequest_Id }, new { @class = "btn btn-primary" })
                             }

@@ -33,7 +33,7 @@
                             Applied
                         </button>
 
-                        <button data-job-id="@Model.Jobs_Id" class="btn btn-danger js-withdraw-request">
+                        <button data-job-id="@Model.Jobs_Id" role="button" class="button-30 js-withdraw-request">
                             Withdraw
                         </button>
 
@@ -42,11 +42,13 @@
                     }
                     else if (requestStatus == "withdrawn")
                     {
-                        TempData["WithdrawnMessage"] = "You have withdrawn the application.";
-                        @if (TempData.ContainsKey("WithdrawnMessage"))
-                        {
-                            <div class="alert alert-danger">@TempData["WithdrawnMessage"]</div>
-                        }
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            You have withdrawn the application...
+                        </div>
+                         <button id="saveButton" class="btn btn-primary" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" class="btn btn-primary" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
+                      
                     }
 
                 }
@@ -62,7 +64,7 @@
                     }
                     else
                     {
-                        <button data-job-id="@Model.Jobs_Id" class="btn btn-primary apply-btn js-apply-request">
+                        <button data-job-id="@Model.Jobs_Id" role="button" class="button-29 apply-btn js-apply-request">
                             Apply Now
                         </button>
                         <button id="saveButton" class="btn btn-primary" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
