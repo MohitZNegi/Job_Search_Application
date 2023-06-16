@@ -49,17 +49,7 @@ body {
     margin-right: 10px; /* Adjust spacing between values */
 }
 
-h1 {
-    font-family: 'Rubik', sans-serif;
-}
 
-h2 {
-    font-family: 'Rubik', sans-serif;
-}
-
-h3 {
-    font-family: 'Rubik', sans-serif;
-}
 
 .navbar-nav .nav-link {
     position: relative;
@@ -492,3 +482,20 @@ h3 {
         box-shadow: #ffcc00 0 3px 7px inset;
         transform: translateY(2px);
     }
+
+
+@font-face {
+    font-family: 'classic-write';
+    src: url('../resources/fonts/classic-write.ttf') format('truetype');
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'classic-write';
+}
+
+@font-face {
+    font-family: 'malcolm';
+    src: url('../resources/fonts/malcolm.ttf') format('truetype');
+}
+p {
+    font-family: 'malcolm';
+}
