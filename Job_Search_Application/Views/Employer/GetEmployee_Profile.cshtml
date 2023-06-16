@@ -431,11 +431,15 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You rejected the request successfully");
+                                    bootbox.alert("You rejected the request successfully", function () {
+                                        // Callback function after the alert is closed
+                                        location.reload(); // Reload the page
+                                    });
                                     rejectButton.hide(); // Hide the reject button
                                     acceptButton.hide(); // Hide the accept button
                                     $('.js-hire-btn').hide();
                                 })
+
                                 .fail(function () {
                                     bootbox.alert("Something went wrong!");
                                 });
@@ -469,10 +473,14 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You accepted the request successfully, and an interview request has been sent to the applicant");
+                                    bootbox.alert("You accepted the request successfully, and an interview request has been sent to the applicant", function () {
+                                        // Callback function after the alert is closed
+                                        location.reload(); // Reload the page
+                                    });
                                     acceptButton.hide(); // Hide the accept button
                                     rejectButton.hide(); // Hide the reject button
                                 })
+
                                 .fail(function () {
                                     bootbox.alert("Something went wrong!");
                                 });
@@ -504,10 +512,14 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You marked the applicant as interviewed successfully");
+                                    bootbox.alert("You marked the applicant as interviewed successfully", function () {
+                                        // Callback function after the alert is closed
+                                        location.reload(); // Reload the page
+                                    });
                                     interviewedButton.hide(); // Hide the interviewed button
                                     declineButton.hide(); // Hide the decline button
                                 })
+
                                 .fail(function () {
                                     bootbox.alert("Something went wrong!");
                                 });
@@ -540,10 +552,14 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You declined the request successfully");
+                                    bootbox.alert("You declined the request successfully", function () {
+                                        // Callback function after the alert is closed
+                                        location.reload(); // Reload the page
+                                    });
                                     declineButton.hide(); // Hide the decline button
                                     interviewedButton.hide(); // Hide the interviewed button
                                 })
+
                                 .fail(function () {
                                     bootbox.alert("Something went wrong!");
                                 });
@@ -575,10 +591,14 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You hired the applicant successfully");
+                                    bootbox.alert("You hired the applicant successfully", function () {
+                                        // Callback function after the alert is closed
+                                        location.reload(); // Reload the page
+                                    });
                                     hireButton.hide(); // Hide the hire button
                                     $('.js-reject-btn').hide(); // Hide the reject button
                                 })
+
                                 .fail(function () {
                                     bootbox.alert("Something went wrong!");
                                 });

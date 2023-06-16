@@ -402,10 +402,14 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You declined the request successfully");
+                                    bootbox.alert("You declined the request successfully", function () {
+                                        // Callback function after the alert is closed
+                                        location.reload(); // Reload the page
+                                    });
                                     declineButton.hide(); // Hide the decline button
                                     acceptButton.hide(); // Hide the accept button
                                 })
+
                                 .fail(function () {
                                     bootbox.alert("Something went wrong!");
                                 });
@@ -438,10 +442,14 @@
                                 method: "PUT"
                             })
                                 .done(function () {
-                                    bootbox.alert("You accepted the interview request successfully");
+                                    bootbox.alert("You accepted the interview request successfully", function () {
+                                        // Callback function after the alert is closed
+                                        location.reload(); // Reload the page
+                                    });
                                     acceptButton.hide(); // Hide the accept button
-                                    declineButton.hide();
+                                    declineButton.hide(); // Hide the decline button
                                 })
+
                                 .fail(function () {
                                     bootbox.alert("Something went wrong!");
                                 });
