@@ -630,9 +630,9 @@ namespace Job_Search_Application.Controllers
                 return Forbid();
             }
 
-            var viewModel = new Jobs_Model
+            var viewModel = new JobViewModel
             {
-                Jobs_Id = id,
+               
                 Title = job.Title,
                 Job_Details = job.Job_Details,
                 Job_Location = job.Job_Location,
@@ -641,7 +641,9 @@ namespace Job_Search_Application.Controllers
                 Job_Schedule = job.Job_Schedule,
                 Classification = job.Classification,
                 DeactivationDate = job.DeactivationDate,
-                IsPublished = false,
+                IsPublished = true,
+                IsActive = true,
+                PublishDate = DateTime.Now
             
 
 
@@ -675,7 +677,9 @@ namespace Job_Search_Application.Controllers
             job.Job_Schedule = viewModel.Job_Schedule;
             job.Classification = viewModel.Classification;
             job.DeactivationDate = viewModel.DeactivationDate;
-            job.IsPublished = false;
+            job.IsPublished = true;
+            job.IsActive = true;
+            job.PublishDate = DateTime.Now;
 
             _context.SaveChanges();
 

@@ -3,6 +3,7 @@
 @using X.PagedList.Mvc.Core;
 @using System.Linq;
 @using System.Web;
+@using X.PagedList.Web.Common;
 
 
 @model IPagedList<Job_Search_Application.Models.Jobs_Model>;
@@ -152,8 +153,26 @@
 
     <div class="row">
         <div class="col-md-12">
-            
-                @Html.PagedListPager(Model, page => Url.Action("GetPublishedJobs", "Employer", new { page }))
+
+            <div id="paginationContainer" class="pagination bootswatch-flatly justify-content-center">
+                @Html.PagedListPager(Model,
+            page => Url.Action("GetPublishedJobs", new { page }),
+            new PagedListRenderOptions
+            {
+            UlElementClasses = new[] { "pagination" },
+            LiElementClasses = new[] { "page-item" },
+            ActiveLiElementClass = "active",
+            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5,
+            LinkToFirstPageFormat = "&laquo;",
+            LinkToPreviousPageFormat = "&lt;",
+            LinkToNextPageFormat = "&gt;",
+            LinkToLastPageFormat = "&raquo;"
+            })
+            </div>
             
      
     </div>
@@ -188,6 +207,26 @@
     }
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var paginationContainer = document.querySelector(".pagination.bootswatch-flatly");
+        var paginationLinks = paginationContainer.getElementsByTagName("a");
+        var activePage = paginationContainer.querySelector(".pagination > .active");
+
+        // Add custom CSS classes to the pagination links
+        for (var i = 0; i < paginationLinks.length; i++) {
+            paginationLinks[i].classList.add("page-link");
+            paginationLinks[i].style.backgroundColor = "#f8f9fa";  // Light blue color
+            paginationLinks[i].style.color = "#212529";  // White color
+        }
+
+        // Add custom CSS classes to the active page
+        activePage.classList.add("page-item");
+        activePage.firstChild.classList.add("page-link");
+        activePage.firstChild.style.backgroundColor = "#007bff";  // Blue color
+        activePage.firstChild.style.color = "#fff";  // White color
+    });
+</script>
 
 <script>
 

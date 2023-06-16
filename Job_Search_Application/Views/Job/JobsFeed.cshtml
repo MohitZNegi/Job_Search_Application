@@ -17,28 +17,6 @@
 
     }
 
-    .pagination.bootswatch-flatly .page-link {
-        background-color: #f8f9fa;
-        border-color: #dee2e6;
-        color: #343a40;
-    }
-
-    .pagination.bootswatch-flatly .page-link:hover {
-        background-color: #e9ecef;
-        border-color: #dee2e6;
-        color: #343a40;
-    }
-
-    .pagination.bootswatch-flatly .page-link:focus {
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    }
-
-    .pagination.bootswatch-flatly .page-item.disabled .page-link {
-        background-color: #f8f9fa;
-        border-color: #dee2e6;
-        color: #6c757d;
-    }
-
     .pagination.bootswatch-flatly .page-item.active .page-link {
         background-color: #007bff;
         border-color: #007bff;
@@ -311,7 +289,7 @@
             <br />
         }
 
-        <div class="pagination bootswatch-flatly">
+        <div id="paginationContainer" class="pagination bootswatch-flatly justify-content-center">
             @Html.PagedListPager(Model,
         page => Url.Action("JobsFeed", new { page }),
         new PagedListRenderOptions
@@ -334,6 +312,7 @@
 
 
 
+
     }
     else
     {
@@ -352,6 +331,26 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontfamily@0.2.3/dist/fontfamily-plugin.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var paginationContainer = document.querySelector(".pagination.bootswatch-flatly");
+        var paginationLinks = paginationContainer.getElementsByTagName("a");
+        var activePage = paginationContainer.querySelector(".pagination > .active");
+
+        // Add custom CSS classes to the pagination links
+        for (var i = 0; i < paginationLinks.length; i++) {
+            paginationLinks[i].classList.add("page-link");
+            paginationLinks[i].style.backgroundColor = "#f8f9fa";  // Light blue color
+            paginationLinks[i].style.color = "#212529";  // White color
+        }
+
+        // Add custom CSS classes to the active page
+        activePage.classList.add("page-item");
+        activePage.firstChild.classList.add("page-link");
+        activePage.firstChild.style.backgroundColor = "#007bff";  // Blue color
+        activePage.firstChild.style.color = "#fff";  // White color
+    });
+</script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {

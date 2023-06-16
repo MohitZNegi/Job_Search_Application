@@ -221,7 +221,7 @@ namespace Job_Search_Application.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetRequests_Status()
+        public ActionResult GetRequests_Status(int? page)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
@@ -239,7 +239,7 @@ namespace Job_Search_Application.Controllers
                                         .Where(r => r.EmployeeId == userId)
                                         .ToList();
 
-            return View(applyRequests);
+            return View(applyRequests.ToPagedList(page ?? 1, 6));
         }
 
         [AllowAnonymous]
@@ -288,7 +288,7 @@ namespace Job_Search_Application.Controllers
             savedJobs = savedJobs.Where(sj => sj.Job.IsActive && sj.Job.DeactivationDate > DateTime.Now).ToList();
 
             // Pass the filtered saved jobs to the view
-            return View(savedJobs.ToPagedList(page ?? 1, 3));
+            return View(savedJobs.ToPagedList(page ?? 1, 6));
         }
 
 

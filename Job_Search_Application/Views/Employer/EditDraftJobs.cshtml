@@ -1,4 +1,4 @@
-﻿@model Job_Search_Application.Models.Jobs_Model;
+﻿@model Job_Search_Application.ViewModels.JobViewModel;
 @{
     ViewData["Title"] = "Publish Job";
 }
@@ -17,7 +17,7 @@
                 <br />
             </div>
             <hr />
-            <form asp-action="EditDraftJobs" asp-route-id="@Model.Jobs_Id" method="post">
+            <form asp-action="EditDraftJobs"  method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row">
                     <div class="col">
@@ -464,8 +464,7 @@
                         <fieldset>
 
 
-                           <button type="submit" formaction="@Url.Action("Publish_Job")" formmethod="post" role="button" class="button-29" id="draft">Publish Job</button>
-                            <button type="submit" role="button" class="button-32" id="draft">Save as draft</button>
+                            <button type="submit" role="button" class="button-31" id="save">Publish</button>
 
 
 

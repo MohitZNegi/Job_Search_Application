@@ -91,7 +91,7 @@ namespace Job_Search_Application.Controllers
                 _context.SaveChanges();
             }
 
-            return View(jobs.ToPagedList(page ?? 1, 3));
+            return View(jobs.ToPagedList(page ?? 1, 10));
         }
 
 
