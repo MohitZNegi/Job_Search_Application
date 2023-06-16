@@ -45,7 +45,7 @@ namespace Job_Search_Application.Controllers
                 jobs = _context.Jobs
                     .Where(j => (j.Title.Contains(searchTerm1) || j.Job_Location.Contains(searchTerm1)
                         || j.Job_Type.Contains(searchTerm1) || j.Job_Schedule.Contains(searchTerm1)
-                        || j.Classification.Contains(searchTerm1) || j.Employer.Company_Name.Contains(searchTerm1))
+                        || j.Classification.Contains(searchTerm1) || j.Job_Details.Contains(searchTerm1) || j.Employer.Company_Name.Contains(searchTerm1))
                        )
                     .Include(j => j.Employer)
                     .ToList();

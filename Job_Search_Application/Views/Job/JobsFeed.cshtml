@@ -9,53 +9,41 @@
 @{
     ViewData["Title"] = "Published Job";
 }
+
+
 <style>
     body {
         background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
 
     }
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
+    .pagination.bootswatch-flatly .page-link {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+        color: #343a40;
     }
 
-        .pagination .pagedList {
-            list-style-type: none;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-        }
+    .pagination.bootswatch-flatly .page-link:hover {
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+        color: #343a40;
+    }
 
-            .pagination .pagedList li {
-                margin-right: 5px;
-            }
+    .pagination.bootswatch-flatly .page-link:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
 
-                .pagination .pagedList li a,
-                .pagination .pagedList li span {
-                    color: #007bff;
-                    text-decoration: none;
-                    padding: 5px 10px;
-                    border: 1px solid #007bff;
-                    border-radius: 5px;
-                }
+    .pagination.bootswatch-flatly .page-item.disabled .page-link {
+        background-color: #f8f9fa;
+        border-color: #dee2e6;
+        color: #6c757d;
+    }
 
-                    .pagination .pagedList li a:hover {
-                        background-color: #007bff;
-                        color: #fff;
-                    }
-
-            .pagination .pagedList .active a {
-                background-color: #007bff;
-                color: #fff;
-            }
-
-            .pagination .pagedList .disabled a {
-                pointer-events: none;
-                opacity: 0.6;
-            }
+    .pagination.bootswatch-flatly .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
 
             .JobDetails {
                 line-height: 21px;
@@ -293,10 +281,20 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <br/>
+                                @{
+                                    string htmlContent = item.Job_Details;
 
-                                <p class="text-muted JobDetails" id="jobDetailsText">
-                                    @Html.Raw(item.Job_Details)
-                                </p>
+                                    // Remove inline styles from the HTML content
+                                    string cleanedContent = System.Text.RegularExpressions.Regex.Replace(htmlContent, @"(<[^>]+?)\s+style\s*=\s*(['""])[^>]*?\2([^>]*?>)", "$1$3");
+                                }
+
+                                <div id="jobDetailsContent" class="text-muted JobDetails" style="display: none;">@Html.Raw(cleanedContent)</div>
+
+                                <br/>
+
+
+
+
                                 <p class="text-muted" style="font-size:smaller">Posted @CalculateDaysAgo(item.PublishDate) ago</p>
 
 
@@ -312,24 +310,29 @@
             </div>
             <br />
         }
-        <div class="pagination">
+
+        <div class="pagination bootswatch-flatly">
             @Html.PagedListPager(Model,
         page => Url.Action("JobsFeed", new { page }),
         new PagedListRenderOptions
         {
-        LiElementClasses = new[] { "pagedList" },
         UlElementClasses = new[] { "pagination" },
-        LinkToPreviousPageFormat = "<li class=\"pagedList\">{0}</li>",
-        LinkToNextPageFormat = "<li class=\"pagedList\">{0}</li>",
-        LinkToFirstPageFormat = "<li class=\"pagedList\">{0}</li>",
-        LinkToLastPageFormat = "<li class=\"pagedList\">{0}</li>",
+        LiElementClasses = new[] { "page-item" },
+        ActiveLiElementClass = "active",
         DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
         DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
-        DisplayLinkToPreviousPage = PagedListDisplayMode.IfNeeded,
-        DisplayLinkToNextPage = PagedListDisplayMode.IfNeeded,
-        MaximumPageNumbersToDisplay = 5
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        MaximumPageNumbersToDisplay = 5,
+        LinkToFirstPageFormat = "&laquo;",
+        LinkToPreviousPageFormat = "&lt;",
+        LinkToNextPageFormat = "&gt;",
+        LinkToLastPageFormat = "&raquo;"
         })
         </div>
+
+
+
 
     }
     else
@@ -351,11 +354,43 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
 
 <script>
-    $(document).ready(function () {
-        // Get the HTML content of the editor
-        var htmlContent = $('#jobDetailsText').data('job-details');
+    document.addEventListener("DOMContentLoaded", function () {
+        var jobDetailsElement = document.getElementById("jobDetailsContent");
 
-        // Initialize the Summernote editor
+        // Truncate the text to three lines and add an ellipsis
+        var truncatedText = truncateText(jobDetailsElement.innerHTML, 3);
+
+        // Apply the muted style to the element
+        jobDetailsElement.classList.add("text-muted");
+
+        // Update the content with the truncated text
+        jobDetailsElement.innerHTML = truncatedText;
+
+        // Show the element
+        jobDetailsElement.style.display = "block";
+    });
+
+    function truncateText(text, lines) {
+        var lineHeight = parseInt(window.getComputedStyle(document.body).lineHeight);
+        var maxHeight = lines * lineHeight;
+
+        var dummyElement = document.createElement("div");
+        dummyElement.innerHTML = text;
+        dummyElement.style.maxHeight = maxHeight + "px";
+        dummyElement.style.overflow = "hidden";
+        dummyElement.style.textOverflow = "ellipsis";
+        dummyElement.style.display = "-webkit-box";
+        dummyElement.style.webkitBoxOrient = "vertical";
+        dummyElement.style.webkitLineClamp = lines;
+
+        return dummyElement.innerHTML;
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        var htmlContent = $('#jobDetailsText').html();
+
         $('#jobDetailsText').summernote({
             toolbar: false,
             readOnly: true,
@@ -365,19 +400,16 @@
             disableDragAndDrop: true,
             callbacks: {
                 onInit: function () {
-                    // Set the HTML content in the editor
                     $('#jobDetailsText').summernote('code', htmlContent);
-
-                    // Get the plain text content from the editor
                     var plainText = $('#jobDetailsText').summernote('getText');
-
-                    // Set the plain text content in the paragraph element
-                    $('#jobDetailsText').text(plainText);
+                    var normalText = $("<p>").text(plainText).addClass("text-muted JobDetails");
+                    $('#jobDetailsText').empty().append(normalText);
                 }
             }
         });
     });
 </script>
+
 
 
 

@@ -154,7 +154,7 @@ namespace Job_Search_Application.Areas.Identity.Pages.Account
                         await _userManager.AddToRoleAsync(user, Roles.Employer.ToString());
                     }
 
-                    //  await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+                   //   await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
 
                     _logger.LogInformation("User created a new account with password.");
 

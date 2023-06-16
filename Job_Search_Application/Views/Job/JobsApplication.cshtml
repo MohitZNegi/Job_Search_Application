@@ -146,11 +146,21 @@
             <h2>Job Description</h2>
         <div class="card-footer">
            
-                <div class="container shadow-lg rounded-2" style="background-color:rgb(204, 235, 255)">
+                <div class="container shadow-lg rounded-2" style="background-color:ghostwhite">
                     <br />
-                    
-            
-            @Html.Raw(Model.Job_Details)
+
+                    @{
+                        string htmlContent = Model.Job_Details;
+
+                        // Remove inline styles from the HTML content
+                        string cleanedContent = System.Text.RegularExpressions.Regex.Replace(htmlContent, @"(<[^>]+?)\s+style\s*=\s*(['""])[^>]*?\2([^>]*?>)", "$1$3");
+
+                        // Add the desired style to the cleaned HTML content
+                        string styledContent = $"<p >{cleanedContent}</p>";
+
+                        // Display the styled HTML content
+                        @Html.Raw(styledContent)
+                    }
                     <br />
                     <br />
             </div>

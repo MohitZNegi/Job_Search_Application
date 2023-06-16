@@ -491,18 +491,13 @@
         <script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontstyle@0.1.2/dist/fontstyle-plugin.min.js"></script>
 
 
-
     <script>
         $(document).ready(function () {
             $('#myTextArea').summernote({
                 toolbar: [
                     ['style', ['bold', 'italic', 'underline']],
-                    ['fontsize', ['fontsize']],
-                    ['fontname', ['fontname']],
-                    ['color', ['color']],
                     ['para', ['ul', 'ol']],
-                    ['link', ['link']],
-                    ['highlight', ['highlight']],
+                    ['link', ['link']]
                 ],
                 buttons: {
                     fontname: function () {
@@ -513,8 +508,6 @@
                             tooltip: 'Font Name',
                             data: { toggle: 'dropdown' },
                         });
-
-
 
                         var $dropdown = ui.dropdown({
                             className: 'dropdown-fontname',
@@ -537,8 +530,6 @@
                             },
                         });
 
-
-
                         button.render = function () {
                             var $btn = ui.button.render.call(this);
                             $btn.attr({
@@ -551,12 +542,12 @@
                             return $btn;
                         };
 
-
-
                         return button.render();
                     }
                 }
             });
         });
     </script>
+
+
 }

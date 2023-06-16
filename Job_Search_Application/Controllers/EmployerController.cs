@@ -565,8 +565,7 @@ namespace Job_Search_Application.Controllers
                 Classification = job.Classification,
                 DeactivationDate = job.DeactivationDate,
                 IsActive = job.IsActive,
-                IsPublished = job.IsPublished,
-               
+                
                 
             };
 
@@ -600,7 +599,7 @@ namespace Job_Search_Application.Controllers
             job.Classification = viewModel.Classification;
             job.DeactivationDate = viewModel.DeactivationDate;
             job.IsPublished = true;
-            job.IsActive = job.IsActive;
+            job.IsActive = viewModel.IsActive;
           
 
             _context.SaveChanges();
