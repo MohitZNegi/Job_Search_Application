@@ -38,7 +38,7 @@
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(179, 255, 204); min-width:150px; min-height:40px;  padding: 10px;">Status: Accepted</div>
 
                     }
-                    @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "pending")
+                    @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "null")
                     {
                         <div class="rounded-1 justify-content-center align-middle" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(255, 173, 153); min-width:150px; min-height:40px;  padding: 10px;">Status: Rejected</div>
 
@@ -99,7 +99,7 @@
         </div>
     </div>
     <div class="card-footer">
-            @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "pending")
+            @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "null")
             {
                 <div class="alert alert-dismissible alert-danger">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -191,7 +191,7 @@
                 </div>
 
             }
-            @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "pending")
+            @if (Model.Request_Status == "rejected" && Model.InterviewRequest_Status == "null")
             {
                 <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="background-color:floralwhite">
                     <div class="toast-header">
