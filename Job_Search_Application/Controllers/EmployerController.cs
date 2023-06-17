@@ -406,7 +406,7 @@ namespace Job_Search_Application.Controllers
                 // Only draft jobs
                 jobs = jobs.Where(j => j.IsPublished == false && j.IsActive == false).ToList();
             }
-            return View(jobs.ToPagedList(page ?? 1, 3));
+            return View(jobs.ToPagedList(page ?? 1, 5));
 
         }
 
@@ -490,7 +490,7 @@ namespace Job_Search_Application.Controllers
             ViewBag.Hired = hired;
             // Pass the sortOrder to the view
             ViewBag.CurrentSort = sortOrder;
-            return View(jobs.ToPagedList(page ?? 1, 3));
+            return View(jobs.ToPagedList(page ?? 1, 5));
 
         }
         public ActionResult GetDeactivatedJobs(string searchTerm, int? page)
@@ -529,7 +529,7 @@ namespace Job_Search_Application.Controllers
                 _context.SaveChanges();
             }
 
-            return View(jobs.ToPagedList(page ?? 1, 3));
+            return View(jobs.ToPagedList(page ?? 1, 5));
         }
 
         // GET: Job/Edit/5
