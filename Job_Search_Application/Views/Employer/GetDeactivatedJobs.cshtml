@@ -3,92 +3,151 @@
 @using X.PagedList.Mvc.Core;
 @using System.Linq;
 @using System.Web;
+@using X.PagedList.Web.Common;
 
 
 @model IPagedList<Job_Search_Application.Models.Jobs_Model>;
 @{
     ViewData["Title"] = "Published Job";
 }
+<br />
+@{
+    Html.RenderPartial("_EmployerNavPartial2");
+}
 
 <br />
-<br />
+
+
+
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
-<div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
-    <br />
-    <div class="col-md-9 ">
-        <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
 
 
-    </div>
     <br />
 
     <h3>Your listings</h3>
     <br />
+        <div class="col-md-9">
+    <form class="d-flex">
+        <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, location...">
+        <button role="button" class="button-29" type="submit">
+            <img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:30px;" />
+            Search
+        </button>
+    </form>
+</div>
+<br />
+    @{
+        Html.RenderPartial("_EmployerJobNavPartial");
+    }
 
-    <br />
-
-
-
-    @foreach (var item in Model)
+    @if (Model.Any())
     {
+        <table class="table table-striped table-borderless shadow-lg rounded-3" style="text-align:center; background-color:rgb(128, 204, 255);">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Job Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
 
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
-                <br />
-                <div class="card-header">
-                    <h5> <a href="#">@item.Title</a></h5>
-                    <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
-                </div>
-                <div class="card-body">
-                    <p class="text-capitalize">@item.Job_Location</p>
-                    <p class="text-capitalize d-inline">@item.Job_Schedule</p>
-                    <p class="text-capitalize">@item.Job_Type</p>
-                    <p class="text-capitalize"> @item.Classification</p>
-                    <p class="text-capitalize">@item.Salary</p>
-                </div>
+                    <tr>
+                        <td>
+                            <a style="color:aliceblue" class="job-application" data-job="@item.Title" href="/Employer/All_Requests?jobApplication=@item.Title">@item.Title</a>
+                            <br /><p class="text-muted">@item.Job_Location</p>
 
-                <div class="card-footer">
+                        </td>
+                        <td>
+                            Deactivated
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <select class="form-select" aria-label="Select action" onchange="handleActionSelect(this)">
+                                        <option selected disabled>Action</option>
+                                        <option value="@Url.Action("EditJobs", new { id = item.Jobs_Id })">Edit</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
 
-                    <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job_Details</p>
 
-                </div>
-                <br />
+                    </tr>
+                }
+            </tbody>
+        </table>
+   <div class="row">
+        <div class="col-md-12">
 
-                    <div class="d-flex justify-content-end">
-                        <a href="@Url.Action("EditJobs", new { id = item.Jobs_Id })" class="btn btn-primary">Edit</a>
-                    </div>
+            <div id="paginationContainer" class="pagination bootswatch-flatly justify-content-center">
+                @Html.PagedListPager(Model,
+            page => Url.Action("GetDeactivatedJobs", new { page }),
+            new PagedListRenderOptions
+            {
+            UlElementClasses = new[] { "pagination" },
+            LiElementClasses = new[] { "page-item" },
+            ActiveLiElementClass = "active",
+            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5,
+            LinkToFirstPageFormat = "&laquo;",
+            LinkToPreviousPageFormat = "&lt;",
+            LinkToNextPageFormat = "&gt;",
+            LinkToLastPageFormat = "&raquo;"
+            })
             </div>
-
+            
+     
+    </div>
+    </div>
+    }
+    else
+    {  <div class="card" style="background-color:rgb(128, 204, 255)">
+    <div class="card-body">
+        <p>No deactivated jobs present.</p>
         </div>
-        <br />
-
-
-
-
+        </div>
     }
 
     <br />
     <br />
 
-</div>
-<div class="pagination">
-
-    @Html.PagedListPager(Model,page => Url.Action("GetPublishedJobs",new { page}))
-
-
-</div>
 
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function handleActionSelect(select) {
+        var selectedValue = select.value;
+        if (selectedValue) {
+            window.location.href = selectedValue;
+        }
+    }
+</script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var paginationContainer = document.querySelector(".pagination.bootswatch-flatly");
+        var paginationLinks = paginationContainer.getElementsByTagName("a");
+        var activePage = paginationContainer.querySelector(".pagination > .active");
 
+        // Add custom CSS classes to the pagination links
+        for (var i = 0; i < paginationLinks.length; i++) {
+            paginationLinks[i].classList.add("page-link");
+            paginationLinks[i].style.backgroundColor = "#f8f9fa";  // Light blue color
+            paginationLinks[i].style.color = "#212529";  // White color
+        }
 
-
-
-
-
-
+        // Add custom CSS classes to the active page
+        activePage.classList.add("page-item");
+        activePage.firstChild.classList.add("page-link");
+        activePage.firstChild.style.backgroundColor = "#007bff";  // Blue color
+        activePage.firstChild.style.color = "#fff";  // White color
+    });
+</script>
 

@@ -3,88 +3,271 @@
 @using X.PagedList.Mvc.Core;
 @using System.Linq;
 @using System.Web;
+@using X.PagedList.Web.Common;
 
 
 @model IPagedList<Job_Search_Application.Models.Jobs_Model>;
 @{
     ViewData["Title"] = "Published Job";
 }
+<br />
+@{
+    Html.RenderPartial("_EmployerNavPartial2");
+}
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" />
+<br />
+
+<span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
+
 
 <br />
+
+<h3>Your listings</h3>
 <br />
-<span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
-<div class="container shadow" style="background-color:rgb(150, 165, 234); border-radius:20px;">
-       <br />
-<div class="col-md-10">
-            <form class="d-flex">
-                <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
-            <button class="btn btn-secondary my-2 my-sm-0 bi bi-search" type="submit">Search</button>
-            </form>
-  
+<div>
+    <div class="col-md-9">
+        <form class="d-flex">
+            <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, location...">
+            <button role="button" class="button-29" type="submit">
+                <img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:30px;" />
+                Search
+            </button>
+           
+        </form>
+    </div>
 
 </div>
-    <br />
+<br />
 
-        <h3>Your listings</h3>
-        <br />
-   
-    <br />
-   
+@{
+    Html.RenderPartial("_EmployerJobNavPartial");
+}
+
+@if (Model.Any())
+{
+    <table class="table table-striped table-borderless shadow-lg rounded-3" style="text-align:center; background-color:rgb(128, 204, 255);">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Interactions</th>
+                <th style="min-width:150px">Candidates</th>
+                <th>Job Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                // Access the views for the current job
+                var jobViews = ViewBag.JobViews as Dictionary<string, int>;
+                // Get the views count for the current job
+                int viewsCount = jobViews != null && jobViews.ContainsKey(item.Jobs_Id) ? jobViews[item.Jobs_Id] : 0;
+                // Access the applies for the current job
+                var jobApplies = ViewBag.JobApplies as Dictionary<string, int>;
+                // Get the applies count for the current job
+                int appliesCount = jobApplies != null && jobApplies.ContainsKey(item.Jobs_Id) ? jobApplies[item.Jobs_Id] : 0;
+                // Access the Reviewed Candidates for the current job
+                var reviewedCandidates = ViewBag.ReviewedCandidates as Dictionary<string, int>;
+                // Get the Reviewed candidates count for the current job
+                int reviewedCandidatesCount = reviewedCandidates != null && reviewedCandidates.ContainsKey(item.Jobs_Id) ? reviewedCandidates[item.Jobs_Id] : 0;
+                // Access the Selected candidates for the current job
+                var selectedCandidates = ViewBag.SelectedCandidates as Dictionary<string, int>;
+                // Get the selected candidates count for the current job
+                int selectedCandidatesCount = selectedCandidates != null && selectedCandidates.ContainsKey(item.Jobs_Id) ? selectedCandidates[item.Jobs_Id] : 0;
+                // Access the rejected for the current job
+                var rejected = ViewBag.Rejected as Dictionary<string, int>;
+                // Get the rejected count for the current job
+                int rejectedCount = rejected != null && rejected.ContainsKey(item.Jobs_Id) ? rejected[item.Jobs_Id] : 0;
+                // Access the withdrawn for the current job
+                var withdrawn = ViewBag.Withdrawn as Dictionary<string, int>;
+                // Get the withdrawn count for the current job
+                int withdrawnCount = withdrawn != null && withdrawn.ContainsKey(item.Jobs_Id) ? withdrawn[item.Jobs_Id] : 0;
+                // Access the interviewed Candidates for the current job
+                var interviewedCandidates = ViewBag.Interviewed as Dictionary<string, int>;
+                // Get the Interviewed candidates count for the current job
+                int interviewedCandidatesCount = interviewedCandidates != null && interviewedCandidates.ContainsKey(item.Jobs_Id) ? interviewedCandidates[item.Jobs_Id] : 0;
+                // Access the hired candidates for the current job
+                var hiredCandidates = ViewBag.Hired as Dictionary<string, int>;
+                // Get the Hired candidates count for the current job
+                int hiredCandidatesCount = hiredCandidates != null && hiredCandidates.ContainsKey(item.Jobs_Id) ? hiredCandidates[item.Jobs_Id] : 0;
+                int activeCandidatedsCount = appliesCount - (rejectedCount + withdrawnCount + hiredCandidatesCount);
+                int awaitingReviewCount = activeCandidatedsCount - (reviewedCandidatesCount - (rejectedCount + withdrawnCount + hiredCandidatesCount));
+                <tr>
+                    <td>
+                        <a style="color:aliceblue" class=" job-application" data-job="@item.Title" href="/Employer/All_Requests?jobApplication=@item.Title">@item.Title</a>
+                        <br /><p class="text-muted">@item.Job_Location</p>
+                        <p class="text-muted">@item.PublishDate.Value.ToShortDateString() - @item.DeactivationDate.ToShortDateString()</p>
+
+                    </td>
+                    <td>
+                        <span class="multiple-values">
+                            <span>@viewsCount <br /> Total Views</span>
+                            <span>@appliesCount   <br />Total Applies</span>
+
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="multiple-values">
+                            <span>@activeCandidatedsCount <br /> Active</span>
+                            <span>@awaitingReviewCount   <br />Awaiting Review</span>
+                            <span>@reviewedCandidatesCount  <br /> Reviewed</span>
+                            <span>@interviewedCandidatesCount  <br /> Interviewed</span>
+                            <span>@hiredCandidatesCount   <br />Hired</span>
+
+                        </span>
+                    </td>
+
+                    <td>
+                        @if(item.IsActive == true)
+                        {
+                            <p>Active</p>
+                        }
+                        @if (item.IsActive == false)
+                        {
+                            <p>InActive</p>
+                        }
+                    </td>
 
 
-        @foreach (var item in Model)
-        {
 
-                <div class="row d-flex justify-content-center">
-                <div class="col-md-10 shadow" style="background-color:aliceblue;border-radius:20px;">
-                <br />
-                        <div class="card-header">
-                    <h5> <a href="# bi bi-cursor">@item.Title</a></h5>
-                    <h6 class="text-capitalize fw-bold bi bi-building">@item.Employer.Company_Name</h6>
+
+
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <div class="btn-group" role="group">
+                                <select class="form-select" aria-label="Select action" onchange="handleActionSelect(this)">
+                                    <option selected disabled>Action</option>
+                                    <option value="@Url.Action("EditJobs", new { id = item.Jobs_Id })">Edit</option>
+                                    <option value="/Job/JobsApplication/@item.Jobs_Id">View</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="card-body">
-                    <p class="text-capitalize bi bi-geo-alt">@item.Job_Location</p>
-                    <p class="text-capitalize d-inline bi bi-clock">@item.Job_Schedule</p>
-                    <p class="text-capitalize bi bi-pencil-square">@item.Job_Type</p>
-                    <p class="text-capitalize bi bi-box2"> @item.Classification</p>
-                    <p class="text-capitalize bi bi-cash">@item.Salary</p>
-                        </div>
+                    </td>
 
-                        <div class="card-footer">
-                           
-                            <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job_Details</p>
-                                 
-                        </div>
-                <br />
-                        </div>
-          
-                        </div>
-            <br />
 
-           
-   
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div id="paginationContainer" class="pagination bootswatch-flatly justify-content-center">
+                @Html.PagedListPager(Model,
+            page => Url.Action("GetPublishedJobs", new { page }),
+            new PagedListRenderOptions
+            {
+            UlElementClasses = new[] { "pagination" },
+            LiElementClasses = new[] { "page-item" },
+            ActiveLiElementClass = "active",
+            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5,
+            LinkToFirstPageFormat = "&laquo;",
+            LinkToPreviousPageFormat = "&lt;",
+            LinkToNextPageFormat = "&gt;",
+            LinkToLastPageFormat = "&raquo;"
+            })
+            </div>
+            
+     
+    </div>
+    </div>
+    
+    }
+    else
+    {
+    <div class="card" style="background-color:rgb(128, 204, 255)">
+        <div class="card-body">
+            <p>No active jobs available</p>
+            <p>Publish a job</p>
+            <button type="button" class="btn btn-primary" asp-controller="Employer" asp-action="Publish_Jobs">Create Job</button>
+        </div>
+    </div>
 
     }
-  
+
     <br />
     <br />
-  
- </div>
-<div class="pagination">
-
-          @Html.PagedListPager(Model,page => Url.Action("GetPublishedJobs",new { page}))
-
-
-</div>
-
-
- 
-
-   
 
 
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function handleActionSelect(selectElement) {
+        var selectedValue = selectElement.value;
+        if (selectedValue) {
+            window.location.href = selectedValue;
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var paginationContainer = document.querySelector(".pagination.bootswatch-flatly");
+        var paginationLinks = paginationContainer.getElementsByTagName("a");
+        var activePage = paginationContainer.querySelector(".pagination > .active");
+
+        // Add custom CSS classes to the pagination links
+        for (var i = 0; i < paginationLinks.length; i++) {
+            paginationLinks[i].classList.add("page-link");
+            paginationLinks[i].style.backgroundColor = "#f8f9fa";  // Light blue color
+            paginationLinks[i].style.color = "#212529";  // White color
+        }
+
+        // Add custom CSS classes to the active page
+        activePage.classList.add("page-item");
+        activePage.firstChild.classList.add("page-link");
+        activePage.firstChild.style.backgroundColor = "#007bff";  // Blue color
+        activePage.firstChild.style.color = "#fff";  // White color
+    });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        $('.js-update-status-select').change(function (e) {
+            var jobId = $(this).data('job-id');
+            var selectedStatus = $(this).val();
+
+            var isActive = selectedStatus === 'true';
+
+            $.ajax({
+                url: "/api/Employer/UpdateJobStatus/" + jobId,
+                type: "PUT",
+                data: {
+                    isActive: isActive,
+                    id: jobId
+                },
+                success: function () {
+                    // Handle success response
+                    // For example, you can show a success message or update the UI
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText); // Display the error response
+                    alert("Failed to update job status");
+                }
+            });
+        });
+
+        // Set the initial selected option based on the job status
+        $('.js-update-status-select').each(function () {
+            var isActive = $(this).data('is-active');
+            if (isActive) {
+                $(this).val('true');
+            } else {
+                $(this).val('false');
+            }
+        });
+    });
 
 
+
+
+</script>
 

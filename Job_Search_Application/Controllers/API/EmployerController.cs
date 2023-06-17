@@ -51,8 +51,33 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.Request_Status = "rejected";
+            request.InterviewRequest_Date = DateTime.Now;
             _context.SaveChanges();
 
+
+            // Increment the reviewed count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = request.Job.PublisherId,
+                    JobId = request.JobId,
+                    Views = 0,
+                    Applies = 0,
+                    ReviewedCandidates = 1, // Increment the reviewed count by 1
+                    Rejected = 1,// Increment the reject and selected count by 1
+                    SelectedCandidates = 0
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.ReviewedCandidates++; // Increment the reviewed count by 1
+                jobAnalytics.Rejected++; // Increment the rejected count by 1
+
+            }
+            _context.SaveChanges();
             return Ok();
         }
 
@@ -65,10 +90,161 @@ namespace Job_Search_Application.Controllers.API
                 return NotFound();
 
             request.Request_Status = "accepted";
+            request.InterviewRequest_Status = "pending";
+            request.InterviewRequest_Date = DateTime.Now;
+            _context.SaveChanges();
+
+            // Increment the reviewed and selected count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = request.Job.PublisherId,
+                    JobId = request.JobId,
+                    Views = 0,
+                    Applies = 0,
+                    ReviewedCandidates = 1,
+                    SelectedCandidates = 1// Increment the reviewed and selected count by 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.ReviewedCandidates++;
+                jobAnalytics.SelectedCandidates++; // Increment the reviewed and selected count by 1
+            }
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult InterviewedApplicant(string id)
+        {
+            var request = _context.Job_Request.Where(r => r.JobRequest_Id == id).FirstOrDefault();
+
+            if (request == null)
+                return NotFound();
+
+            request.InterviewRequest_Status = "interviewed";
+            request.InterviewRequest_Date = DateTime.Now;
+            _context.SaveChanges();
+
+
+            // Increment the reviewed and selected count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = request.Job.PublisherId,
+                    JobId = request.JobId,
+                    Views = 0,
+                    Applies = 0,
+                    ReviewedCandidates = 0,
+                    SelectedCandidates = 0,
+                    InterviewedCandidates = 1 // Increment the interviewed and selected count by 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.InterviewedCandidates++; // Increment the interviewed and selected count by 1
+            }
+            _context.SaveChanges();
+            return Ok();
+        }
+        [HttpPut]
+        public IActionResult DeclineRequest(string id)
+        {
+            var request = _context.Job_Request.Where(r => r.JobRequest_Id == id).FirstOrDefault();
+
+            if (request == null)
+                return NotFound();
+
+            request.InterviewRequest_Status = "canceled";
+            request.Request_Status = "rejected";
+            request.InterviewRequest_Date = DateTime.Now;
+
+
+            _context.SaveChanges();
+
+            // Increment the reviewed and selected count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = request.Job.PublisherId,
+                    JobId = request.JobId,
+                    Views = 0,
+                    Applies = 0,
+                    ReviewedCandidates = 0,
+                    SelectedCandidates = 0,
+                    InterviewedCandidates = 0,
+                    Withdrawn = 0,
+                    Rejected = 1,// Increment the reject and selected count by 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.Rejected++; // Increment the reject and selected count by 1
+            }
+            _context.SaveChanges();
+            return Ok();
+        }
+        [HttpPut]
+        public IActionResult Hire(string id)
+        {
+            var request = _context.Job_Request.Where(r => r.JobRequest_Id == id).FirstOrDefault();
+
+            if (request == null)
+                return NotFound();
+
+            request.InterviewRequest_Status = "hired";
+            request.InterviewRequest_Date = DateTime.Now;
+            _context.SaveChanges();
+            // Increment the reviewed and selected count for the selected job
+            var jobAnalytics = _context.Job_Analytics.FirstOrDefault(a => a.JobId == request.JobId);
+            if (jobAnalytics == null)
+            {
+                jobAnalytics = new JobAnalytics_Model
+                {
+                    EmployerId = request.Job.PublisherId,
+                    JobId = request.JobId,
+                    Views = 0,
+                    Applies = 0,
+                    ReviewedCandidates = 0,
+                    SelectedCandidates = 0,
+                    InterviewedCandidates = 0,
+                    Withdrawn = 0,
+                    HiredCandidates = 1// Increment the hire and selected count by 1
+                };
+                _context.Job_Analytics.Add(jobAnalytics);
+            }
+            else
+            {
+                jobAnalytics.HiredCandidates++; // Increment the hire and selected count by 1
+            }
+            _context.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult UpdateJobStatus(string id, bool isActive)
+        {
+            var job = _context.Jobs.FirstOrDefault(r => r.Jobs_Id == id);
+
+            if (job == null)
+                return NotFound();
+
+            job.IsActive = isActive;
             _context.SaveChanges();
 
             return Ok();
         }
+
 
     }
 }

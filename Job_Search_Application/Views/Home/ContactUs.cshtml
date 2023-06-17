@@ -1,8 +1,9 @@
-﻿@model Job_Search_Application.ViewModels.JobViewModel;
-@{
-    ViewData["Title"] = "Contact Us";
-}
+﻿
 <style>
+    
+    body {
+        background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+    }
 
 .row {
    content: "";
@@ -16,7 +17,7 @@
 <div class="col-md-10"> 
 <h2 style="justify-content: center;">Contact Us</h2>
 <div class="row">
-            <div class="container-fluid shadow" style="background-color: #234567;; border-radius:20px;">
+            <div class="container-fluid shadow" style=" background-color:white; border-radius:15px;">
         <br/>
                 <h5>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-outbound" viewBox="0 0 16 16" style="margin-right: 10px;">
@@ -44,32 +45,93 @@
 <hr/>
 <br/>
 <div class="row">
-            <div class="container-fluid shadow" style="background-color: #234567;; border-radius:20px;">
-        <br/>
-                <h5>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-heart" viewBox="0 0 16 16" style="margin-right: 10px;">
-                        <path d="M9 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4Zm13.5-8.09c1.387-1.425 4.855 1.07 0 4.277-4.854-3.207-1.387-5.702 0-4.276Z" />
-                    </svg>Need help ASAP? Contact us immediately here!
-                </h5>
-            <br/>
-            <div class="form-group">
-                <textarea class="form-control" id="exampleTextarea" rows="1" placeholder="Name"></textarea>
-                <br/>
-                <textarea class="form-control" id="exampleTextarea" rows="1" placeholder="Email"></textarea>
-                <br/>
-                <textarea class="form-control" id="exampleTextarea" rows="1" placeholder="Phone number"></textarea>
-                <br/>
-                <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Describe your problem here."></textarea>
-                <br />
-                    <button type="button" class="btn btn-primary">
-                        Submit<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-right" viewBox="0 0 16 16" style="margin-bottom: 5px; margin-left: 5px;">
-                            <path fill-rule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0v-6z" />
-                        </svg>
-                    </button>
-                <br />
+    <h2>FAQs</h2>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                           How to set up an employer profile?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <p>To utilize the job posting functionality, follow these steps:</p>
+<ol>
+  <li>Sign up or log in as an employer.</li>
+  <li>Create a comprehensive employer profile.</li>
+  <li>Wait for the profile review process (2-3 business days).</li>
+  <li>Gain access to job posting capabilities.</li>
+  <li>Create and manage job listings according to your needs.</li>
+</ol>
+<p>These steps ensure a seamless experience for employers seeking to attract and connect with qualified candidates.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          How to apply for jobs?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+<p>To begin your journey as a job seeker, please follow these steps:</p>
+<ol>
+  <li>Sign in as an employee: Use your login credentials to access the job seeker features and functionalities.</li>
+  <li>Create your profile: Complete the profile creation process by providing relevant information about your skills, qualifications, work experience, and other details. This will help employers assess your suitability for available job opportunities.</li>
+  <li>Explore job listings: Browse through the available job listings on our platform to find opportunities that match your preferences and career goals. Utilize search filters, categories, and keywords to narrow down your options and discover the most relevant job openings.</li>
+  <li>Apply for suitable jobs: Once you find a job listing that aligns with your qualifications and interests, submit your application through the designated application process. This may involve uploading your resume, writing a cover letter, or completing an online application form.</li>
+  <li>Monitor application status: Keep track of the status of your applications. Some employers may provide updates or notifications regarding the progress of your application.</li>
+  <li>Prepare for interviews: If your application is successful, employers may invite you for interviews or further assessments. Be prepared by researching the company, reviewing common interview questions, and showcasing your skills and experiences effectively.</li>
+  <li>Continue searching and applying: While waiting for responses from employers, continue exploring other job listings and submitting applications to increase your chances of finding the right job opportunity.</li>
+</ol>
+<p>Remember, your profile and application should highlight your qualifications, experiences, and skills to make a positive impression on potential employers. Good luck in your job search journey!</p>                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                           How will the employer account will help me hire employees?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+<p>The Employer account provides you with several features to enhance your hiring process and facilitate effective applicant management. These features include:</p>
+<ul>
+  <li><strong>Applicant Shortlisting:</strong> Easily manage and shortlist applicants based on their qualifications, skills, and experience.</li>
+  <li><strong>Application Status Tracking:</strong> Keep track of each application's status, from submission to review and potential interviews.</li>
+  <li><strong>Communication Tools:</strong> Communicate with applicants directly through our platform, facilitating efficient and streamlined communication.</li>
+  <li><strong>Applicant Profiles:</strong> Access comprehensive applicant profiles containing detailed information about their qualifications and work history.</li>
+  <li><strong>Collaborative Hiring:</strong> Collaborate with team members by sharing candidate profiles, leaving comments, and assigning tasks.</li>
+  <li><strong>Interview Management:</strong> Schedule and manage interviews seamlessly within the platform, saving time and effort.</li>
+  <li><strong>Reporting and Analytics:</strong> Gain insights into your hiring process through comprehensive reporting and analytics.</li>
+</ul>
+<p>These features are designed to streamline your hiring workflow, improve applicant management, and help you make informed hiring decisions. Utilizing these tools will enable you to efficiently shortlist candidates and track their progress, ultimately facilitating a smoother and more effective hiring process.</p>                        </div>
+                    </div>
+                </div>
+                 <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                           How WorkWize connects employees and employers?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          <p>WorkWize is a cutting-edge tool that enables fast communication, progress tracking, a user-friendly interface, and better understanding between employers and employees. It revolutionizes the way employers and employees interact and collaborate.</p>
+<p>With WorkWize, employers and employees can communicate instantly, eliminating delays and lengthy email threads. The platform provides real-time messaging channels for quick and efficient communication.</p>
+<p>Employers can easily track the progress of tasks, projects, and goals assigned to employees. This feature ensures transparency and accountability, enabling efficient workflow management and timely completion of projects.</p>
+<p>WorkWize offers a sleek and intuitive user interface that is easy to navigate. Its user-friendly design ensures that both employers and employees can interact with the system effortlessly, without the need for extensive training.</p>
+<p>Through features like document sharing, feedback mechanisms, and performance tracking, WorkWize enhances understanding between employers and employees. Clear communication, shared documents, and ongoing feedback contribute to a better grasp of expectations, goals, and performance metrics.</p>
+<p>Efficient collaboration is facilitated by WorkWize, as it provides centralized platforms for communication, document sharing, and task management. This streamlines collaboration efforts, improves teamwork, and enhances overall productivity.</p>
+<p>Real-time updates and notifications keep employers and employees informed about important information such as policy changes, project updates, or deadlines. This promotes timely communication and ensures that everyone is up to date.</p>
+<p>WorkWize's fast communication and user-friendly interface contribute to enhanced employee engagement. Employees can easily access information, contribute to discussions, and track their progress, leading to increased involvement and motivation.</p>
+<p>Overall, WorkWize empowers employers and employees to communicate effectively, track progress efficiently, and foster a better understanding of shared objectives. It is a powerful tool that drives productivity, collaboration, and success in the workplace.</p>
+                        </div>
+                    </div>
+                </div>
+               
             </div>
-        <br />
+
     </div>
     </div>
   </div>
-</div>

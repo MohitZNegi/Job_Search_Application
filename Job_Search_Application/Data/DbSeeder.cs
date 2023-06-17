@@ -19,8 +19,8 @@ namespace Job_Search_Application.Data
 
             var user = new ApplicationUsers
             {
-                UserName = "admin-capstone@gmail.com",
-                Email = "admin-capstone@gmail.com",
+                UserName = "theworkwize@gmail.com",
+                Email = "theworkwize@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
             };
@@ -28,7 +28,7 @@ namespace Job_Search_Application.Data
             var userInDb = await userManager.FindByEmailAsync(user.Email);
             if (userInDb == null)
             {
-                await userManager.CreateAsync(user, "Admin-Capstone@123");
+                await userManager.CreateAsync(user, "Password-js123");
                 await userManager.AddToRoleAsync(user, Roles.Admin.ToString());
             }
         }

@@ -18,19 +18,16 @@ using Microsoft.EntityFrameworkCore;
 using Job_Search_Application.Areas.Identity.Pages.Account;
 using Job_Search_Application.ViewModels;
 using System.Data;
-using NuGet.Protocol.Plugins;
 using MessagePack.Internal;
 using Job_Search_Application.Data.Migrations;
-using NuGet.DependencyResolver;
 using Microsoft.AspNetCore.Hosting.Server;
 using System.Net;
 using Job_Search_Application.Interfaces;
 using Job_Search_Application.Models;
+using X.PagedList;
 
 namespace Job_Search_Application.Controllers
 {
-
-    [Authorize(Roles = "Employee")]
     public class EmployeeController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -75,6 +72,8 @@ namespace Job_Search_Application.Controllers
                 Address = profile.Address,
                 birthDate = profile.birthDate,
                 Gender = profile.Gender,
+                Profession = profile.Profession,
+                Personal_Summary = profile.Personal_Summary,
                 ProfileImage = profile.ProfileImage,
                 Resume = profile.Resume
 
@@ -138,22 +137,19 @@ namespace Job_Search_Application.Controllers
                     Address = userVM.Address,
                     birthDate = userVM.birthDate,
                     Gender = userVM.Gender,
+                    Personal_Summary = userVM.Personal_Summary,
+                    Profession = userVM.Profession,
                     ProfileImage = result.Url.ToString(),
                     Resume = pdfresult.Url.ToString(),
                     UserId = userId
                 };
 
-
-                _context.Employee.Add(employee);
-                _context.SaveChanges();
-
                 await _context.Employee.AddAsync(employee);
                 await _context.SaveChangesAsync();
 
-
                 ViewBag.UserProfile = null;
                 ViewBag.comProfile = null;
-                ViewBag.employeeProfile = employeeProfile;
+                ViewBag.empProfile = employeeProfile;
 
                 return RedirectToAction("Index", "Home");
 
@@ -170,7 +166,7 @@ namespace Job_Search_Application.Controllers
         public ActionResult Update()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            var CheckIfEmployeeHasProfile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
 
             var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
 
@@ -179,16 +175,24 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employee");
             }
 
-            if (CheckIfEmployeeHasProfile != null)
+            var viewModel = new Employee_Model
             {
 
-                var viewModel = new EmployeeProfileViewModel();
+                First_name = profile.First_name,
+                Last_name = profile.Last_name,
+                Address = profile.Address,
+                birthDate = profile.birthDate,
+                Gender = profile.Gender,
+                Personal_Summary = profile.Personal_Summary,
+                Profession = profile.Profession,
+                ProfileImage = profile.ProfileImage,
+                Resume = profile.Resume,
 
+                
 
-                return View(viewModel);
-            }
+            };
 
-            return View();
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -198,15 +202,17 @@ namespace Job_Search_Application.Controllers
             var pdfresult = await _photoService.AddPhotoAsync(UserVM.Resume);
             var profile = _context.Employee.Single(e => e.Employee_Id == userId);
             var result = await _photoService.AddPhotoAsync(UserVM.ProfileImage);
-            var viewModel = new Employee_Model
-            {
-                First_name = UserVM.First_name,
-                Last_name = UserVM.Last_name,
-                birthDate = UserVM.birthDate,
-                Gender = UserVM.Gender,
-                ProfileImage = result.Url.ToString(),
-                Resume = pdfresult.Url.ToString(),
-            };
+
+            profile.First_name = UserVM.First_name;
+            profile.Last_name = UserVM.Last_name;
+            profile.Address = UserVM.Address;
+            profile.birthDate = UserVM.birthDate;
+            profile.Gender = UserVM.Gender;
+            profile.Personal_Summary = UserVM.Personal_Summary;
+            profile.Profession = UserVM.Profession;
+            profile.ProfileImage = result.Url.ToString();
+            profile.Resume = pdfresult.Url.ToString();
+            
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
@@ -215,17 +221,140 @@ namespace Job_Search_Application.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetRequestsStatus()
+        public ActionResult GetRequests_Status(int? page)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
 
+            var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+
             var applyRequests = _context.Job_Request
                                         .Include(r => r.Job)
+                                        .Include(r => r.Employee)
                                         .Include(r => r.Employer)
                                         .Where(r => r.EmployeeId == userId)
                                         .ToList();
 
-            return View(applyRequests);
+            return View(applyRequests.ToPagedList(page ?? 1, 6));
+        }
+
+        [AllowAnonymous]
+        public ActionResult GetJobsApplied(string requestID)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var profile = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+
+            var jobRequest = _context.Job_Request
+                .Where(e => e.JobRequest_Id == requestID)
+                .Include(e => e.Employee)
+                .Include(e => e.Job)
+                .Include(e => e.Employer)
+                .ThenInclude(e => e.User)
+                .FirstOrDefault();
+
+            if (jobRequest == null)
+                return Content("Something went wrong!");
+
+            return View(jobRequest);
+        }
+        public IActionResult SavedJobs(int? page)
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+            var profile1 = _context.Employee.Where(e => e.Employee_Id == userId).FirstOrDefault();
+
+            if (profile1 == null)
+            {
+                return RedirectToAction("Create", "Employee");
+            }
+            // Retrieve the saved jobs for the user
+            var savedJobs = _context.SavedJobs
+                .Where(sj => sj.EmployeeId == userId)
+                .Include(sj => sj.Job).Include(sj => sj.Employer) // Include the related Job entity
+                .ToList();
+
+            // Filter out inactive jobs with deactivation date higher than the current time
+            savedJobs = savedJobs.Where(sj => sj.Job.IsActive && sj.Job.DeactivationDate > DateTime.Now).ToList();
+
+            // Pass the filtered saved jobs to the view
+            return View(savedJobs.ToPagedList(page ?? 1, 6));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> SaveJob(string jobId)
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+            var job = _context.Jobs.Include(e => e.Employer).Where(j => j.Jobs_Id == jobId).FirstOrDefault();
+
+            // Create a new SavedJob instance
+            var savedJob = new SavedJobs_Model
+            {
+                JobId = jobId,
+                EmployeeId = userId,
+                EmployerId = job.PublisherId
+
+            };
+
+            // Save the job to the database
+            _context.SavedJobs.Add(savedJob);
+            await _context.SaveChangesAsync();
+
+            // Redirect or return a response indicating success
+            return RedirectToAction("SavedJobs", "Employee");
+        }
+        [HttpPost]
+        public IActionResult UnsaveJob(string jobId)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+
+            var profile = _context.Employee.Single(e => e.Employee_Id == userId);
+            // Retrieve the saved job from the database
+            var savedJob = _context.SavedJobs.SingleOrDefault(j => j.JobId == jobId && j.EmployeeId == userId);
+
+            if (savedJob != null)
+            {
+                // Remove the saved job from the database
+                _context.SavedJobs.Remove(savedJob);
+                _context.SaveChanges();
+
+                // Return a response indicating success, or perform any additional logic
+                return Ok();
+            }
+            else
+            {
+                // Return a response indicating that the job was not found or was already unsaved
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CheckSavedJob(string jobId)
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(HttpContext.User);
+
+            // Check if the job is saved by the current user
+            var isSaved = _context.SavedJobs.Any(s => s.JobId == jobId && s.EmployeeId == userId);
+
+            // Return the result as a JSON response
+            return Json(isSaved);
         }
 
     }

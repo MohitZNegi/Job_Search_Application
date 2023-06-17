@@ -30,7 +30,12 @@ namespace Job_Search_Application.Models
 
         public DateTime? Request_Date { get; set; }
 
+        public DateTime? Applied_Date { get; set; }
+
         public string Request_Status { get; set; }
 
+        public DateTime? InterviewRequest_Date { get; set; }
+
+        public string InterviewRequest_Status { get; set; }
     }
 }

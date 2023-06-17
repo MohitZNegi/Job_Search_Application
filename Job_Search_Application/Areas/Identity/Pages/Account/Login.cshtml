@@ -4,42 +4,37 @@
 @{
     ViewData["Title"] = "Log in";
 }
-
 <style>
     body {
         background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
-        
-    }
-
-    .registration-form {
-        padding: 50px 0;
-    }
-
-        .registration-form form {
-            background-color: #fff;
-            max-width: 600px;
-            margin: auto;
-            padding: 50px 70px;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-        }
-
-    .ddl option {
-        font-size: 30px;
     }
 </style>
+@if (TempData["ConfirmEmailMessage"] != null)
+{
+    <br />
+    <br />
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        @TempData["ConfirmEmailMessage"]
+    </div>
+}
 
 <br />
 <br />
-<div class="container shadow" style="background:linear-gradient(to bottom, #007bff, white); border-radius:20px; max-width:600px;">
-<div class="row d-flex justify-content-center">
-    <div class="col-md-8">
+<div class="container col-6 shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <br />
+            <div class="shadow-lg rounded-2" style="background-color:rgb(102, 153, 255)">
+
+
+                <h1 style="text-align: center; color: aliceblue"><img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:50px;" />Login</h1>
+                <h5 style="text-align: center; color: aliceblue">Login and continue your journey!</h5>
+                <br />
+            </div>
+            <hr />
         <section>
             <form id="account" method="post">
-                <h1 style="text-align:center; color:aliceblue">Login</h1>
-                <h5 style="text-align:center; color:aliceblue">Login and Find Your Dream Job!</h5>
-                <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-floating">
                     <input id="floatingInput" placeholder="enter email" asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -62,22 +57,23 @@
                     </div>
                 </div>
                     <br />
-                <div>
-                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-success shadow" style="background-color:#3C9AFF; color:white">Log in</button>
+                <div class="d-flex justify-content-center">
+                        <button id="login-submit" type="submit" role="button" class="button-29"> <p class="align-content-center justify-content-between" style="font-size:30px; padding-top:10px">Log in</p></button>
                 </div>
                     <br />
-                <div class="d-flex justify-content-center">
-                    <div class="col-md-8">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword" style="color:black">Forgot your password?</a>
-                    </p>
+                <div class=" row d-flex justify-content-center">
+                    <div style="text-align:center">
+                        
+                  
 
                     <p>
-                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="color:black">Create Account!</a>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" style="color:aliceblue">Create an account</a>
                     </p>
-
+                            <p>
+                                <a id="forgot-password" asp-page="./ForgotPassword" style="color:aliceblue">Forgot your password?</a>
+                            </p>
                     <p>
-                            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" style="color:black">Resend email confirmation</a>
+                            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" style="color:aliceblue">Resend email confirmation</a>
                     </p>
 
                 </div>

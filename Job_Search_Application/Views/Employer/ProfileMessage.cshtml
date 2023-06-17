@@ -1,0 +1,12 @@
+﻿@model EmployerReviewRequest_Model;
+
+@if (TempData["ProfileMessage"] != null)
+{
+    <div class="card shadow mt-3">
+        <div class="card-body">
+            <div class="alert alert-info" role="alert">
+                @TempData["ProfileMessage"]  @Model.JobReviewRequest_Id
+            </div>
+        </div>
+    </div>
+}

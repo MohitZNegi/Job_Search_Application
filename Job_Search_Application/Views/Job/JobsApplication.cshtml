@@ -8,58 +8,168 @@
     ViewData["Title"] = "Published Job";
 }
 
-<div class="row d-flex justify-content-center">
-    <div class="col-md-10 shadow" style="background-color: aliceblue; border-radius: 20px;">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
         <br />
-        <div class="card-header">
+        <div class="card-header border-bottom border-3 border-info"  >
+           <img class="rounded-2 shadow" src="@Model.Employer.Company_Banner" style="min-width:100px; min-height:100px; width:1100px; height:200px;" />
             <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
             <p style="display:none;">@Html.DisplayFor(modelItem => modelItem.PublisherId)</p>
-            <h5>@Html.DisplayFor(modelItem => modelItem.Title)</h5>
-            <h6 class="text-capitalize fw-bold">@Html.DisplayFor(modelItem => modelItem.Employer.Company_Name)</h6>
-        </div>
-        <div class="card-body">
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Location)</p>
-            <p class="text-capitalize d-inline">@Html.DisplayFor(modelItem => modelItem.Job_Schedule)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Type)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Classification)</p>
-            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Salary)</p>
-        </div>
+                <br />
+                <br />
+            <h2>@Html.DisplayFor(modelItem => modelItem.Title)</h2>
+            <h5 class="text-capitalize fw-bold">@Html.DisplayFor(modelItem => modelItem.Employer.Company_Name)</h5>
+                <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Employer.Location)</p>
 
+                @if (((IEnumerable<string>)ViewBag.ApplyedJobs).Contains(Model.Jobs_Id))
+                {
+                    var jobRequestStatus = (Dictionary<string, string>)ViewBag.RequestStatus;
+                    var requestStatus = jobRequestStatus.ContainsKey(Model.Jobs_Id) ? jobRequestStatus[Model.Jobs_Id] : null;
+
+                    if (requestStatus == "pending")
+                    {
+                        <button data-job-id="@Model.Jobs_Id"  class="button-29 disabled">
+                            Applied
+                        </button>
+
+                        <button data-job-id="@Model.Jobs_Id" role="button" class="button-30 js-withdraw-request">
+                            Withdraw
+                        </button>
+                        <button id="saveButton" role="button" class="button-32" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" role="button" class="button-30" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
+
+
+
+                    }
+                    else if (requestStatus == "accepted" || requestStatus == "rejected")
+                    {
+                        <button data-job-id="@Model.Jobs_Id" class="button-29 disabled">
+                            Applied
+                        </button>
+                    }
+                    else if (requestStatus == "withdrawn")
+                    {
+                        <div class="alert alert-dismissible alert-danger">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            You have withdrawn the application...
+                        </div>
+                        <button id="saveButton" role="button" class="button-32" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" role="button" class="button-30" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
+                    }
+
+                }
+                else if (SignInManager.IsSignedIn(User))
+                {
+                    var user = await UserManager.GetUserAsync(User);
+                    var roles = await UserManager.GetRolesAsync(user);
+                    if (roles.Contains("Employer") || roles.Contains("Admin"))
+                    {
+                        <button disabled class="btn btn-primary apply-btn" style="display:none">
+                            Apply Now
+                        </button>
+                    }
+                    else
+                    {
+                        
+                        <button data-job-id="@Model.Jobs_Id" role="button" class="button-29 apply-btn js-apply-request">
+                            Apply Now
+                        </button>
+                        <button id="saveButton" role="button" class="button-32" onclick="saveJob('@Model.Jobs_Id')" style="display: none">Save Job</button>
+                        <button id="unsaveButton" role="button" class="button-30" onclick="unsaveJob('@Model.Jobs_Id')" style="display: none">Unsave Job</button>
+                    }
+                }
+                else
+                {
+                    <button onclick="redirectToLogin()" role="button" class="button-29 apply-btn">
+                        Apply Now
+                    </button>
+                }
+                 <br />
+                <br />
+        </div>
+        <br/>
+            <h2>Job Details</h2>
+            <div class="card-body">
+                <div class="container shadow-lg rounded-2" style="background-color:rgb(204, 235, 255)">
+
+                <br/>
+ 
+           <div class="row">
+               <div class="col">
+           <h5><i class="bi bi-geo-alt-fill"></i> Job Location:</h5>
+             <p class="text-capitalize d-inline">  @Html.DisplayFor(modelItem => modelItem.Job_Location)</p>
+             </div>
+                    @if (Model.Classification != null)
+                    {
+                        <div class="col">
+                            <h5><i class="bi bi-person-workspace"></i> Job Classification:</h5>
+                            <p class="text-capitalize">  @Html.DisplayFor(modelItem => modelItem.Classification)</p>
+                        </div>
+                    }
+                    </div>
+                <div class="row">
+               @if (Model.Job_Schedule != null)
+                    {
+                        <div class="col">
+                    <h5><i class="bi bi-calendar-check-fill"></i> Job Schedule:</h5>
+                    <p class="text-capitalize d-inline">  @Html.DisplayFor(modelItem => modelItem.Job_Schedule)</p>
+                    </div>
+                }
+
+                @if (Model.Job_Type != null)
+                    {
+                        <div class="col">
+                <h5> <i class="bi bi-briefcase-fill"></i>  Job Type:</h5>
+            <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Job_Type)</p>
+            </div>
+                }
+                </div>
+                <div class="row">
+                     <div class="col">
+                <h5> <i class="bi bi-calendar"></i> Posted Date:</h5>
+                <p class="text-capitalize">@Model.PublishDate.Value.ToShortDateString()</p>
+                </div>
+            <div class="col">
+                <h5> <i class="bi bi-calendar"></i> Closing Date:</h5>
+                <p class="text-capitalize">@Model.DeactivationDate.ToShortDateString()</p>
+                </div>
+                 
+                </div>
+                      <div class="col">
+                <h5> <i class="bi bi-cash-coin"></i> Salary:</h5>
+                <p class="text-capitalize">@Html.DisplayFor(modelItem => modelItem.Salary)</p>
+                </div>
+                    <br />
+        </div>
+            </div>
+         <br/>
+            <h2>Job Description</h2>
         <div class="card-footer">
-            <p>@Html.DisplayFor(modelItem => modelItem.Job_Details)</p>
+           
+                <div class="container shadow-lg rounded-2" style="background-color:ghostwhite">
+                    <br />
+
+                    @{
+                        string htmlContent = Model.Job_Details;
+
+                        // Remove inline styles from the HTML content
+                        string cleanedContent = System.Text.RegularExpressions.Regex.Replace(htmlContent, @"(<[^>]+?)\s+style\s*=\s*(['""])[^>]*?\2([^>]*?>)", "$1$3");
+
+                        // Add the desired style to the cleaned HTML content
+                        string styledContent = $"<p >{cleanedContent}</p>";
+
+                        // Display the styled HTML content
+                        @Html.Raw(styledContent)
+                    }
+                    <br />
+                    <br />
+            </div>
         </div>
         <br />
 
-        @if (((IEnumerable<string>)ViewBag.ApplyedJobs).Contains(Model.Jobs_Id))
-        {
-            <button data-job-id="@Model.Jobs_Id" class="btn btn-primary disabled apply-btn js-apply-request">
-                Applied
-            </button>
-        }
-        else if (SignInManager.IsSignedIn(User))
-        {
-            var user = await UserManager.GetUserAsync(User);
-            var roles = await UserManager.GetRolesAsync(user);
-            if (roles.Contains("Employer"))
-            {
-                <button disabled class="btn btn-primary apply-btn" style="display:none">
-                    Apply Now
-                </button>
-            }
-            else
-            {
-                <button data-job-id="@Model.Jobs_Id" class="btn btn-primary apply-btn js-apply-request">
-                    Apply Now
-                </button>
-            }
-        }
-        else
-        {
-            <button onclick="redirectToLogin()" class="btn btn-primary apply-btn">
-                Apply Now
-            </button>
-        }
     </div>
+</div>
 </div>
 
 @section Scripts {
@@ -67,6 +177,35 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontfamily@0.2.3/dist/fontfamily-plugin.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            // Get the HTML content of the editor
+            var htmlContent = $('#jobDetailsText').data('job-details');
+
+            // Set the HTML content in the editor
+            $('#jobDetailsText').summernote({
+                toolbar: false,
+                readOnly: true,
+                airMode: false,
+                codeviewFilter: false,
+                codeviewIframeFilter: true,
+                disableDragAndDrop: true,
+                callbacks: {
+                    onInit: function () {
+                        // Set the HTML content in the editor
+                        $('#jobDetailsText').summernote('code', htmlContent);
+                    }
+                }
+            });
+        });
+    </script>
+
+
+ 
     <script>
         function redirectToLogin() {
             window.location.href = "/Identity/Account/Login";
@@ -92,8 +231,10 @@
                                 method: "POST",
                             })
                                 .done(function () {
-                                    bootbox.alert("You applied successfully");
-                                    $(e.target).show().addClass("btn-primary disabled").text("Applied");
+                                    bootbox.alert("You applied successfully", function () {
+                                        location.reload();
+                                    });
+                                    $(e.target).show().addClass("button-29 disabled").text("Applied");
                                 })
                                 .fail(function (jqXHR, textStatus, errorThrown) {
                                     bootbox.alert("An error occurred: " + errorThrown);
@@ -104,4 +245,115 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".js-withdraw-request").click(function (e) {
+                var withdrawButton = $(this);
+
+                bootbox.confirm({
+                    message: "Are you sure you want to withdraw your application?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            var jobId = withdrawButton.data("job-id");
+
+                            $.ajax({
+                                url: "/api/Employee/WithdrawApplication/" + jobId,
+                                method: "POST",
+                            })
+                                .done(function () {
+                                    withdrawButton.hide();
+                                    bootbox.alert("You have withdrawn your application successfully", function () {
+                                        location.reload();
+                                    });
+                                })
+
+                                .fail(function (jqXHR, textStatus, errorThrown) {
+                                    bootbox.alert("An error occurred: " + errorThrown);
+                                });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+  
+       <script>
+        $(document).ready(function () {
+            var jobId = '@Model.Jobs_Id';
+
+            // Check if the job is already saved
+            $.ajax({
+                url: '/Employee/CheckSavedJob',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function (response) {
+                    if (response === true) {
+                        // Job is saved, hide the save button and show the unsave button
+                        $('#saveButton').hide();
+                        $('#unsaveButton').show();
+                    } else {
+                        // Job is not saved, show the save button and hide the unsave button
+                        $('#saveButton').show();
+                        $('#unsaveButton').hide();
+                    }
+                },
+                error: function () {
+                    // Handle the error response, e.g., show an error message
+                    alert('An error occurred while checking if the job is saved.');
+                }
+            });
+        });
+
+        function saveJob(jobId) {
+            // Send an AJAX request to save the job
+            $.ajax({
+                url: '/Employee/SaveJob',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function () {
+                    // Handle the success response, e.g., show a success message
+
+                    // Hide the save button and show the unsave button
+                    $('#saveButton').hide();
+                    $('#unsaveButton').show();
+                },
+                error: function () {
+                    // Handle the error response, e.g., show an error message
+                    alert('An error occurred while saving the job.');
+                }
+            });
+        }
+
+        function unsaveJob(jobId) {
+            // Send an AJAX request to unsave the job
+            $.ajax({
+                url: '/Employee/UnsaveJob',
+                type: 'POST',
+                data: { jobId: jobId },
+                success: function () {
+                    // Handle the success response, e.g., show a success message
+
+                    // Hide the unsave button and show the save button
+                    $('#unsaveButton').hide();
+                    $('#saveButton').show();
+                },
+                error: function () {
+                    // Handle the error response, e.g., show an error message
+                    alert('An error occurred while unsaving the job.');
+                }
+            });
+        }
+    </script>
+    
 }

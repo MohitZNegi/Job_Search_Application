@@ -38,6 +38,9 @@ namespace Job_Search_Application.Data
         public DbSet<Jobs_Model> Jobs { get; set; }
         public DbSet<JobRequest_Model> Job_Request { get; set; }
         public DbSet<JobAnalytics_Model> Job_Analytics { get; set; }
+        public DbSet<EmployerReviewRequest_Model> EmployerReviewRequest { get; set; }
+        public DbSet<SavedJobs_Model> SavedJobs { get; set; }
+
 
     }
 }

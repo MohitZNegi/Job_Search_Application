@@ -3,85 +3,355 @@
 @using X.PagedList.Mvc.Core;
 @using System.Linq;
 @using System.Web;
-
+@using X.PagedList.Web.Common;
 
 @model IPagedList<Job_Search_Application.Models.Jobs_Model>;
 @{
     ViewData["Title"] = "Published Job";
 }
 
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap" rel="stylesheet">
-</head>
+
 <style>
+    body {
+        background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
 
+    }
 
+    .pagination.bootswatch-flatly .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
 
+            .JobDetails {
+                line-height: 21px;
+                height: calc(3 * 21px);
+                overflow: hidden;
+                position: relative;
+            }
+
+            .JobDetails::after{
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right:0;
+                height:21px;
+                width: 75%;
+
+                background: linear-gradient(90deg, transparent, white);
+            }
 </style>
-<body>
 <br />
 <br />
 <span class="userId" style="display:none;">@ViewBag.CurrentUser</span>
-    <div class="container shadow" style="background:linear-gradient(to bottom, #007bff, white); border-radius: 10px; margin-top: 20px;">
-
-        
+<div class="banner shadow-lg" style="  background: linear-gradient(90deg, #4F6BC7, #223B90);
+        padding: 30px;
+        display: flex;
+        justify-content: center;">
+    <div class="form-control" style="background-color:transparent; border:none">
     <br />
-    <div class="col-md-9 ">
-        <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" name="searchTerm" placeholder="Job title, part-time...">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit" style="display: flex; align-items: center;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" style="margin-right: 8px;">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
-                Search
-            </button>
-        </form>
-    </div>
-    <br />
+   
 
-    <h3>Your listings</h3>
-    <br />
-
-    <br />
-</body>
-
-
-
-    @foreach (var item in Model)
-    {
-
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-10 shadow" style="background-color: white; border-radius:20px;">
-                <br />
-                <div class="card-header">
-                <p>Posted @CalculateDaysAgo(item.PublishDate)</p>
-                    <h5> <a href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
-                    <h6 class="text-capitalize fw-bold bi bi-building">@item.Employer.Company_Name</h6>
-                </div>
-                <div class="card-body">
-                    <p class="text-capitalize bi bi-geo-alt">@item.Job_Location</p>
-                    <p class="text-capitalize d-inline bi bi-clock">@item.Job_Schedule</p>
-                    <p class="text-capitalize bi bi-pencil-square">@item.Job_Type</p>
-                    <p class="text-capitalize bi bi-box2"> @item.Classification</p>
-                    <p class="text-capitalize bi bi-cash">@item.Salary</p>
-                </div>
-
-                <div class="card-footer">
-
-                    <p class="text-muted" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem;"> @item.Job_Details</p>
-
-                </div>
-                <br />
+        <form class="d-flex justify-content-center" method="get" id="jobSearchForm">
+            <div>
+            <div class="row">
+                <div class="col-6">
+            <input class="form-control me-sm-8" type="search" name="searchTerm1" id="jobTitleInput" placeholder="Job title">
+                    </div>
+                    <div class="col">
+            <div class="search-dropdown col-12" name="searchTerm2">
+                <ul id="locationDropdown"></ul>
+                            <input class="form-control me-sm-12" type="search" id="locationSearch" name="searchTerm2" placeholder="Location">
             </div>
+                     
+            </div>
+            
+         
+              <div class="col">
+                        <button role="button" class="button-29" type="submit">
+                            <img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:30px;" />Search
+                        </button>
+                    </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col">
+            <select class="form-control me-sm-2" name="searchTerm3" id="jobTypeSelect">
+                <option value="">All Job Types</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Full-Time">Full-Time</option>
+                <option value="Permanent Full-Time">Permanent Full-Time</option>
+                <option value="Permanent Part-Time">Permanent Part-Time</option>
+                <option value="Temporary Part-Time">Temporary Part-Time</option>
+                <option value="Temporary Full-Time">Temporary Full-Time</option>
+                <option value="Casual">Casual</option>
+            </select>
+            </div>
+                    <div class="col">
+            <select class="form-control me-sm-2" name="searchTerm4" id="scheduleSelect">
+                <option value="">All Schedules</option>
+                <option value="Morning Shift">Morning Shift</option>
+                <option value="Night Shift">Night Shift</option>
+                <option value="Afternoon Shift">Afternoon Shift</option>
+                <option value="Evening Shift">Evening Shift</option>
+                <option value="Flexible Schedule">Flexible Schedule</option>
+                <option value="Weekends Shifts">Weekends Shifts</option>
+                <option value="9-5 shift">9-5 shift</option>
+                <option value="20 hrs per week">20 hrs per week</option>
+                <option value="40 hrs per week">40 hrs per week</option>
+                <option value="Custom Range">Custom Range</option>
 
+            </select>
+            </div>
+                <div class="col">
+
+            <select class="form-control me-sm-2" name="searchTerm5" id="classificationSelect">
+                <option value="">All Classifications</option>
+                <option value="Software Developer">Software Developer</option>
+                <option value="Registered Nurse">Registered Nurse</option>
+                <option value="Sales Representative">Sales Representative</option>
+                <option value="Accountant">Accountant</option>
+                <option value="Marketing Manager">Marketing Manager</option>
+                <option value="Graphic Designer">Graphic Designer</option>
+                <option value="Financial Analyst">Financial Analyst</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Human Resources Manager">Human Resources Manager</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Business Analyst">Business Analyst</option>
+                <option value="Operations Manager">Operations Manager</option>
+                <option value="Product Manager">Product Manager</option>
+                <option value="Web Developer">Web Developer</option>
+                <option value="UX/UI Designer">UX/UI Designer</option>
+                <option value="Electrical Engineer">Electrical Engineer</option>
+                <option value="Mechanical Engineer">Mechanical Engineer</option>
+                <option value="Civil Engineer">Civil Engineer</option>
+                <option value="Chemical Engineer">Chemical Engineer</option>
+                <option value="IT Manager">IT Manager</option>
+                <option value="Network Administrator">Network Administrator</option>
+                <option value="Systems Analyst">Systems Analyst</option>
+                <option value="Database Administrator">Database Administrator</option>
+                <option value="Quality Assurance Analyst">Quality Assurance Analyst</option>
+                <option value="Technical Writer">Technical Writer</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Lawyer">Lawyer</option>
+                <option value="Doctor">Doctor</option>
+                <option value="Pharmacist">Pharmacist</option>
+                <option value="Dentist">Dentist</option>
+                <option value="Veterinarian">Veterinarian</option>
+                <option value="Chef">Chef</option>
+                <option value="Waiter/Waitress">Waiter/Waitress</option>
+                <option value="Bartender">Bartender</option>
+                <option value="Cashier">Cashier</option>
+                <option value="Customer Service Representative">Customer Service Representative</option>
+                <option value="Retail Sales Associate">Retail Sales Associate</option>
+                <option value="Marketing Assistant">Marketing Assistant</option>
+                <option value="Administrative Assistant">Administrative Assistant</option>
+                <option value="Receptionist">Receptionist</option>
+                <option value="Data Entry Clerk">Data Entry Clerk</option>
+                <option value="Delivery Driver">Delivery Driver</option>
+                <option value="Truck Driver">Truck Driver</option>
+                <option value="Security Guard">Security Guard</option>
+                <option value="Janitor">Janitor</option>
+                <option value="Painter">Painter</option>
+                <option value="Plumber">Plumber</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Carpenter">Carpenter</option>
+                <option value="Mason">Mason</option>
+            </select>
+            </div>
+                <div class="col">
+            <select class="form-control me-sm-2 custom-select" name="searchTerm6" id="salarySelect">
+                <option value="">All Salaries</option>
+                <optgroup label="Hourly Salary">
+                    <option value="Less than $10 per hour">Less than $10 per hour</option>
+                    <option value="$10 - $20 per hour">$10 - $20 per hour</option>
+                    <option value="$20 - $30 per hour">$20 - $30 per hour</option>
+                    <option value="$30 - $40 per hour">$30 - $40 per hour</option>
+                    <option value="$40 - $50 per hour">$40 - $50 per hour</option>
+                    <option value="$50 - $60 per hour">$50 - $60 per hour</option>
+                    <option value="More than $60 per hour">More than $60 per hour</option>
+                </optgroup>
+                <optgroup label="Annual Salary">
+                    <option value="Less than $30,000 per year">Less than $30,000 per year</option>
+                    <option value="$30,000 - $40,000 per year">$30,000 - $40,000 per year</option>
+                    <option value="$40,000 - $50,000 per year">$40,000 - $50,000 per year</option>
+                    <option value="$50,000 - $60,000 per year">$50,000 - $60,000 per year</option>
+                    <option value="$60,000 - $70,000 per year">$60,000 - $70,000 per year</option>
+                    <option value="$70,000 - $80,000 per year">$70,000 - $80,000 per year</option>
+                    <option value="$80,000 - $90,000 per year">$80,000 - $90,000 per year</option>
+                    <option value="$90,000 - $100,000 per year">$90,000 - $100,000 per year</option>
+                    <option value="$100,000 - $150,000 per year">$100,000 - $150,000 per year</option>
+                    <option value="More than $150,000 per year">More than $150,000 per year</option>
+                </optgroup>
+
+            </select>
+            </div>
+            </div>
+          
+            </div>
+        </form>
         </div>
-        <br />
+        </div>
+    <br />
+    <h3>Jobs Feed</h3>
+    <br />
+
+<div class="container">
+    @if (Model.Any())
+    {
+        @foreach (var item in Model)
+        {
+            <div class="row d-flex justify-content-center" >
+                <div class="col-md-10 shadow-lg rounded-3" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; background-color:White;">
+                    <br />
+                    <div class="card-header">
+
+                        <h5> <a style="color:royalblue" href="/Job/JobsApplication/@item.Jobs_Id">@item.Title</a></h5>
+                        <h6 class="text-capitalize fw-bold">@item.Employer.Company_Name</h6>
+                        <p class="text-capitalize"><i class="bi bi-geo-alt-fill"></i>@item.Job_Location</p>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="container d-inline-flex row">
+                            @if (item.Job_Schedule != null)
+                            {
+                                <div class="col">
+                                    <div class="rounded-1 justify-content-center align-middle " style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px; max-height:40px; max-width:300px;   padding: 10px;">
+                                        <p class="text-capitalize d-inline"> <i class="bi bi-calendar-check-fill"></i> @item.Job_Schedule</p>
+                                    </div>
+                                </div>
+                            }
+                            @if (item.Job_Type != null)
+                            {
+                                <div class="col">
+                                    <div class="rounded-1 justify-content-center align-middle " style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px;  max-height:40px; max-width:300px;   padding: 10px;">
+                                        <p class="text-capitalize"><i class="bi bi-briefcase-fill"></i> @item.Job_Type</p>
+                                    </div>
+                                </div>
+                            }
+                            @if (item.Classification != null)
+                            {
+                                <div class="col">
+                                    <div class="rounded-1 justify-content-center align-middle " style="wh ite-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255); min-width:200px; max-height:40px; max-width:300px; padding: 10px;">
+                                        <p class="text-capitalize"><i class="bi bi-person-workspace"></i> @item.Classification</p>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col">
+                                <div class="rounded-1 justify-content-center align-middle" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150rem; box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px; text-align:center; background-color:rgb(204, 230, 255);  min-width:200px;  max-height:40px; max-width:300px;  padding: 10px;">
+                                <p class="text-capitalize"><i class="bi bi-cash-coin"></i> @item.Salary</p>
+                            </div>
+                              
+                               
+                                  
+                            </div>
+                        </div>
+
+
+
+                       
+                       
+                       
+                     
+                    </div>
+                    <div class="card-footer">
+                    
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <br/>
+                                @{
+                                    string htmlContent = item.Job_Details;
+
+                                    // Remove inline styles from the HTML content
+                                    string cleanedContent = System.Text.RegularExpressions.Regex.Replace(htmlContent, @"(<[^>]+?)\s+style\s*=\s*(['""])[^>]*?\2([^>]*?>)", "$1$3");
+                                }
+
+                                <div id="@item.Jobs_Id" class="text-muted JobDetails" style="display: none;">@Html.Raw(cleanedContent)</div>
+
+                                <br/>
 
 
 
 
+                                <p class="text-muted" style="font-size:smaller">Posted @CalculateDaysAgo(item.PublishDate) ago</p>
+
+
+                            </div>
+
+
+                            <img src="@item.Employer.Company_Logo" alt="" class=" rounded-2 float-start border-2 border-info border" style="height: 80px; width: 80px; margin-right: 10px;" />
+
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <br />
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var jobDetailsElement = document.getElementById("@item.Jobs_Id");
+
+                    // Truncate the text to three lines and add an ellipsis
+                    var truncatedText = truncateText(jobDetailsElement.innerHTML, 3);
+
+                    // Apply the muted style to the element
+                    jobDetailsElement.classList.add("text-muted");
+
+                    // Update the content with the truncated text
+                    jobDetailsElement.innerHTML = truncatedText;
+
+                    // Show the element
+                    jobDetailsElement.style.display = "block";
+                });
+
+                function truncateText(text, lines) {
+                    var lineHeight = parseInt(window.getComputedStyle(document.body).lineHeight);
+                    var maxHeight = lines * lineHeight;
+
+                    var dummyElement = document.createElement("div");
+                    dummyElement.innerHTML = text;
+                    dummyElement.style.maxHeight = maxHeight + "px";
+                    dummyElement.style.overflow = "hidden";
+                    dummyElement.style.textOverflow = "ellipsis";
+                    dummyElement.style.display = "-webkit-box";
+                    dummyElement.style.webkitBoxOrient = "vertical";
+                    dummyElement.style.webkitLineClamp = lines;
+
+                    return dummyElement.innerHTML;
+                }
+            </script>
+            
+        }
+
+        <div id="paginationContainer" class="pagination bootswatch-flatly justify-content-center">
+            @Html.PagedListPager(Model,
+        page => Url.Action("JobsFeed", new { page }),
+        new PagedListRenderOptions
+        {
+        UlElementClasses = new[] { "pagination" },
+        LiElementClasses = new[] { "page-item" },
+        ActiveLiElementClass = "active",
+        DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+        DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        MaximumPageNumbersToDisplay = 5,
+        LinkToFirstPageFormat = "&laquo;",
+        LinkToPreviousPageFormat = "&lt;",
+        LinkToNextPageFormat = "&gt;",
+        LinkToLastPageFormat = "&raquo;"
+        })
+        </div>
+
+
+
+
+
+    }
+    else
+    {
+        <p>No jobs matched the search, try using other keywords.</p>
     }
 
     <br />
@@ -89,52 +359,388 @@
 </div>
 
 
-
-    <div class="pagination">
-        { @Html.PagedListPager(Model, page => Url.Action("JobsFeed", new { page })) }
-    </div>
-
-    @functions {
-        public string CalculateDaysAgo(DateTime? publishDate)
-        {
-            if (publishDate.HasValue)
-            {
-                DateTime currentDate = DateTime.Now;
-                TimeSpan timeSincePublish = currentDate - publishDate.Value;
-                int daysAgo = (int)timeSincePublish.TotalDays;
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootbox@5.5.2/dist/bootbox.min.js"></script>
 
 
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote-ext-fontfamily@0.2.3/dist/fontfamily-plugin.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet" />
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var paginationContainer = document.querySelector(".pagination.bootswatch-flatly");
+        var paginationLinks = paginationContainer.getElementsByTagName("a");
+        var activePage = paginationContainer.querySelector(".pagination > .active");
 
-                if (daysAgo == 0)
-                {
-                    return "Today";
-                }
-                else if (daysAgo == 1)
-                {
-                    return "Yesterday";
-                }
-                else if (daysAgo < 7)
-                {
-                    return $"{daysAgo} days ago";
-                }
-                else if (daysAgo < 30)
-                {
-                    int weeksAgo = daysAgo / 7;
-                    return $"{weeksAgo} weeks ago";
-                }
-                else
-                {
-                    int monthsAgo = daysAgo / 30;
-                    return $"{monthsAgo} months ago";
+        // Add custom CSS classes to the pagination links
+        for (var i = 0; i < paginationLinks.length; i++) {
+            paginationLinks[i].classList.add("page-link");
+            paginationLinks[i].style.backgroundColor = "#f8f9fa";  // Light blue color
+            paginationLinks[i].style.color = "#212529";  // White color
+        }
+
+        // Add custom CSS classes to the active page
+        activePage.classList.add("page-item");
+        activePage.firstChild.classList.add("page-link");
+        activePage.firstChild.style.backgroundColor = "#007bff";  // Blue color
+        activePage.firstChild.style.color = "#fff";  // White color
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+        var htmlContent = $('#jobDetailsText').html();
+
+        $('#jobDetailsText').summernote({
+            toolbar: false,
+            readOnly: true,
+            airMode: false,
+            codeviewFilter: false,
+            codeviewIframeFilter: true,
+            disableDragAndDrop: true,
+            callbacks: {
+                onInit: function () {
+                    $('#jobDetailsText').summernote('code', htmlContent);
+                    var plainText = $('#jobDetailsText').summernote('getText');
+                    var normalText = $("<p>").text(plainText).addClass("text-muted JobDetails");
+                    $('#jobDetailsText').empty().append(normalText);
                 }
             }
+        });
+    });
+</script>
 
 
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function () {
+        var cities = [
+            "Auckland", "Wellington", "Christchurch",
+            "Hamilton", "Tauranga", "Napier", "Dunedin",
+            "Palmerston North", "Nelson", "Rotorua", "New Plymouth", 
+            "Whangarei", "Invercargill", "Whanganui", "Gisborne", "Porirua",
+            "Upper Hutt", "Lower Hutt", "Timaru", "Hastings", "Masterton", 
+            "Cambridge", "Levin", "Pukekohe", "Taupo", "Whakatane", "Ashburton", 
+            "Paraparaumu", "Blenheim", "Feilding", 
 
-            // Return a default value or throw an exception depending on your requirements
-            return "Unknown";
+            "Ponsonby, Auckland", "Newmarket, Auckland",
+            "Parnell, Auckland", "Grey Lynn, Auckland",
+            "Mount Eden, Auckland", "Remuera, Auckland", "Devonport, Auckland", 
+            "Takapuna, Auckland", "Orakei, Auckland", "Epsom, Auckland", "Mission Bay, Auckland", 
+            "Henderson, Auckland", "North Shore, Auckland", "One Tree Hill, Auckland", 
+            "Glen Innes, Auckland", "Kingsland, Auckland", "Morningside, Auckland",
+            "Avondale, Auckland", "Panmure, Auckland", "Mt Roskill, Auckland", "Sandringham, Auckland",
+            "Blockhouse Bay, Auckland", "Birkenhead, Auckland", "Westmere, Auckland", "St Heliers, Auckland", 
+            "Kohimarama, Auckland", "Herne Bay, Auckland", "Albany, Auckland", "Glenfield, Auckland",
+            "Hobsonville, Auckland", "Orewa, Auckland", "Torbay, Auckland", "Red Beach, Auckland",
+            "Long Bay, Auckland", "Hillsborough, Auckland", "Te Atatu Peninsula, Auckland",
+            "Titirangi, Auckland", "Waterview, Auckland", "Whenuapai, Auckland", "Pakuranga, Auckland",
+            "Botany Downs, Auckland", "Meadowbank, Auckland", "Sylvia Park, Auckland", "Otahuhu, Auckland", 
+            "Papatoetoe, Auckland", "Manukau, Auckland", "East Tamaki, Auckland", "Mangere, Auckland", "Airport Oaks, Auckland",
+
+                "Wellington Central, Wellington",
+            "Lower Hutt, Wellington",
+            "Upper Hutt, Wellington",
+            "Porirua, Wellington",
+            "Paraparaumu, Wellington",
+            "Masterton, Wellington",
+            "Otaki, Wellington",
+            "Petone, Wellington",
+            "Island Bay, Wellington",
+            "Miramar, Wellington",
+            "Johnsonville, Wellington",
+            "Karori, Wellington",
+            "Eastbourne, Wellington",
+            "Seatoun, Wellington",
+            "Tawa, Wellington",
+            "Kapiti, Wellington",
+            "Wairarapa, Wellington",
+            "Carterton, Wellington",
+            "Greytown, Wellington",
+            "Martinborough, Wellington",
+
+
+                "Christchurch Central, Christchurch",
+            "Riccarton, Christchurch",
+            "New Brighton, Christchurch",
+            "Papanui, Christchurch",
+            "St Albans, Christchurch",
+            "Cashmere, Christchurch",
+            "Halswell, Christchurch",
+            "Merivale, Christchurch",
+            "Avonhead, Christchurch",
+            "Burwood, Christchurch",
+            "Wigram, Christchurch",
+            "Ilam, Christchurch",
+            "Sumner, Christchurch",
+            "Fendalton, Christchurch",
+            "Linwood, Christchurch",
+            "Sydenham, Christchurch",
+            "Redcliffs, Christchurch",
+            "Bishopdale, Christchurch",
+            "Hornby, Christchurch",
+            "Strowan, Christchurch",
+
+
+            "Hamilton Central, Hamilton",
+            "Frankton, Hamilton",
+            "Dinsdale, Hamilton",
+            "Hillcrest, Hamilton",
+            "Melville, Hamilton",
+            "Fairfield, Hamilton",
+            "Chartwell, Hamilton",
+            "Rototuna, Hamilton",
+            "Te Rapa, Hamilton",
+            "Glenview, Hamilton",
+            "Pukete, Hamilton",
+            "Flagstaff, Hamilton",
+            "Hamilton East, Hamilton",
+            "Silverdale, Hamilton",
+            "Deanwell, Hamilton",
+            "Claudelands, Hamilton",
+            "Nawton, Hamilton",
+            "Beerescourt, Hamilton",
+            "Chedworth, Hamilton",
+            "Ruakura, Hamilton",
+
+            "Tauranga Central, Tauranga",
+            "Mount Maunganui, Tauranga",
+            "Papamoa, Tauranga",
+            "Greerton, Tauranga",
+            "Welcome Bay, Tauranga",
+            "Bethlehem, Tauranga",
+            "Otumoetai, Tauranga",
+            "Pyes Pa, Tauranga",
+            "Brookfield, Tauranga",
+            "Tauriko, Tauranga",
+            "Judea, Tauranga",
+            "Maungatapu, Tauranga",
+            "The Lakes, Tauranga",
+            "Ohauiti, Tauranga",
+            "Hairini, Tauranga",
+            "Parkvale, Tauranga",
+            "Matua, Tauranga",
+            "Te Puna, Tauranga",
+            "Arataki, Tauranga",
+            "Tauranga South, Tauranga",
+
+            "Napier Central, Napier",
+            "Taradale, Napier",
+            "Onekawa, Napier",
+            "Greenmeadows, Napier",
+            "Ahuriri, Napier",
+            "Pandora, Napier",
+            "Tamatea, Napier",
+            "Westshore, Napier",
+            "Marewa, Napier",
+            "Pirimai, Napier",
+            "Nelson Park, Napier",
+            "Meeanee, Napier",
+            "Bay View, Napier",
+            "Jervoistown, Napier",
+            "Hospital Hill, Napier",
+            "Bluff Hill, Napier",
+            "Napier South, Napier",
+            "Awatoto, Napier",
+            "Eskdale, Napier",
+            "Clive, Napier",
+
+            "Dunedin Central, Dunedin",
+            "Roslyn, Dunedin",
+            "Mornington, Dunedin",
+            "North Dunedin, Dunedin",
+            "St Kilda, Dunedin",
+            "South Dunedin, Dunedin",
+            "Caversham, Dunedin",
+            "Maori Hill, Dunedin",
+            "Belleknowes, Dunedin",
+            "The Glen, Dunedin",
+            "Wakari, Dunedin",
+            "Andersons Bay, Dunedin",
+            "Glenross, Dunedin",
+            "Halfway Bush, Dunedin",
+            "Bathgate Park, Dunedin",
+            "Concord, Dunedin",
+            "Bradford, Dunedin",
+            "Pine Hill, Dunedin",
+            "Fairfield, Dunedin",
+            "Caversham Valley, Dunedin",
+
+
+            "Nelson Central, Nelson",
+            "Stoke, Nelson",
+            "Richmond, Nelson",
+            "Tahunanui, Nelson",
+            "Annesbrook, Nelson",
+            "The Wood, Nelson",
+            "Washington Valley, Nelson",
+            "Nelson South, Nelson",
+            "Bishopdale, Nelson",
+            "Atawhai, Nelson",
+            "Toi Toi, Nelson",
+            "Enner Glynn, Nelson",
+            "Tahuna Hills, Nelson",
+            "Stepneyville, Nelson",
+            "Montgomery Square, Nelson",
+            "Nelson East, Nelson",
+            "Nelson North, Nelson",
+            "Victory Square, Nelson",
+            "Port Nelson, Nelson",
+            "The Brook, Nelson",
+            "Nelson, Nelson",
+            
+            "Rotorua Central, Rotorua",
+            "Fenton Park, Rotorua",
+            "Glenholme, Rotorua",
+            "Ngongotaha, Rotorua",
+            "Holdens Bay, Rotorua",
+            "Owhata, Rotorua",
+            "Tihiotonga, Rotorua",
+            "Westbrook, Rotorua",
+            "Mangakakahi, Rotorua",
+            "Pukehangi, Rotorua",
+            "Fairy Springs, Rotorua",
+            "Lynmore, Rotorua",
+            "Springfield, Rotorua",
+            "Hillcrest, Rotorua",
+            "Hannahs Bay, Rotorua",
+            "Sunnybrook, Rotorua",
+            "Victoria, Rotorua",
+            "Koutu, Rotorua",
+            "Fordlands, Rotorua",
+            "Mourea, Rotorua",
+            "Rotorua, Rotorua"
+
+
+
+
+        ];
+
+        $("#locationSearch").on("input", function () {
+            var value = $(this).val().toLowerCase();
+            var dropdown = $("#locationDropdown");
+            dropdown.empty();
+
+            if (value.length > 0) {
+                var matchingCities = cities.filter(function (city) {
+                    return city.toLowerCase().includes(value);
+                });
+
+                if (matchingCities.length > 0) {
+                    matchingCities.forEach(function (city) {
+                        var listItem = $("<li>").text(city);
+                        dropdown.append(listItem);
+                    });
+                } else {
+                    var listItem = $("<li>").text("No matching location").addClass("disabled");
+                    dropdown.append(listItem);
+
+                }
+
+                dropdown.show();
+            } else {
+                dropdown.hide();
+            }
+        });
+
+        $("#locationDropdown").on("click", "li:not(.disabled)", function () {
+            var selectedCity = $(this).text();
+            $("#locationSearch").val(selectedCity);
+            $("#locationDropdown").hide();
+        });
+
+        $(document).on("click", function (event) {
+            if (!$(event.target).closest(".search-dropdown").length) {
+                $("#locationDropdown").hide();
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        // Restore input field values from sessionStorage
+        $('#jobTitleInput').val(sessionStorage.getItem('jobTitle'));
+        $('#locationSearch').val(sessionStorage.getItem('location'));
+        $('#jobTypeSelect').val(sessionStorage.getItem('jobType'));
+        $('#classificationSelect').val(sessionStorage.getItem('classification'));
+        $('#salarySelect').val(sessionStorage.getItem('salary'));
+        $('#scheduleSelect').val(sessionStorage.getItem('schedule'));
+
+        // Store input field values in sessionStorage on form submission
+        $('#jobSearchForm').on('submit', function () {
+            sessionStorage.setItem('jobTitle', $('#jobTitleInput').val());
+            sessionStorage.setItem('location', $('#locationSearch').val());
+            sessionStorage.setItem('jobType', $('#jobTypeSelect').val());
+            sessionStorage.setItem('classification', $('#classificationSelect').val());
+            sessionStorage.setItem('salary', $('#salarySelect').val());
+            sessionStorage.setItem('schedule', $('#scheduleSelect').val());
+        });
+    });
+</script>
+
+
+<script>
+    $(function () {
+        // Adjust the width of the dropdown to match the input field
+        function adjustDropdownWidth() {
+            var inputWidth = $('#locationSearch').outerWidth();
+            $('#locationDropdown').css('width', inputWidth);
         }
+
+        // Call the adjustDropdownWidth function when the window is resized
+        $(window).on('resize', adjustDropdownWidth);
+
+        // Call the adjustDropdownWidth function initially
+        adjustDropdownWidth();
+    });
+</script>
+
+@functions {
+    public string CalculateDaysAgo(DateTime? publishDate)
+    {
+        if (publishDate.HasValue)
+        {
+            var currentDate = DateTime.Now;
+            var timeAgo = currentDate - publishDate.Value;
+            string result;
+
+            if (timeAgo.Days > 1)
+            {
+                result = $"{timeAgo.Days} days";
+            }
+            else if (timeAgo.Days == 1)
+            {
+                result = "1 day";
+            }
+            else if (timeAgo.Hours > 1)
+            {
+                result = $"{timeAgo.Hours} hours";
+            }
+            else if (timeAgo.Hours == 1)
+            {
+                result = "1 hour";
+            }
+            else if (timeAgo.Minutes > 1)
+            {
+                result = $"{timeAgo.Minutes} minutes";
+            }
+            else
+            {
+                result = "just now";
+            }
+
+            return result;
         }
+
+        return string.Empty; // or any default value you prefer
     }
+}
+
+
+
+
+

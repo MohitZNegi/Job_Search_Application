@@ -36,11 +36,17 @@ namespace Job_Search_Application.Models
         [Display(Name = "Selected Candidates")]
         public int SelectedCandidates { get; set; }
 
+        [Display(Name = "Withdrawn")]
+        public int Withdrawn { get; set; }
+
         [Display(Name = "Interviewed Candidates")]
         public int InterviewedCandidates { get; set; }
 
         [Display(Name = "Hired Candidates")]
         public int HiredCandidates { get; set; }
+
+        [Display(Name = "Rejected")]
+        public int Rejected { get; set; }
     }
 
 }

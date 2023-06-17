@@ -3,8 +3,13 @@
 @{
     ViewData["Title"] = "Locked out";
 }
-
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">This account has been locked out, please try again later.</p>
+<style>
+    body {
+        background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
+    }
+</style>
+<br/>
+<header class="alert-danger">
+    <h1 class="text-light">@ViewData["Title"]</h1>
+    <p class="text-light">This account has been locked out, please try again later.</p>
 </header>

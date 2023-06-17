@@ -3,111 +3,117 @@
     ViewData["Title"] = "Create";
 }
 
-<style>
-    body {
-        background: url("https://res.cloudinary.com/dup5hdi05/image/upload/v1685501821/bg_i57bym.png");
-    }
-
-    .registration-form {
-        padding: 50px 0;
-    }
-
-        .registration-form form {
-            background-color: #fff;
-            max-width: 600px;
-            margin: auto;
-            padding: 50px 70px;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-        }
-</style>
-
-
 <br />
-<br />
-<div class="container shadow" style="background: linear-gradient(to bottom, #007bff, white); border-radius:20px; max-width:800px;">
+<div class="container shadow-lg rounded-2" style="background-color:rgb(153, 187, 255)">
     <div class="row d-flex justify-content-center">
-    <div class="col-md-10">
-            <h1 style="text-align:center; color:aliceblue">Complete your profile</h1>
-            <h5 style="text-align:center; color:aliceblue">Your journey starts here!</h5>
-        <hr />
-        <form asp-action="Create" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="row">
-                <div class="col">
-            <div class="form-group">
-                <label asp-for="First_name" class="control-label">First Name:</label>
-                <input asp-for="First_name" class="form-control" />
-                <span asp-validation-for="First_name" class="text-danger"></span>
+        <div class="col-md-10">
+            <br />
+            <div class="shadow-lg rounded-2" style="background-color:rgb(102, 153, 255)">
+
+
+                <h1 style="text-align: center; color: aliceblue"><img src="~/resources/websitefiles/WorkWize__Logo2.png" style=" max-width:50px;" />  Complete your profile</h1>
+            <h5 style="text-align: center; color: aliceblue">Your journey starts here!</h5>
+            <br />
             </div>
+            <hr />
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-3">
+                        <div class="form-group">
+
+                            <img id="photoPreview" src="~/resources/websitefiles/profile_default.png" alt=" " class="rounded-circle d-flex justify-content-center" style="width: 200px; height: 200px; text-align: center; max-height: 200px; max-width: 200px; margin-right: 10px;">
+                            <label asp-for="ProfileImage">Profile Image</label>
+                            <input asp-for="ProfileImage" type="file" class="form-control" onchange="previewImage(event)" placeholder="Insert Image" accept=".png, .jpg, .jpeg">
+                            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                    <div class="col">
-            <div class="form-group">
-                <label asp-for="Last_name" class="control-label"></label>
-                <input asp-for="Last_name" class="form-control" />
-                <span asp-validation-for="Last_name" class="text-danger"></span>
-            </div>
-            </div>
-            </div>
+                <br />
                 <div class="row">
                     <div class="col">
+                        <div class="form-group">
+                           
+                            <label asp-for="First_name" class="control-label">First Name:</label>
+
+                            <input asp-for="First_name" class="form-control"  />
+                            <span asp-validation-for="First_name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Last_name" class="control-label">Last Name:</label>
+                            <input asp-for="Last_name" class="form-control" />
+                            <span asp-validation-for="Last_name" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="birthDate" class="control-label">Date of Birth:</label>
+                            <input type="date" asp-for="birthDate" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="birthDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label">Address:</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Profession" class="control-label">Profession:</label>
+                            <input asp-for="Profession" class="form-control" />
+                            <span asp-validation-for="Profession" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <fieldset class="form-group">
+                            <label>Gender:</label>
+                            <br />
+                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                                <input asp-for="Gender" type="radio" name="Gender" id="GenderMale" value="Male" class="btn-check" autocomplete="off" checked="">
+                                <label class="btn btn-outline-primary" asp-for="Gender" for="GenderMale">Male</label>
+                                <input asp-for="Gender" type="radio" name="Gender" id="GenderFemale" value="Female" class="btn-check" autocomplete="off" checked="">
+                                <label class="btn btn-outline-primary" asp-for="Gender" for="GenderFemale">Female</label>
+                                <input asp-for="Gender" type="radio" name="Gender" id="GenderOther" value="Other" class="btn-check" autocomplete="off" checked="">
+                                <label class="btn btn-outline-primary" asp-for="Gender" for="GenderOther">Other</label>
+                            </div>
+                            <span asp-validation-for="Gender" class="text-danger"></span>
+                        </fieldset>
+                      
+                    </div>
+                </div>
                 <div class="form-group">
-                    <label asp-for="birthDate" class="control-label"></label>
-                    <input type="date" asp-for="birthDate" class="form-control" />
-                    <span asp-validation-for="birthDate" class="text-danger"></span>
+                    <label asp-for="Personal_Summary" class="control-label">Personal Summary:</label>
+                    <textarea asp-for="Personal_Summary" class="form-control" id="exampleTextarea" rows="2" spellcheck="false"></textarea>
+                    <span asp-validation-for="Personal_Summary" class="text-danger"></span>
                 </div>
-                </div>
-                        <div class="col">
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            </div>
-            </div>
-                <fieldset class="form-group">
-                <label class="control-label"> Gender</label>
-                <div class="form-check">
-                        <input class="form-check-input" asp-for="Gender" type="radio" name="Gender" id="GenderMale" value="Male" checked="checked">
-                        <label class="form-check-label" asp-for="Gender" for="GenderMale">
-                        Male
-                    </label>
-                   
-                </div>
-                <div class="form-check">
-                        <input class="form-check-input" asp-for="Gender" type="radio" name="Gender" id="GenderFemale" value="Female" checked="checked">
-                        <label class="form-check-label" asp-for="Gender" for="GenderFemale">
-                        Female
-                    </label>
-                     
-                </div>
-                    <span asp-validation-for="Gender" class="text-danger"></span>
-            </fieldset>
-        
-            <div class="form-group">
-                    <label asp-for="ProfileImage">Profile Image</label>
-                    <input asp-for="ProfileImage" type="file" class="form-control" placeholder="Insert Image">
-                    <span asp-validation-for="ProfileImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                    <label asp-for="Resume">Resume</label>
-                    <input asp-for="Resume" type="file" class="form-control" placeholder="Resume">
+                <div class="form-group">
+                    <label asp-for="Resume">Resume:</label>
+                    <input type="file" id="formFile" asp-for="Resume" class="form-control" accept=".pdf" required />
                     <span asp-validation-for="Resume" class="text-danger"></span>
-            </div>
+                    <span class="text-danger" data-valmsg-for="Resume" data-valmsg-replace="true"></span>
+                </div>
                 <br />
                 <div class="d-flex justify-content-center">
-                    <div class="col-md-8">
-            <fieldset>
-                            <button type="submit" value="Create" class="w-100 btn btn-lg btn-success shadow  " style="background-color:#3C9AFF; color:white" id="save">Submit</button>
-            </fieldset>
-            </div>
-            </div>
+                    <div class="col-md-8 d-flex justify-content-center">
+                        <fieldset>
+                            <button type="submit" value="Create" role="button" class="button-29" id="save">  <p class="align-content-center justify-content-between" style="font-size:30px; padding-top:10px">Create Profile</p> </button>
+                        </fieldset>
+                    </div>
+                </div>
                 <br />
-        </form>
+            </form>
             <br />
+        </div>
     </div>
-</div>
 </div>
 
 @section Scripts {
@@ -115,3 +121,25 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+
+        <script>
+            function previewImage(event) {
+                var fileInput = event.target;
+                var photoPreview = document.getElementById('photoPreview');
+
+                if (fileInput.files && fileInput.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        photoPreview.src = e.target.result;
+                        photoPreview.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    photoPreview.src = '';
+                    photoPreview.style.display = 'none';
+                }
+            }
+        </script>
