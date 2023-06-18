@@ -38,62 +38,59 @@ namespace Job_Search_Application.Controllers
             var userId = _userManager.GetUserId(HttpContext.User);
             ViewBag.CurrentUser = userId;
             var currentDate = DateTime.Now;
-            var jobs = _context.Jobs.Include(j => j.Employer).ToList();
+            IQueryable<Jobs_Model> query = _context.Jobs.Include(j => j.Employer);
 
+            // Apply the main search term
             if (!string.IsNullOrWhiteSpace(searchTerm1))
             {
-                jobs = _context.Jobs
-                    .Where(j => (j.Title.Contains(searchTerm1) || j.Job_Location.Contains(searchTerm1)
-                        || j.Job_Type.Contains(searchTerm1) || j.Job_Schedule.Contains(searchTerm1)
-                        || j.Classification.Contains(searchTerm1) || j.Job_Details.Contains(searchTerm1) || j.Employer.Company_Name.Contains(searchTerm1))
-                       )
-                    .Include(j => j.Employer)
-                    .ToList();
+                query = query.Where(j => j.Title.Contains(searchTerm1)
+                                         || j.Job_Location.Contains(searchTerm1)
+                                         || j.Job_Type.Contains(searchTerm1)
+                                         || j.Job_Schedule.Contains(searchTerm1)
+                                         || j.Classification.Contains(searchTerm1)
+                                         || j.Job_Details.Contains(searchTerm1)
+                                         || j.Employer.Company_Name.Contains(searchTerm1));
             }
-            else if (!string.IsNullOrWhiteSpace(searchTerm2))
+
+            // Apply additional filters
+            if (!string.IsNullOrWhiteSpace(searchTerm2))
             {
-                // Search by location
-                jobs = _context.Jobs.Where(j => j.Job_Location.Contains(searchTerm2) ).Include(j => j.Employer).ToList();
+                query = query.Where(j => j.Job_Location.Contains(searchTerm2));
             }
 
             if (!string.IsNullOrWhiteSpace(searchTerm3))
             {
-                jobs = _context.Jobs.Where(j => j.Job_Type.Contains(searchTerm3)).Include(j => j.Employer).ToList();
+                query = query.Where(j => j.Job_Type.Contains(searchTerm3));
             }
 
             if (!string.IsNullOrWhiteSpace(searchTerm4))
             {
-                jobs = _context.Jobs.Where(j => j.Job_Schedule.Contains(searchTerm4)).Include(j => j.Employer).ToList();
+                query = query.Where(j => j.Job_Schedule.Contains(searchTerm4));
             }
 
             if (!string.IsNullOrWhiteSpace(searchTerm5))
             {
-                jobs = _context.Jobs.Where(j => j.Classification.Contains(searchTerm5)).Include(j => j.Employer).ToList();
+                query = query.Where(j => j.Classification.Contains(searchTerm5));
             }
+
             if (!string.IsNullOrWhiteSpace(searchTerm6))
             {
-
-                jobs = _context.Jobs.Where(j => j.Salary.Contains(searchTerm6)).Include(j => j.Employer).ToList();
-
+                query = query.Where(j => j.Salary.Contains(searchTerm6));
             }
 
-            else
+            // Exclude draft jobs, jobs that have passed deactivation date, and set IsActive to false
+            var jobs = query.Where(j => j.IsPublished && j.DeactivationDate > currentDate && j.IsActive).ToList();
+            foreach (var job in jobs)
             {
-                // Exclude draft jobs, jobs that have passed deactivation date, and set IsActive to false
-                jobs = jobs.Where(j => j.IsPublished && j.DeactivationDate > currentDate && j.IsActive).ToList();
-                foreach (var job in jobs)
+                if (job.DeactivationDate <= currentDate)
                 {
-                    if (job.DeactivationDate <= currentDate)
-                    {
-                        job.IsActive = false;
-                    }
+                    job.IsActive = false;
                 }
-                _context.SaveChanges();
             }
+            _context.SaveChanges();
 
             return View(jobs.ToPagedList(page ?? 1, 10));
         }
-
 
         public ActionResult JobsApplication(string id)
         {
