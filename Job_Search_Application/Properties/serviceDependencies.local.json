@@ -1,10 +1,7 @@
 {
   "dependencies": {
-    "mssql1": {
-      "secretStore": "AzureKeyVault",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/jobsearch-server/databases/JobSearch_db",
-      "type": "mssql.azure",
-      "connectionId": "ConnectionStrings:DefaultConnection",
+    "secrets2": {
+      "type": "secrets.user",
       "dynamicId": null
     },
     "secrets1": {
@@ -13,9 +10,11 @@
       "type": "secrets.keyVault",
       "connectionId": "VaultUri"
     },
-    "secrets2": {
-      "type": "secrets.user",
-      "dynamicId": null
+    "mssql1": {
+      "secretStore": "AzureKeyVault",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/jobsearch-server/databases/JobSearch_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnection"
     }
   }
 }
