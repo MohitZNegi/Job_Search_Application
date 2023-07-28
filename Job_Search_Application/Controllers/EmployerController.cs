@@ -518,7 +518,7 @@ namespace Job_Search_Application.Controllers
             else
             {
                 // Exclude draft jobs, include jobs that have passed deactivation date, and set IsActive to false
-                jobs = jobs.Where(j => j.IsPublished && j.DeactivationDate < currentDate).ToList();
+                jobs = jobs.Where(j => j.PublisherId == userId).Where(j => j.IsPublished && j.DeactivationDate < currentDate).ToList();
                 foreach (var job in jobs)
                 {
                     if (job.DeactivationDate <= currentDate)
@@ -697,7 +697,7 @@ namespace Job_Search_Application.Controllers
                 return RedirectToAction("Create", "Employer");
             }
 
-            var publishedJobs = _context.Jobs.Where(j => j.IsPublished).ToList();
+            var publishedJobs = _context.Jobs.Where(j=>j.PublisherId == userId).Where(j => j.IsPublished).ToList();
             ViewBag.PublishedJobs = publishedJobs;
 
             var requests = _context.Job_Request
